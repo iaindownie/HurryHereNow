@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="62dip">
+
+    <LinearLayout
+        android:id="@+id/topSection"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="@color/Red_700"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/spotTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.8"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="80dip"
+            android:paddingStart="80dip"
+            android:password="false"
+            android:text="Spot  &amp; Share"
+            android:textColor="@color/white"
+            android:textSize="21dip"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/continueTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.1"
+            android:background="@color/Red_700"
+            android:gravity="center_vertical"
+            android:text="Continue >"
+            android:textColor="@color/white"
+            android:textSize="18dip"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/spotMapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/toastView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:padding="10.0dip"
+            android:text="Move marker to the offer location"
+            android:textColor="@android:color/white"
+            android:textSize="15.0sp"
+            android:layout_marginTop="11dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:id="@+id/imgSpot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:paddingBottom="42.0dip"
+            android:src="@drawable/floatingpin"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+
+
+</LinearLayout>

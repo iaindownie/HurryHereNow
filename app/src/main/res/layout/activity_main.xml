@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <fragment
+            android:id="@+id/theFragment"
+            android:name="org.spawny.fragmentexample.FragmentFiller"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+
+        <LinearLayout
+            android:id="@+id/bottomSection"
+            android:layout_width="fill_parent"
+            android:layout_height="70.0dip"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white">
+
+                <ImageButton
+                    android:id="@+id/button1"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="7dip"
+                    android:layout_marginLeft="50dip"
+                    android:layout_marginTop="8dip"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:onClick="selectFrag"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/offerbutton" />
+
+                <ImageButton
+                    android:id="@+id/button3"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="7dip"
+                    android:layout_marginRight="50dip"
+                    android:layout_marginTop="8dip"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:onClick="selectFrag"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/talkbutton" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="5dip"
+            android:background="@android:color/transparent"
+            android:onClick="selectFrag"
+            android:padding="20dip"
+            android:paddingRight="20dip"
+            android:src="@drawable/floatingbutton"
+            android:text="Floating Button" />
+    </FrameLayout>
+</RelativeLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dip"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dip">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:padding="5dip"
+            android:src="@drawable/icon" />
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="5dip"
+            android:text="Offer Details"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+        <!---->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingBottom="25.0dip"
+        android:paddingTop="20.0dip">
+
+        <TextView
+            android:id="@+id/txtStoreName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5.0dip"
+            android:text="Store Name:"
+            android:textColor="@color/common_google_signin_btn_text_light" />
+
+        <EditText
+            android:id="@+id/editStore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/editbox_background_normal"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/txtOfferDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5.0dip"
+            android:text="Offer Description:"
+            android:textColor="@color/common_google_signin_btn_text_light" />
+
+        <EditText
+            android:id="@+id/editOffer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/editbox_background_normal"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/txtOfferLatLon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5.0dip"
+            android:text=""
+            android:textColor="@color/common_google_signin_btn_text_light" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/spotDismiss"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="1dip"
+            android:text="Back" />
+
+        <Button
+            android:id="@+id/spotSubmit"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="1dip"
+            android:text="Submit" />
+
+
+    </LinearLayout>
+</LinearLayout>

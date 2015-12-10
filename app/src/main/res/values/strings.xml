@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Hurry Here Now v2</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">SpotMap</string>
+    <string name="title_activity_temp_maps">Map</string>
+
+
+</resources>
