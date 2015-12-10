@@ -14,8 +14,6 @@ import android.widget.ImageButton;
  */
 public class MainActivity extends Activity {
 
-    String currentTag = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,31 +26,34 @@ public class MainActivity extends Activity {
 
         ImageButton but1 = (ImageButton) findViewById(R.id.button1);
         but1.setImageDrawable(getResources().getDrawable(R.drawable.offersred100));
+
     }
 
     public void selectFrag(View view) {
         Fragment fr;
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
 
         ImageButton but1 = (ImageButton) findViewById(R.id.button1);
         ImageButton but3 = (ImageButton) findViewById(R.id.button3);
         switch (view.getId()) {
             case R.id.button1:
+                System.out.println("Offer button used...");
                 fr = new FragmentOffer();
                 but3.setImageDrawable(getResources().getDrawable(R.drawable.chatgrey100));
                 but1.setImageDrawable(getResources().getDrawable(R.drawable.offersred100));
-                System.out.println("Offer button used...");
                 break;
             case R.id.button2:
+                System.out.println("Spot button used...");
                 fr = new FragmentSpot();
                 but3.setImageDrawable(getResources().getDrawable(R.drawable.chatgrey100));
                 but1.setImageDrawable(getResources().getDrawable(R.drawable.offersgrey100));
-                System.out.println("Spot button used...");
                 break;
             case R.id.button3:
+                System.out.println("Talk button used...");
                 fr = new FragmentTalk();
                 but3.setImageDrawable(getResources().getDrawable(R.drawable.chatred100));
                 but1.setImageDrawable(getResources().getDrawable(R.drawable.offersgrey100));
-                System.out.println("Talk button used...");
                 break;
             default:
                 fr = new FragmentOffer();
@@ -69,8 +70,7 @@ public class MainActivity extends Activity {
             fr = new FragmentOffer();
         }*/
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+
         ft.replace(R.id.theFragment, fr);
         ft.addToBackStack(null);
         ft.commit();

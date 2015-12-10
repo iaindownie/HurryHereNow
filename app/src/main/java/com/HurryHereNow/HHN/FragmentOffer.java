@@ -11,12 +11,16 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.HurryHereNow.HHN.data.MySimpleMarker;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,8 +30,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import com.HurryHereNow.HHN.data.MySimpleMarker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +49,7 @@ public class FragmentOffer extends Fragment {
     private LatLng position;
     // Set default distance for promotions API
     private int DISTANCE = 50;
+
 
     HashMap allCategories;
     //ArrayList userSubmittedOffers;
@@ -137,6 +140,8 @@ public class FragmentOffer extends Fragment {
                 e.printStackTrace();
             }
         }
+
+
     }
 
 
@@ -215,13 +220,13 @@ public class FragmentOffer extends Fragment {
         if (markers.size() > 0) {
             for (MySimpleMarker myMarker : markers) {
 
-                int cat = myMarker.getCategory();
+                final int cat = myMarker.getCategory();
 
                 // Create user marker with custom icon and other options
                 MarkerOptions markerOption = new MarkerOptions().position(new LatLng(myMarker.getLatitude(), myMarker.getLongitude()));
-                if(cat==99) {
+                if (cat == 99) {
                     markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.spotshare));
-                }else{
+                } else {
                     markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_marker));
                 }
 
@@ -229,6 +234,17 @@ public class FragmentOffer extends Fragment {
                 mSimpleMarkersHashMap.put(currentMarker, myMarker);
 
                 map.setInfoWindowAdapter(new SimpleInfoWindowAdapter());
+
+                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        if (cat != 99) {
+                            Toast.makeText(getActivity(), "Need an Intent Here...!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
             }
         }
     }
@@ -246,6 +262,7 @@ public class FragmentOffer extends Fragment {
                         return true;
                     }
                 });
+
             } else
                 Toast.makeText(getActivity(), "Unable to create Maps", Toast.LENGTH_SHORT).show();
         }
@@ -267,22 +284,66 @@ public class FragmentOffer extends Fragment {
             MySimpleMarker myMarker = mSimpleMarkersHashMap.get(marker);
 
             int cat = myMarker.getCategory();
-            if(cat==99) {
+            if (cat == 99) {
                 v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_simple, null);
                 TextView markerDescription = (TextView) v.findViewById(R.id.spotWindowSimpleDescription);
                 TextView markerStoreName = (TextView) v.findViewById(R.id.spotWindowSimpleRetailer);
                 markerDescription.setText(myMarker.getDescription());
                 markerStoreName.setText(myMarker.getStoreName());
-            }else{
+            } else {
                 v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_complex, null);
-                TextView marketPostcode = (TextView) v.findViewById(R.id.spotWindowComplexPostcode);
-                TextView markerStoreName = (TextView) v.findViewById(R.id.spotWindowComplexRetailer);
-                marketPostcode.setText(myMarker.getPostcode());
-                markerStoreName.setText(myMarker.getName());
+
+                TextView txtPve = (TextView) v.findViewById(R.id.txtPve);
+                TextView txtNve = (TextView) v.findViewById(R.id.txtNve);
+                txtPve.setText("0");
+                txtNve.setText("0");
+
+                /*ViewPager vPager = null;
+                vPager = (ViewPager) v.findViewById(R.id.pager);
+                vPager.setAdapter(new ViewPagerAdapter());*/
+
+
             }
+
+
             return v;
         }
     }
 
+    class ViewPagerAdapter extends PagerAdapter {
+        LayoutInflater inflater;
+        String[] country = new String[]{"China", "India", "United States", "Indonesia",
+                "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Japan"};
+
+        @Override
+        public int getCount() {
+            return country.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((RelativeLayout) object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+
+            inflater = (LayoutInflater) getActivity()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View itemView = inflater.inflate(R.layout.viewpager_item, container,
+                    false);
+
+            TextView txtcountry = (TextView) itemView.findViewById(R.id.country);
+            txtcountry.setText(country[position]);
+            ((ViewPager) container).addView(itemView);
+            return itemView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            // Remove viewpager_item.xml from ViewPager
+            ((ViewPager) container).removeView((RelativeLayout) object);
+        }
+    }
 
 }
