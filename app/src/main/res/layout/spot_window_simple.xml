@@ -2,24 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_margin="10dip">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/spotWindowSimpleDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="200.0dip"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="20dip"
-        android:id="@+id/textView" />
+        <TextView
+            android:id="@+id/spotWindowSimpleDescription"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dip"
+            android:layout_weight="1.0"
+            android:paddingBottom="15.0dip"
+             />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/spotWindowSimpleRetailer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dip"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"/>
-
+        android:textStyle="bold" />
 </LinearLayout>

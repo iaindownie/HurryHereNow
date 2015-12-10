@@ -17,6 +17,7 @@
     <color name="user_icon_default_white">#ffffffff</color><!-- white -->
 
     <color name="translucent_black">#80000000</color>
+    <color name="transparent">#00000000</color>
 
     <!-- Multi-sim sim colors -->
     <color name="white">#ffffff</color>
