@@ -137,7 +137,7 @@ public class JSONUtilities {
         return str;
     }
 
-    public static ArrayList<MySimpleMarker> convertJSONSpotAndSharePromotionsToArrayList(String str) throws Exception {
+    public static ArrayList<MySimpleMarker> convertJSONSpotAndSharePromotionsToArrayList(String str, String category) throws Exception {
         System.out.println("In convertJSONSpotAndSharePromotionsToArrayList");
         JSONObject json = new JSONObject(str);
         ArrayList everything = new ArrayList();
@@ -212,7 +212,21 @@ public class JSONUtilities {
             }
         }
 
-        return everything;
+        if(category.equals("0")){
+            return everything;
+        }else{
+            ArrayList subset = new ArrayList();
+            for (int i = 0; i < everything.size(); i++) {
+                MySimpleMarker p = (MySimpleMarker)everything.get(i);
+                int cat = p.getCategory();
+                if(cat==(Integer.valueOf(category))){
+                    subset.add(p);
+                }
+            }
+            return subset;
+        }
+
+        //return everything;
     }
 
 }

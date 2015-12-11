@@ -3,6 +3,7 @@ package com.HurryHereNow.HHN;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -16,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,8 @@ public class FragmentOffer extends Fragment {
     SharedPreferences prefs;
     String rawOfferJSON = "";
 
+    private String category;
+
     private MapView mapView;
     private GoogleMap map;
     private LocationManager locManager;
@@ -50,8 +54,10 @@ public class FragmentOffer extends Fragment {
     // Set default distance for promotions API
     private int DISTANCE = 50;
 
+    private Button searchButton;
 
-    HashMap allCategories;
+
+    private HashMap allCategories;
     //ArrayList userSubmittedOffers;
     //ArrayList food;
 
@@ -127,19 +133,28 @@ public class FragmentOffer extends Fragment {
         long currentTime = System.currentTimeMillis();
         long diffInTime = currentTime - lastTime;
         rawOfferJSON = prefs.getString("RAWOFFERJSON", "");
+        category = prefs.getString("CATEGORY", "0");
 
         //new DownloadOffersTask().execute();
         if (rawOfferJSON.length() == 0 || (diffInTime > 600000)) {
             new DownloadOffersTask().execute();
         } else {
             try {
-                mSimpleMyMarkersArray = JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON);
+                mSimpleMyMarkersArray = JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category);
                 setUpMap();
                 plotSimpleMarkers(mSimpleMyMarkersArray);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+        searchButton = (Button) this.getActivity().findViewById(R.id.imgBtnSearch);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent mapView = new Intent(getActivity(), Search.class);
+                startActivity(mapView);
+            }
+        });
 
 
     }
@@ -166,7 +181,7 @@ public class FragmentOffer extends Fragment {
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
                 rawOfferJSON = JSONUtilities.downloadAllPromotionsFromURL(path);
-                mSimpleMyMarkersArray = JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON);
+                mSimpleMyMarkersArray = JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -235,16 +250,6 @@ public class FragmentOffer extends Fragment {
 
                 map.setInfoWindowAdapter(new SimpleInfoWindowAdapter());
 
-                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-                        if (cat != 99) {
-                            Toast.makeText(getActivity(), "Need an Intent Here...!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-
             }
         }
     }
@@ -283,7 +288,9 @@ public class FragmentOffer extends Fragment {
             View v;
             MySimpleMarker myMarker = mSimpleMarkersHashMap.get(marker);
 
-            int cat = myMarker.getCategory();
+            final int cat = myMarker.getCategory();
+            final String url = myMarker.getSite();
+
             if (cat == 99) {
                 v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_simple, null);
                 TextView markerDescription = (TextView) v.findViewById(R.id.spotWindowSimpleDescription);
@@ -291,19 +298,30 @@ public class FragmentOffer extends Fragment {
                 markerDescription.setText(myMarker.getDescription());
                 markerStoreName.setText(myMarker.getStoreName());
             } else {
-                v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_complex, null);
+                /*v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_complex, null);
 
                 TextView txtPve = (TextView) v.findViewById(R.id.txtPve);
                 TextView txtNve = (TextView) v.findViewById(R.id.txtNve);
                 txtPve.setText("0");
-                txtNve.setText("0");
+                txtNve.setText("0");*/
 
                 /*ViewPager vPager = null;
                 vPager = (ViewPager) v.findViewById(R.id.pager);
                 vPager.setAdapter(new ViewPagerAdapter());*/
-
+                v = getActivity().getLayoutInflater().inflate(R.layout.marker_filler, null);
+                Toast.makeText(getActivity(), "Need a properly positioned overlay", Toast.LENGTH_SHORT).show();
 
             }
+
+            /*map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    if (cat == 99) {
+                        System.out.println("In Spot & Share: " + url);
+                        // Need to redirect to the Retailers Activity or Fragment here...
+                    }
+                }
+            });*/
 
 
             return v;
