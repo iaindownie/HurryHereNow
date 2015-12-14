@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="62dip">
+
+    <RelativeLayout
+        android:id="@+id/gridLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="#ffd22820"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5.0px">
+
+        <LinearLayout
+            android:id="@+id/linLay1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="3.0dip"
+            android:layout_marginTop="3.0dip"
+            android:layout_weight="1.0"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="1.0dip">
+
+            <Button
+                android:id="@+id/imgBtnFake"
+                android:layout_width="75.0dip"
+                android:layout_height="35dip"
+                android:background="@drawable/mapbutton"
+                android:enabled="true" />
+
+            <Button
+                android:id="@+id/imgBtnListView"
+                android:layout_width="75.0dip"
+                android:layout_height="35dip"
+                android:background="@drawable/listbutton"
+                android:enabled="false" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/imgBtnSearch"
+            android:layout_width="40.0dip"
+            android:layout_height="40.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="top|right|center"
+            android:layout_marginRight="20.0dip"
+            android:background="@drawable/searchbutton" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingBottom="70dip"></ListView>
+
+</LinearLayout>

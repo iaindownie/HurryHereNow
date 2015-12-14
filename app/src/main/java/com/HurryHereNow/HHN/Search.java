@@ -4,9 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.preference.PreferenceManager;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -14,8 +13,8 @@ import android.widget.ImageButton;
  * Created by iaindownie on 11/12/2015.
  */
 public class Search extends Activity {
+    SharedPreferences prefs;
 
-    private SharedPreferences prefs;
     private ImageButton groceries, offies, pubs, cafes, food, hair, other, spot;
     private Button all;
 
@@ -24,6 +23,8 @@ public class Search extends Activity {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.search);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         groceries = (ImageButton) findViewById(R.id.imgBtnGroceries);
         offies = (ImageButton) findViewById(R.id.imgBtnOffLicence);
@@ -37,55 +38,55 @@ public class Search extends Activity {
 
         groceries.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(getIntent("1"));
+                startActivity(getCategoryIntent("1"));
                 Search.this.finish();
             }
         });
         offies.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(getIntent("2"));
+                startActivity(getCategoryIntent("2"));
                 Search.this.finish();
             }
         });
         pubs.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(getIntent("3"));
+                startActivity(getCategoryIntent("3"));
                 Search.this.finish();
             }
         });
         cafes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(getIntent("4"));
+                startActivity(getCategoryIntent("4"));
                 Search.this.finish();
             }
         });
         food.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(getIntent("5"));
+                startActivity(getCategoryIntent("5"));
                 Search.this.finish();
             }
         });
         hair.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(getIntent("6"));
+                startActivity(getCategoryIntent("6"));
                 Search.this.finish();
             }
         });
         other.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(getIntent("7"));
+                startActivity(getCategoryIntent("7"));
                 Search.this.finish();
             }
         });
         spot.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(getIntent("99"));
+                startActivity(getCategoryIntent("99"));
                 Search.this.finish();
             }
         });
         all.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(getIntent("0"));
+                startActivity(getCategoryIntent("0"));
                 Search.this.finish();
             }
         });
@@ -93,16 +94,16 @@ public class Search extends Activity {
 
     }
 
-    public Intent getIntent(String str) {
-        Intent i = new Intent(getBaseContext(), FragmentOffer.class);
+    public Intent getCategoryIntent(String str) {
+        Intent i = new Intent(getBaseContext(), MainActivity.class);
         Bundle b = new Bundle();
         b.putString("CATEGORY", str);
         i.putExtras(b);
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("CATEGORY", str);
-        editor.apply();
-
+        System.out.println("Str: " + str);
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.putString("CATEGORY", str);
+        ed.apply();
+        System.out.println(" Prefs category: " + PreferenceManager.getDefaultSharedPreferences(this).getString("CATEGORY", "null"));
         return i;
     }
 }

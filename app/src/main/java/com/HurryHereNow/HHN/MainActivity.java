@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
 
         ImageButton but1 = (ImageButton) findViewById(R.id.button1);
         but1.setImageDrawable(getResources().getDrawable(R.drawable.offersred100));
+        but1.setEnabled(false);
 
     }
 
@@ -43,18 +44,24 @@ public class MainActivity extends Activity {
                 fr = new FragmentOffer();
                 but3.setImageDrawable(getResources().getDrawable(R.drawable.chatgrey100));
                 but1.setImageDrawable(getResources().getDrawable(R.drawable.offersred100));
+                but1.setEnabled(false);
+                but3.setEnabled(true);
                 break;
             case R.id.button2:
                 System.out.println("Spot button used...");
                 fr = new FragmentSpot();
                 but3.setImageDrawable(getResources().getDrawable(R.drawable.chatgrey100));
                 but1.setImageDrawable(getResources().getDrawable(R.drawable.offersgrey100));
+                but1.setEnabled(true);
+                but3.setEnabled(true);
                 break;
             case R.id.button3:
                 System.out.println("Talk button used...");
                 fr = new FragmentTalk();
                 but3.setImageDrawable(getResources().getDrawable(R.drawable.chatred100));
                 but1.setImageDrawable(getResources().getDrawable(R.drawable.offersgrey100));
+                but1.setEnabled(true);
+                but3.setEnabled(true);
                 break;
             default:
                 fr = new FragmentOffer();

@@ -1,6 +1,7 @@
 package com.HurryHereNow.HHN;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -55,6 +57,8 @@ public class FragmentOffer extends Fragment {
     private int DISTANCE = 50;
 
     private Button searchButton;
+    private Button listButton;
+
 
 
     private HashMap allCategories;
@@ -133,7 +137,9 @@ public class FragmentOffer extends Fragment {
         long currentTime = System.currentTimeMillis();
         long diffInTime = currentTime - lastTime;
         rawOfferJSON = prefs.getString("RAWOFFERJSON", "");
-        category = prefs.getString("CATEGORY", "0");
+        //category = prefs.getString("CATEGORY", "0");
+        category = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("CATEGORY", "0");
+        System.out.println("Category: " + category);
 
         //new DownloadOffersTask().execute();
         if (rawOfferJSON.length() == 0 || (diffInTime > 600000)) {
@@ -153,9 +159,20 @@ public class FragmentOffer extends Fragment {
             public void onClick(View v) {
                 Intent mapView = new Intent(getActivity(), Search.class);
                 startActivity(mapView);
+                getActivity().finish();
             }
         });
 
+        listButton = (Button) this.getActivity().findViewById(R.id.imgBtnListView);
+        listButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                FragmentList nextFrag= new FragmentList();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.theFragment, nextFrag)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
     }
 

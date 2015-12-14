@@ -280,7 +280,9 @@
                 android:background="#ffd22820"
                 android:text="All categories"
                 android:textStyle="bold"
-                android:textColor="@color/white" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:paddingBottom="10dip"/>
         </TableRow>
     </TableLayout>
 </RelativeLayout>
