@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffeeeeee">
+
+    <RelativeLayout
+        android:id="@+id/rel1"
+        android:layout_width="fill_parent"
+        android:layout_height="50.0dip"
+        android:layout_weight="1.0"
+        android:background="@color/Red_700"
+        android:orientation="horizontal"
+        android:padding="8.0dip">
+
+        <!--<ImageButton
+            android:id="@+id/imgBtnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left"
+            android:background="@android:color/transparent"
+            android:src="@drawable/backred" />-->
+
+        <TextView
+            android:id="@+id/imgBtnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@color/Red_700"
+            android:text="&lt; Back"
+            android:textColor="@color/lighter_gray"
+            android:textSize="18dip"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/txtCompanyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:text="asdfasdfads"
+            android:textColor="@android:color/white"
+            android:textSize="16.0dip"
+            android:textStyle="bold" />
+
+        <!--<ImageButton
+            android:id="@+id/imgBtnGoToMap"
+            android:layout_width="60.0dip"
+            android:layout_height="60.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:paddingRight="22.0dip"
+            android:scaleType="fitCenter"
+            android:src="@drawable/backtomap" />-->
+
+        <TextView
+            android:id="@+id/extraTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@color/Red_700"
+            android:text="&#8226;&#8226;&#8226;"
+            android:textColor="@color/lighter_gray"
+            android:textSize="32dip"
+            android:textStyle="bold"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="false"
+            android:layout_alignTop="@+id/txtCompanyName"
+            android:layout_centerInParent="true"
+            android:gravity="top|center" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/rel1">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgBigLogo"
+                android:layout_width="fill_parent"
+                android:layout_height="200.0dip"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                android:src="@drawable/map_on" />
+
+            <TextView
+                android:id="@+id/txtAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imgBigLogo"
+                android:paddingBottom="8.0dip"
+                android:paddingLeft="15.0dip"
+                android:text="Address"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCurrentOffers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgBigLogo"
+                android:paddingLeft="10.0dip"
+                android:paddingTop="6.0dip"
+                android:text="Current Offers"
+                android:textColor="@android:color/black"
+                android:textSize="16.0dip" />
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/txtCurrentOffers"
+                android:clipToPadding="false"
+                android:paddingBottom="49.0dip" />
+        </RelativeLayout>
+
+    </FrameLayout>
+</RelativeLayout>

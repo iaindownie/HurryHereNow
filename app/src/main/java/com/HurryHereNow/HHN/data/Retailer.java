@@ -1,10 +1,12 @@
 package com.HurryHereNow.HHN.data;
 
+import java.io.Serializable;
+
 /**
  * Created by iaindownie on 09/12/2015.
  * Simple POJO to hold the retailer object from JSON
  */
-public class Retailer {
+public class Retailer implements Serializable {
 
     private int retailerId;
     private String name;

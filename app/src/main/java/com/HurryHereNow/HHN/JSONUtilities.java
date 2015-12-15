@@ -16,7 +16,9 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.HurryHereNow.HHN.data.MySimpleMarker;
+
+import com.HurryHereNow.HHN.data.RetailerOfferForList;
+import com.HurryHereNow.HHN.data.RetailerOffers;
 import com.HurryHereNow.HHN.data.Offer;
 import com.HurryHereNow.HHN.data.Retailer;
 
@@ -137,7 +139,7 @@ public class JSONUtilities {
         return str;
     }
 
-    public static ArrayList<MySimpleMarker> convertJSONSpotAndSharePromotionsToArrayList(String str, String category) throws Exception {
+    public static ArrayList<RetailerOffers> convertJSONSpotAndSharePromotionsToArrayList(String str, String category) throws Exception {
         System.out.println("In convertJSONSpotAndSharePromotionsToArrayList");
         JSONObject json = new JSONObject(str);
         ArrayList everything = new ArrayList();
@@ -146,7 +148,7 @@ public class JSONUtilities {
         System.out.println("Processing userSubmitted");
         Iterator it = json2.keys();
         while (it.hasNext()) {
-            MySimpleMarker p = new MySimpleMarker();
+            RetailerOffers p = new RetailerOffers();
             JSONObject childJSONObject = json2.getJSONObject((String) it.next());
             p.setCategory(99);
             p.setUserOfferId(childJSONObject.getInt("userOfferId"));
@@ -164,7 +166,7 @@ public class JSONUtilities {
             if (!primaryKey.equals("userSubmitted")) {
 
                 JSONObject childJSONObject = json.getJSONObject(primaryKey);
-                MySimpleMarker p = new MySimpleMarker();
+                RetailerOffers p = new RetailerOffers();
                 int cat = 7;
 
                 p.setStoreId(childJSONObject.getInt("storeId"));
@@ -217,7 +219,7 @@ public class JSONUtilities {
         }else{
             ArrayList subset = new ArrayList();
             for (int i = 0; i < everything.size(); i++) {
-                MySimpleMarker p = (MySimpleMarker)everything.get(i);
+                RetailerOffers p = (RetailerOffers)everything.get(i);
                 int cat = p.getCategory();
                 if(cat==(Integer.valueOf(category))){
                     subset.add(p);
@@ -227,6 +229,23 @@ public class JSONUtilities {
         }
 
         //return everything;
+    }
+
+    public static ArrayList<RetailerOffers> expandPromotionsArrayList(ArrayList aList) throws Exception {
+        ArrayList fullList = new ArrayList();
+        for (int i = 0; i < aList.size(); i++) {
+            RetailerOffers ro = (RetailerOffers) aList.get(i);
+            Offer[] offers = ro.getOffers();
+            if (ro.getCategory() < 99) {
+                for (int j = 0; j < offers.length; j++) {
+                    Offer o = offers[j];
+                    RetailerOfferForList roList = new RetailerOfferForList(ro, o);
+                    fullList.add(roList);
+                }
+            }
+        }
+
+        return fullList;
     }
 
 }

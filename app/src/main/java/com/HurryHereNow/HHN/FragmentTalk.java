@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.HurryHereNow.HHN.adapters.TalkCustomAdapter;
+
 import java.util.ArrayList;
 
 /**
@@ -82,8 +84,7 @@ public class FragmentTalk extends ListFragment {
             talkCustomAdapter = new TalkCustomAdapter(getActivity(), allTalks);
             setListAdapter(talkCustomAdapter);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(
-                    "RAWTALKJSON", rawTalkJSON);
+            editor.putString("RAWTALKJSON", rawTalkJSON);
             editor.putLong("TALKGRAB_TIME", System.currentTimeMillis());
             editor.apply();
             if (this.asyncDialog.isShowing()) {

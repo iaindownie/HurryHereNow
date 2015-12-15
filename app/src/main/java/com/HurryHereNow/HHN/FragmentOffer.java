@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.HurryHereNow.HHN.data.MySimpleMarker;
+import com.HurryHereNow.HHN.data.RetailerOffers;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -53,20 +53,17 @@ public class FragmentOffer extends Fragment {
     private LocationManager locManager;
     private Location l;
     private LatLng position;
-    // Set default distance for promotions API
-    private int DISTANCE = 50;
 
     private Button searchButton;
     private Button listButton;
-
 
 
     private HashMap allCategories;
     //ArrayList userSubmittedOffers;
     //ArrayList food;
 
-    private HashMap<Marker, MySimpleMarker> mSimpleMarkersHashMap;
-    private ArrayList<MySimpleMarker> mSimpleMyMarkersArray = new ArrayList<MySimpleMarker>();
+    private HashMap<Marker, RetailerOffers> mSimpleMarkersHashMap;
+    private ArrayList<RetailerOffers> mSimpleMyMarkersArray = new ArrayList<RetailerOffers>();
 
 
     @Override
@@ -129,7 +126,7 @@ public class FragmentOffer extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // Initialize the HashMap for Markers and MyMarker object
-        mSimpleMarkersHashMap = new HashMap<Marker, MySimpleMarker>();
+        mSimpleMarkersHashMap = new HashMap<Marker, RetailerOffers>();
 
 
         prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -137,9 +134,12 @@ public class FragmentOffer extends Fragment {
         long currentTime = System.currentTimeMillis();
         long diffInTime = currentTime - lastTime;
         rawOfferJSON = prefs.getString("RAWOFFERJSON", "");
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("ORIGINATOR", "MAP");
+        editor.apply();
         //category = prefs.getString("CATEGORY", "0");
         category = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("CATEGORY", "0");
-        System.out.println("Category: " + category);
+        System.out.println("MAP Category: " + category);
 
         //new DownloadOffersTask().execute();
         if (rawOfferJSON.length() == 0 || (diffInTime > 600000)) {
@@ -157,6 +157,9 @@ public class FragmentOffer extends Fragment {
         searchButton = (Button) this.getActivity().findViewById(R.id.imgBtnSearch);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("ORIGINATOR", "MAP");
+                editor.apply();
                 Intent mapView = new Intent(getActivity(), Search.class);
                 startActivity(mapView);
                 getActivity().finish();
@@ -166,7 +169,8 @@ public class FragmentOffer extends Fragment {
         listButton = (Button) this.getActivity().findViewById(R.id.imgBtnListView);
         listButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FragmentList nextFrag= new FragmentList();
+                ((MainActivity) getActivity()).updateOffersButton(true);
+                FragmentList nextFrag = new FragmentList();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.theFragment, nextFrag)
                         .addToBackStack(null)
@@ -194,7 +198,7 @@ public class FragmentOffer extends Fragment {
                 String rootURL = "http://api.hurryherenow.com/api/promotions?";
                 String lat = "latitude=52.415127";
                 String lon = "longitude=0.7504132";
-                String distance = "distance=" + DISTANCE;
+                String distance = "distance=" + Constants.PROMOTIONS_DISTANCE;
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
                 rawOfferJSON = JSONUtilities.downloadAllPromotionsFromURL(path);
@@ -209,9 +213,8 @@ public class FragmentOffer extends Fragment {
         // can use UI thread here
         protected void onPostExecute(final String result) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(
-                    "RAWOFFERJSON", rawOfferJSON);
-            editor.putLong("`OFFERGRAB_TIME", System.currentTimeMillis());
+            editor.putString("RAWOFFERJSON", rawOfferJSON);
+            editor.putLong("OFFERGRAB_TIME", System.currentTimeMillis());
             editor.apply();
             if (this.asyncDialog.isShowing()) {
                 this.asyncDialog.dismiss();
@@ -247,10 +250,10 @@ public class FragmentOffer extends Fragment {
     }
 
 
-    private void plotSimpleMarkers(ArrayList<MySimpleMarker> markers) {
+    private void plotSimpleMarkers(ArrayList<RetailerOffers> markers) {
 
         if (markers.size() > 0) {
-            for (MySimpleMarker myMarker : markers) {
+            for (RetailerOffers myMarker : markers) {
 
                 final int cat = myMarker.getCategory();
 
@@ -303,7 +306,7 @@ public class FragmentOffer extends Fragment {
         @Override
         public View getInfoContents(Marker marker) {
             View v;
-            MySimpleMarker myMarker = mSimpleMarkersHashMap.get(marker);
+            RetailerOffers myMarker = mSimpleMarkersHashMap.get(marker);
 
             final int cat = myMarker.getCategory();
             final String url = myMarker.getSite();

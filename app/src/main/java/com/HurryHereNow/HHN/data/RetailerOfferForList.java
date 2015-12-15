@@ -1,11 +1,12 @@
 package com.HurryHereNow.HHN.data;
 
+import java.io.Serializable;
+
 /**
- * Created by iaindownie on 08/12/2015.
- * Simple POJO to hold the promotion data from JSON via API
- * Take Retailer and Offer objects
+ * Created by iaindownie on 14/12/2015.
  */
-public class MySimpleMarker {
+public class RetailerOfferForList implements Serializable {
+
     private int storeId;
     private int retailerId;
     private String name;
@@ -18,8 +19,9 @@ public class MySimpleMarker {
     private String phone;
     private String site;
     private Retailer retailer;
-    private Offer[] offers;
+    private Offer anOffer;
     private int category;
+    private RetailerOffers ro;
 
     /**
      * The follow relate to UserSubmitted offers only and reuse the
@@ -31,7 +33,33 @@ public class MySimpleMarker {
     private String date;
     private String status;
 
-    public MySimpleMarker() {
+    public RetailerOfferForList(RetailerOffers ro, Offer o) {
+        storeId = ro.getStoreId();
+        retailerId = ro.getRetailerId();
+        name = ro.getName();
+        address1 = ro.getAddress1();
+        address2 = ro.getAddress2();
+        city = ro.getCity();
+        postcode = ro.getPostcode();
+        latitude = ro.getLatitude();
+        longitude = ro.getLongitude();
+        phone = ro.getPhone();
+        site = ro.getSite();
+        retailer = ro.getRetailer();
+        anOffer = o;
+        category = ro.getCategory();
+
+        /**
+         * The follow relate to UserSubmitted offers only and reuse the
+         * same latitude and longitude values as Retailer Offers above
+         */
+        userOfferId = ro.getUserOfferId();
+        storeName = ro.getStoreName();
+        description = ro.getDescription();
+        date = ro.getDate();
+        status = ro.getStatus();
+
+        this.ro = ro;
 
     }
 
@@ -131,20 +159,20 @@ public class MySimpleMarker {
         this.retailer = retailer;
     }
 
+    public Offer getAnOffer() {
+        return anOffer;
+    }
+
+    public void setAnOffer(Offer anOffer) {
+        this.anOffer = anOffer;
+    }
+
     public int getCategory() {
         return category;
     }
 
     public void setCategory(int category) {
         this.category = category;
-    }
-
-    public Offer[] getOffers() {
-        return offers;
-    }
-
-    public void setOffers(Offer[] offers) {
-        this.offers = offers;
     }
 
     public int getUserOfferId() {
@@ -185,5 +213,13 @@ public class MySimpleMarker {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public RetailerOffers getRo() {
+        return ro;
+    }
+
+    public void setRo(RetailerOffers ro) {
+        this.ro = ro;
     }
 }

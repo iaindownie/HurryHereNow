@@ -24,6 +24,7 @@ public class Search extends Activity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.search);
 
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         groceries = (ImageButton) findViewById(R.id.imgBtnGroceries);
@@ -99,11 +100,9 @@ public class Search extends Activity {
         Bundle b = new Bundle();
         b.putString("CATEGORY", str);
         i.putExtras(b);
-        System.out.println("Str: " + str);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("CATEGORY", str);
         ed.apply();
-        System.out.println(" Prefs category: " + PreferenceManager.getDefaultSharedPreferences(this).getString("CATEGORY", "null"));
         return i;
     }
 }
