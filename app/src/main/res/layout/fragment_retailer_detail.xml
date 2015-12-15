@@ -126,7 +126,7 @@
                 android:layout_height="fill_parent"
                 android:layout_below="@+id/txtCurrentOffers"
                 android:clipToPadding="false"
-                android:paddingBottom="49.0dip" />
+                android:paddingBottom="70dip" />
         </RelativeLayout>
 
     </FrameLayout>

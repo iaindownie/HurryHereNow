@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.HurryHereNow.HHN.Constants;
 import com.HurryHereNow.HHN.ImageLoader;
 import com.HurryHereNow.HHN.R;
+import com.HurryHereNow.HHN.Utils;
 import com.HurryHereNow.HHN.data.Offer;
 
 /**
@@ -23,7 +24,6 @@ public class OfferListCustomAdapter extends BaseAdapter {
     public ImageLoader imageLoader;
 
     public OfferListCustomAdapter(Context aContext, Offer[] o) {
-        // TODO Auto-generated constructor stub
         this.o = o;
         layoutInflater = LayoutInflater.from(aContext);
         context = aContext;
@@ -32,19 +32,16 @@ public class OfferListCustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return o.length;
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return o[position];
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
@@ -59,7 +56,6 @@ public class OfferListCustomAdapter extends BaseAdapter {
     public View getView(int position, View convertView, final ViewGroup parent) {
         final int innerPosition = position;
         Offer anOffer = o[position];
-
 
         ViewHolder holder;
         if (convertView == null) {
@@ -77,9 +73,11 @@ public class OfferListCustomAdapter extends BaseAdapter {
         String imageUrl = Constants.BASE_URL + "/images/offers/" + anOffer.getOfferId() + ".png";
         imageLoader.DisplayImage(imageUrl, holder.image1);
         holder.txtComment.setText(anOffer.getDescription());
-        holder.txtDaysLeft.setText("Some time...");
+        holder.txtDaysLeft.setText(Utils.getDaysRemaining(anOffer.getEndDate()) + "d");
 
         return convertView;
     }
+
+
 
 }

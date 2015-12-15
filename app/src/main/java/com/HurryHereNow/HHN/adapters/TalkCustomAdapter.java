@@ -22,7 +22,6 @@ public class TalkCustomAdapter extends BaseAdapter {
     //Context context;
 
     public TalkCustomAdapter(Context aContext, ArrayList aList) {
-        // TODO Auto-generated constructor stub
         this.aList = aList;
         layoutInflater = LayoutInflater.from(aContext);
         //context = aContext;
@@ -30,19 +29,16 @@ public class TalkCustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return aList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return aList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
@@ -86,7 +82,6 @@ public class TalkCustomAdapter extends BaseAdapter {
         /*convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Toast.makeText(context, "Item " + (innerPosition + 1) + ": Option to do more...", Toast.LENGTH_SHORT).show();
             }
         });*/

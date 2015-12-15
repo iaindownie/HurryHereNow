@@ -117,22 +117,27 @@ public class FragmentSpot extends Fragment {
         Button submit = (Button) dialog.findViewById(R.id.spotSubmit);
         Button dismiss = (Button) dialog.findViewById(R.id.spotDismiss);
         TextView latLon = (TextView) dialog.findViewById(R.id.txtOfferLatLon);
-        latLon.setText("Lat: " + String.format("%.5f", ll.latitude) + " Lon: " + String.format("%.5f", ll.longitude));
+        latLon.setText("Lat: " + String.format("%.5f", ll.latitude) + "\nLon: " + String.format("%.5f", ll.longitude));
         dialog.show();
         final EditText storeName = (EditText) dialog.findViewById(R.id.editStore);
+        final String storeEntry = storeName.getText().toString();
         final EditText desc = (EditText) dialog.findViewById(R.id.editOffer);
+        final String descEntry = desc.getText().toString();
         submit.setOnClickListener(new View.OnClickListener() {
             // @Override
             public void onClick(View v) {
-                //String myPos = "Lat: " + ll.latitude + " Lon: " + ll.longitude;
-                String[] s = new String[]{storeName.getText().toString(), desc.getText().toString(), "" + ll.latitude, "" + ll.longitude};
-                new UploadingSpotAndShare().execute(s);
-                InputMethodManager imm = (InputMethodManager) getActivity()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mapView.getWindowToken(), 0);
-                spotDetailsResult();
-                // Also code to close keyboard if possible
-                dialog.dismiss();
+                if (storeEntry.length() == 0 || descEntry.length() == 0) {
+                    myToast("Please enter both fields and agree to T&C", Toast.LENGTH_LONG);
+                } else {
+                    String[] s = new String[]{storeEntry, descEntry, "" + ll.latitude, "" + ll.longitude};
+                    new UploadingSpotAndShare().execute(s);
+                    InputMethodManager imm = (InputMethodManager) getActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mapView.getWindowToken(), 0);
+                    spotDetailsResult();
+                    // Also code to close keyboard if possible
+                    dialog.dismiss();
+                }
             }
         });
         dismiss.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +147,7 @@ public class FragmentSpot extends Fragment {
             }
         });
     }
+
 
     private void spotDetailsResult() {
         final Dialog dialog = new Dialog(getActivity());

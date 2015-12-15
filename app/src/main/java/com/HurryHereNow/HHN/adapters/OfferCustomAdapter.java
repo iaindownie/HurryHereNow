@@ -34,7 +34,6 @@ public class OfferCustomAdapter extends BaseAdapter {
     public ImageLoader imageLoader;
 
     public OfferCustomAdapter(Context aContext, ArrayList aList) {
-        // TODO Auto-generated constructor stub
         this.aList = aList;
         layoutInflater = LayoutInflater.from(aContext);
         context = aContext;
@@ -43,19 +42,16 @@ public class OfferCustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return aList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return aList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 

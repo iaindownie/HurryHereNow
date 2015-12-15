@@ -2,9 +2,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="125.0dip"
+    android:layout_height="140.0dip"
     android:background="#ffeeeeee"
-    android:padding="8.0dip">
+    android:padding="6.0dip">
 
     <RelativeLayout
         android:layout_width="match_parent"

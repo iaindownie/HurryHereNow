@@ -2,6 +2,9 @@ package com.HurryHereNow.HHN;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by iaindownie on 14/12/2015.
@@ -27,4 +30,30 @@ public class Utils {
         } catch (Exception ex) {
         }
     }
+
+    public static int getDaysRemaining(String endDate){
+        Calendar now = Calendar.getInstance();
+        Calendar end = convertToCalendar(endDate);
+        long diff = end.getTime().getTime() - now.getTime().getTime();
+        Long diffDays = diff / (24 * 60 * 60 * 1000);
+        return diffDays.intValue();
+    }
+
+    /**
+     * Based on example: "2015-12-21 15:39:00"
+     * @param date
+     * @return
+     */
+    public static Calendar convertToCalendar(String date){
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
+        cal.clear();
+        try {
+            cal.setTime(sdf.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return cal;
+    }
+
 }
