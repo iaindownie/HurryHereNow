@@ -70,6 +70,14 @@ public class FragmentOffer extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        Bundle bundle = getArguments();
+        double tempLat = 0.0;
+        double tempLon = 0.0;
+        if(bundle!=null){
+            tempLat = bundle.getDouble("LAT", 0.0);
+            tempLon = bundle.getDouble("LON", 0.0);
+        }
+
         // inflat and return the layout
         View v = inflater.inflate(R.layout.fragment_offer, container, false);
         mapView = (MapView) v.findViewById(R.id.offerMapView);
@@ -98,7 +106,9 @@ public class FragmentOffer extends Fragment {
             l = locManager.getLastKnownLocation(bestprovider);
         }
 
-        if (l == null) {
+        if (tempLat != 0.0) {
+            position = new LatLng(tempLat, tempLon);
+        } else if (l == null) {
             position = new LatLng(52.2068236, 0.1187916);
         } else {
             position = new LatLng(l.getLatitude(), l.getLongitude());
@@ -110,7 +120,6 @@ public class FragmentOffer extends Fragment {
         /*map.addMarker(new MarkerOptions()
                 .position(new LatLng(52.2068236, 0.1187916))
                 .title("Hello world"));*/
-
 
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(position, 12);
         map.moveCamera(update);

@@ -1,6 +1,5 @@
 package com.HurryHereNow.HHN;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
@@ -12,13 +11,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.HurryHereNow.HHN.adapters.OfferCustomAdapter;
 import com.HurryHereNow.HHN.adapters.OfferListCustomAdapter;
+import com.HurryHereNow.HHN.adapters.RetailerExtraAdapter;
 import com.HurryHereNow.HHN.data.Offer;
 import com.HurryHereNow.HHN.data.Retailer;
 import com.HurryHereNow.HHN.data.RetailerOffers;
@@ -37,7 +38,8 @@ public class FragmentRetailerDetail extends ListFragment {
 
     ImageView imageView;
     OfferListCustomAdapter offerListCustomAdapter;
-
+    private ArrayAdapter<String> listAdapter;
+    RetailerExtraAdapter retailerExtraAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +47,10 @@ public class FragmentRetailerDetail extends ListFragment {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_retailer_detail, container, false);
+
+
+        final LinearLayout ll = (LinearLayout) v.findViewById(R.id.ellipe_overlay);
+        ll.setVisibility(View.GONE);
 
         Bundle bundle = getArguments();
         ro = (RetailerOffers) bundle.getSerializable("RETAILEROFFERS");
@@ -82,6 +88,27 @@ public class FragmentRetailerDetail extends ListFragment {
         offerListCustomAdapter = new OfferListCustomAdapter(getActivity(), o);
         setListAdapter(offerListCustomAdapter);
 
+
+        ListView listView = (ListView) v.findViewById(R.id.list2);
+        ArrayList extras = new ArrayList();
+        extras.add(ro);
+        extras.add(ro);
+        retailerExtraAdapter = new RetailerExtraAdapter(getActivity(), extras);
+        listView.setAdapter(retailerExtraAdapter);
+
+
+        TextView ellipse = (TextView) v.findViewById(R.id.ellipse);
+        ellipse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (ll.isShown()) {
+                    ll.setVisibility(View.GONE);
+                } else {
+                    ll.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
         return v;
     }
 
@@ -96,10 +123,10 @@ public class FragmentRetailerDetail extends ListFragment {
         Toast.makeText(getActivity(), str, len).show();
     }
 
-    private String formatAddress(RetailerOffers ro2){
+    private String formatAddress(RetailerOffers ro2) {
         String add1 = ro2.getAddress1();
-        if(add1.endsWith(",")){
-            add1 = add1.substring(0,add1.lastIndexOf(","));
+        if (add1.endsWith(",")) {
+            add1 = add1.substring(0, add1.lastIndexOf(","));
         }
         String add2 = ro2.getAddress2();
         String city = ro2.getCity();

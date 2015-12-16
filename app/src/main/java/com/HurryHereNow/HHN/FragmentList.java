@@ -107,7 +107,6 @@ public class FragmentList extends ListFragment {
             position = new LatLng(l.getLatitude(), l.getLongitude());
         }
 
-
         searchButton = (Button) this.getActivity().findViewById(R.id.imgBtnSearch);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

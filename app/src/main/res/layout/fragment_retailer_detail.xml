@@ -27,15 +27,15 @@
             android:id="@+id/imgBtnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_gravity="left"
             android:background="@color/Red_700"
             android:text="&lt; Back"
             android:textColor="@color/lighter_gray"
             android:textSize="18dip"
-            android:textStyle="bold"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtCompanyName"
@@ -61,24 +61,26 @@
             android:src="@drawable/backtomap" />-->
 
         <TextView
-            android:id="@+id/extraTitle"
+            android:id="@+id/ellipse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="false"
+            android:layout_alignTop="@+id/txtCompanyName"
+            android:layout_centerInParent="true"
             android:layout_gravity="right"
             android:background="@color/Red_700"
+            android:gravity="top|center"
             android:text="&#8226;&#8226;&#8226;"
             android:textColor="@color/lighter_gray"
             android:textSize="32dip"
-            android:textStyle="bold"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="false"
-            android:layout_alignTop="@+id/txtCompanyName"
-            android:layout_centerInParent="true"
-            android:gravity="top|center" />
+            android:textStyle="bold" />
     </RelativeLayout>
 
+
     <FrameLayout
+        android:id="@+id/frameID"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@id/rel1">
@@ -130,4 +132,24 @@
         </RelativeLayout>
 
     </FrameLayout>
+
+    <!-- TODO Add Up Triangle here? -->
+    <!-- TODO Possibly round corners too -->
+
+    <LinearLayout
+        android:id="@+id/ellipe_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel1"
+        android:layout_margin="10dip"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/list2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:clipToPadding="false" />
+
+    </LinearLayout>
 </RelativeLayout>
