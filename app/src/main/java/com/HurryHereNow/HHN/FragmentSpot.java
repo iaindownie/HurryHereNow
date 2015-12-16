@@ -11,12 +11,15 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,7 +108,8 @@ public class FragmentSpot extends Fragment {
             }
         });
 
-        uploadStatus = "Thanks for sharing your offer! It will be activated soon...";
+        uploadStatus = "Thanks for sharing your offer with the Hurry Here Now community! It will be activated soon...";
+
         return v;
     }
 
@@ -120,16 +124,34 @@ public class FragmentSpot extends Fragment {
         latLon.setText("Lat: " + String.format("%.5f", ll.latitude) + "\nLon: " + String.format("%.5f", ll.longitude));
         dialog.show();
         final EditText storeName = (EditText) dialog.findViewById(R.id.editStore);
-        final String storeEntry = storeName.getText().toString();
         final EditText desc = (EditText) dialog.findViewById(R.id.editOffer);
-        final String descEntry = desc.getText().toString();
+        CheckBox checkBox = (CheckBox) dialog.findViewById(R.id.checkBox);
+        final boolean[] checked = {false};
+
+        TextView termsConditions = (TextView) dialog.findViewById(R.id.txtTandC);
+        StringBuilder tandc = new StringBuilder();
+        tandc.append("I agree to the <a href=\"http://www.google.co.uk\">Terms & Conditions</a>:");
+        termsConditions.setText(Html.fromHtml(tandc.toString()));
+        termsConditions.setMovementMethod(LinkMovementMethod.getInstance());
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    checked[0] = true;
+                } else {
+                    checked[0] = false;
+                }
+            }
+        });
+
+
         submit.setOnClickListener(new View.OnClickListener() {
             // @Override
             public void onClick(View v) {
-                if (storeEntry.length() == 0 || descEntry.length() == 0) {
+                if (storeName.getText().toString().length() == 0 || desc.getText().toString().length() == 0 || checked[0] == false) {
                     myToast("Please enter both fields and agree to T&C", Toast.LENGTH_LONG);
                 } else {
-                    String[] s = new String[]{storeEntry, descEntry, "" + ll.latitude, "" + ll.longitude};
+                    String[] s = new String[]{storeName.getText().toString(), desc.getText().toString(), "" + ll.latitude, "" + ll.longitude};
                     new UploadingSpotAndShare().execute(s);
                     InputMethodManager imm = (InputMethodManager) getActivity()
                             .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -218,7 +240,6 @@ public class FragmentSpot extends Fragment {
 
         // can use UI thread here
         protected void onPostExecute(final String result) {
-
         }
     }
 

@@ -45,10 +45,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="192dp"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:paddingBottom="25.0dip"
+        android:paddingBottom="30.0dip"
         android:paddingTop="20.0dip">
 
         <TextView
@@ -84,24 +84,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="5dp">
 
             <TextView
                 android:id="@+id/txtTandC"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5.0dip"
-                android:text="Some filler text"
+                android:gravity="right|end"
+                android:paddingTop="5dp"
+                android:text=""
                 android:textColor="@color/common_google_signin_btn_text_light" />
 
             <CheckBox
                 android:id="@+id/checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="end"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip"
-                android:text="New CheckBox" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1.0"
+                android:gravity="top|end"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp" />
 
         </LinearLayout>
 
@@ -121,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:padding="1dip"
-            android:text="Back" />
+            android:text="Dismiss" />
 
         <Button
             android:id="@+id/spotSubmit"
