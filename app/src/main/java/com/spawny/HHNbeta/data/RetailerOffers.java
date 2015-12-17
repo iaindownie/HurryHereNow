@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN.data;
+package com.spawny.HHNbeta.data;
 
 import java.io.Serializable;
 

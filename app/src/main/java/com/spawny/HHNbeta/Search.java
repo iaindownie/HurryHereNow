@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN;
+package com.spawny.HHNbeta;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.widget.ImageButton;
 
 /**
  * Created by iaindownie on 11/12/2015.
+ * Main search Activity (not a Fragment). Reopens
+ * Main Activity once used, passing Category to Bundle and
+ * Shared Preferences
  */
 public class Search extends Activity {
     SharedPreferences prefs;

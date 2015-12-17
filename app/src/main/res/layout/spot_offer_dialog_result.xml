@@ -26,17 +26,16 @@
             android:text="Offer uploaded"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
-        <!---->
     </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/uploadResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5.0dip"
-            android:text=""
-            android:textColor="@color/common_google_signin_btn_text_light" />
+    <TextView
+        android:id="@+id/uploadResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5.0dip"
+        android:text=""
+        android:textColor="@color/common_google_signin_btn_text_light" />
 
 
     <LinearLayout

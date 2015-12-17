@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN.adapters;
+package com.spawny.HHNbeta.adapters;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -14,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.HurryHereNow.HHN.FragmentOffer;
-import com.HurryHereNow.HHN.R;
-import com.HurryHereNow.HHN.data.RetailerOffers;
+import com.spawny.HHNbeta.FragmentOffer;
+import com.spawny.HHNbeta.R;
+import com.spawny.HHNbeta.data.RetailerOffers;
 
 import java.util.ArrayList;
 
@@ -64,8 +64,8 @@ public class RetailerExtraAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.retailer_extra_item, null);
             holder = new ViewHolder();
-            holder.image1 = (ImageView) convertView.findViewById(R.id.Image1);
-            holder.txtComment = (TextView) convertView.findViewById(R.id.txtComment);
+            holder.image1 = (ImageView) convertView.findViewById(R.id.imageView2);
+            holder.txtComment = (TextView) convertView.findViewById(R.id.textView);
 
             convertView.setTag(holder);
         } else {
@@ -95,7 +95,7 @@ public class RetailerExtraAdapter extends BaseAdapter {
                 } else {
                     String website = ro.getSite();
                     if(website.length()==0){
-                        myToast("No website for this vendor", Toast.LENGTH_SHORT);
+                        myToast("No current website for this vendor", Toast.LENGTH_SHORT);
                     }else{
                     String urlStart = "http://";
                     if(!website.startsWith(urlStart)){

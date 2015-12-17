@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN;
+package com.spawny.HHNbeta;
 
 import android.Manifest;
 import android.app.Dialog;

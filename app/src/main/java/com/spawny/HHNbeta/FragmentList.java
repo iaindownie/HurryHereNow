@@ -1,5 +1,4 @@
-package com.HurryHereNow.HHN;
-
+package com.spawny.HHNbeta;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
@@ -14,40 +13,34 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.HurryHereNow.HHN.adapters.OfferCustomAdapter;
-import com.HurryHereNow.HHN.data.RetailerOffers;
 import com.google.android.gms.maps.model.LatLng;
+import com.spawny.HHNbeta.adapters.OfferCustomAdapter;
+import com.spawny.HHNbeta.data.RetailerOffers;
 
 import java.util.ArrayList;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * Created by iaindownie on 29/11/2015.
+ * The main Offers > List fragment
  */
 public class FragmentList extends ListFragment {
 
-    SharedPreferences prefs;
-    String rawOfferJSON = "";
+    private SharedPreferences prefs;
+    private String rawOfferJSON = "";
     private LocationManager locManager;
     private Location l;
     private LatLng position;
-    // Set default distance for promotions API
-
     private String category;
-
-
     private Button searchButton;
     private Button mapButton;
     private ArrayList<RetailerOffers> offerArray = new ArrayList<RetailerOffers>();
-
-    OfferCustomAdapter offerCustomAdapter;
+    private OfferCustomAdapter offerCustomAdapter;
 
 
     @Override
@@ -107,6 +100,10 @@ public class FragmentList extends ListFragment {
             position = new LatLng(l.getLatitude(), l.getLongitude());
         }
 
+        /**
+         * The Offers > Search button. It creates a new Activity not a fragment, and
+         * closes the existing Main Activity and Fragments
+         */
         searchButton = (Button) this.getActivity().findViewById(R.id.imgBtnSearch);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -119,6 +116,9 @@ public class FragmentList extends ListFragment {
             }
         });
 
+        /**
+         * The Offers > Maps button, replacing the fragment from List
+         */
         mapButton = (Button) this.getActivity().findViewById(R.id.imgBtnFake);
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -146,9 +146,9 @@ public class FragmentList extends ListFragment {
         // automatically done on worker thread (separate from UI thread)
         protected String doInBackground(final String... args) {
             try {
-                String rootURL = "http://api.hurryherenow.com/api/promotions?";
-                String lat = "latitude=52.415127";
-                String lon = "longitude=0.7504132";
+                String rootURL = Constants.BASE_URL + "/api/promotions?";
+                String lat = "latitude=" + position.latitude;
+                String lon = "longitude=0.7504132" + position.longitude;
                 String distance = "distance=" + Constants.PROMOTIONS_DISTANCE;
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;

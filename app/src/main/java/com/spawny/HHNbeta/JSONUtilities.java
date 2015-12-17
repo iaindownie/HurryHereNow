@@ -1,6 +1,11 @@
-package com.HurryHereNow.HHN;
+package com.spawny.HHNbeta;
 
 import android.util.Log;
+
+import com.spawny.HHNbeta.data.Offer;
+import com.spawny.HHNbeta.data.Retailer;
+import com.spawny.HHNbeta.data.RetailerOfferForList;
+import com.spawny.HHNbeta.data.RetailerOffers;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -17,11 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.HurryHereNow.HHN.data.RetailerOfferForList;
-import com.HurryHereNow.HHN.data.RetailerOffers;
-import com.HurryHereNow.HHN.data.Offer;
-import com.HurryHereNow.HHN.data.Retailer;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -35,7 +35,13 @@ import java.util.List;
  */
 public class JSONUtilities {
 
-
+    /**
+     * Method to get Talk data from SERVER via API
+     *
+     * @param path - typically http://api.hurryherenow.com/api/talk?latitude=52.415127&longitude=0.7504132
+     * @return - a String formatted as JSON
+     * @throws Exception
+     */
     public static String downloadAllTalksFromURL(String path) throws Exception {
         String str = "";
         HttpResponse response;
@@ -59,6 +65,13 @@ public class JSONUtilities {
         return str;
     }
 
+    /**
+     * Method to PARSE the Talk JSON String to individual Talk items
+     *
+     * @param str - Takes the JSON String
+     * @return - ArrayList containing the individual talk items as bunch of HashMaps
+     * @throws Exception
+     */
     public static ArrayList<HashMap> convertJSONTalksToArrayList(String str) throws Exception {
         JSONObject json = null;
         ArrayList<HashMap> aList = new ArrayList<HashMap>();
@@ -83,8 +96,18 @@ public class JSONUtilities {
         return aList;
     }
 
+    /**
+     * Method to upload the Spot & Share details to SERVER via API
+     * http://api.hurryherenow.com/api/user-offer? then parameters
+     *
+     * @param sN    - Store name
+     * @param sDesc - Offer description
+     * @param lat   - Store latitude
+     * @param lon   - Store longitude
+     * @return - Success or fail with error message
+     */
     public static String uploadSpotAndShare(String sN, String sDesc, String lat, String lon) {
-        String rootUrl = "http://api.hurryherenow.com/api/user-offer?";
+        String rootUrl = Constants.BASE_URL + "/api/user-offer?";
         int statusCode = 0;
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -115,7 +138,13 @@ public class JSONUtilities {
         }
     }
 
-
+    /**
+     * Method to get Offer data from SERVER via API
+     *
+     * @param path - typically http://api.hurryherenow.com/api/promotions?latitude=52.415127&longitude=0.7504132&distance=50
+     * @return - a String formatted as JSON
+     * @throws Exception
+     */
     public static String downloadAllPromotionsFromURL(String path) throws Exception {
         String str = "";
         HttpResponse response;
@@ -139,6 +168,13 @@ public class JSONUtilities {
         return str;
     }
 
+    /**
+     * Method to PARSE the Offer JSON String to individual Offer items
+     * @param str - Takes the JSON String
+     * @param category - Takes a category to return subsets if needed
+     * @return - ArrayList of all Retailers (as POJO's) for all/individual categories
+     * @throws Exception
+     */
     public static ArrayList<RetailerOffers> convertJSONSpotAndSharePromotionsToArrayList(String str, String category) throws Exception {
         System.out.println("In convertJSONSpotAndSharePromotionsToArrayList");
         JSONObject json = new JSONObject(str);
@@ -214,23 +250,28 @@ public class JSONUtilities {
             }
         }
 
-        if(category.equals("0")){
+        if (category.equals("0")) {
             return everything;
-        }else{
+        } else {
             ArrayList subset = new ArrayList();
             for (int i = 0; i < everything.size(); i++) {
-                RetailerOffers p = (RetailerOffers)everything.get(i);
+                RetailerOffers p = (RetailerOffers) everything.get(i);
                 int cat = p.getCategory();
-                if(cat==(Integer.valueOf(category))){
+                if (cat == (Integer.valueOf(category))) {
                     subset.add(p);
                 }
             }
             return subset;
         }
 
-        //return everything;
     }
 
+    /**
+     * Helper method to split the base Retailer POJO to represent individual Offers
+     * @param aList - An ArrayList of Retailers
+     * @return - An ArrayList of Offers
+     * @throws Exception
+     */
     public static ArrayList<RetailerOffers> expandPromotionsArrayList(ArrayList aList) throws Exception {
         ArrayList fullList = new ArrayList();
         for (int i = 0; i < aList.size(); i++) {

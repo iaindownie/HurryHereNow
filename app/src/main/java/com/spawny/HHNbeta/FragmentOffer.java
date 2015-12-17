@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN;
+package com.spawny.HHNbeta;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.HurryHereNow.HHN.data.RetailerOffers;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,6 +33,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.spawny.HHNbeta.data.RetailerOffers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,25 +43,17 @@ import java.util.HashMap;
  */
 public class FragmentOffer extends Fragment {
 
-    SharedPreferences prefs;
-    String rawOfferJSON = "";
-
+    private SharedPreferences prefs;
+    private String rawOfferJSON = "";
     private String category;
-
     private MapView mapView;
     private GoogleMap map;
     private LocationManager locManager;
     private Location l;
     private LatLng position;
-
     private Button searchButton;
     private Button listButton;
-
-
     private HashMap allCategories;
-    //ArrayList userSubmittedOffers;
-    //ArrayList food;
-
     private HashMap<Marker, RetailerOffers> mSimpleMarkersHashMap;
     private ArrayList<RetailerOffers> mSimpleMyMarkersArray = new ArrayList<RetailerOffers>();
 
@@ -70,19 +62,19 @@ public class FragmentOffer extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        // Bundle for if arriving from the Retailers Extra page
         Bundle bundle = getArguments();
         double tempLat = 0.0;
         double tempLon = 0.0;
-        if(bundle!=null){
+        if (bundle != null) {
             tempLat = bundle.getDouble("LAT", 0.0);
             tempLon = bundle.getDouble("LON", 0.0);
         }
 
-        // inflat and return the layout
+        // inflate and return the layout
         View v = inflater.inflate(R.layout.fragment_offer, container, false);
         mapView = (MapView) v.findViewById(R.id.offerMapView);
         mapView.onCreate(savedInstanceState);
-
         map = mapView.getMap();
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
@@ -125,7 +117,6 @@ public class FragmentOffer extends Fragment {
         map.moveCamera(update);
         mapView.onResume();
 
-
         return v;
 
     }
@@ -136,7 +127,6 @@ public class FragmentOffer extends Fragment {
 
         // Initialize the HashMap for Markers and MyMarker object
         mSimpleMarkersHashMap = new HashMap<Marker, RetailerOffers>();
-
 
         prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
         long lastTime = prefs.getLong("OFFERGRAB_TIME", System.currentTimeMillis());
@@ -163,6 +153,10 @@ public class FragmentOffer extends Fragment {
             }
         }
 
+        /**
+         * The Offers > Search button. It creates a new Activity not a fragment, and
+         * closes the existing Main Activity and Fragments
+         */
         searchButton = (Button) this.getActivity().findViewById(R.id.imgBtnSearch);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -175,6 +169,9 @@ public class FragmentOffer extends Fragment {
             }
         });
 
+        /**
+         * The Offers > Lists button, replacing the fragment from Map
+         */
         listButton = (Button) this.getActivity().findViewById(R.id.imgBtnListView);
         listButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

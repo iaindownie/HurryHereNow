@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN;
+package com.spawny.HHNbeta;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
@@ -14,16 +14,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.HurryHereNow.HHN.adapters.OfferListCustomAdapter;
-import com.HurryHereNow.HHN.adapters.RetailerExtraAdapter;
-import com.HurryHereNow.HHN.data.Offer;
-import com.HurryHereNow.HHN.data.Retailer;
-import com.HurryHereNow.HHN.data.RetailerOffers;
+import com.spawny.HHNbeta.adapters.OfferListCustomAdapter;
+import com.spawny.HHNbeta.adapters.RetailerExtraAdapter;
+import com.spawny.HHNbeta.data.Offer;
+import com.spawny.HHNbeta.data.Retailer;
+import com.spawny.HHNbeta.data.RetailerOffers;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -46,11 +46,10 @@ public class FragmentRetailerDetail extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View v = inflater.inflate(R.layout.fragment_retailer_detail, container, false);
 
 
-        final LinearLayout ll = (LinearLayout) v.findViewById(R.id.ellipe_overlay);
+        final RelativeLayout ll = (RelativeLayout) v.findViewById(R.id.ellipe_overlay);
         ll.setVisibility(View.GONE);
 
         Bundle bundle = getArguments();
@@ -97,18 +96,6 @@ public class FragmentRetailerDetail extends ListFragment {
         retailerExtraAdapter = new RetailerExtraAdapter(getActivity(), extras);
         listView.setAdapter(retailerExtraAdapter);
 
-
-        /*TextView ellipse = (TextView) v.findViewById(R.id.ellipse);
-        ellipse.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (ll.isShown()) {
-                    ll.setVisibility(View.GONE);
-                } else {
-                    ll.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });*/
 
         ImageButton ellipse = (ImageButton) v.findViewById(R.id.ellipse);
         ellipse.setOnClickListener(new View.OnClickListener() {

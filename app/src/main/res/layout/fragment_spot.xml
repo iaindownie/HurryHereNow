@@ -38,7 +38,7 @@
             android:text="Continue >"
             android:textColor="@color/white"
             android:textSize="18dip"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -56,26 +56,25 @@
             android:id="@+id/toastView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
             android:background="@drawable/rounded_corner"
             android:padding="10.0dip"
             android:text="Move marker to the offer location"
             android:textColor="@android:color/white"
-            android:textSize="15.0sp"
-            android:layout_marginTop="11dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:textSize="15.0sp" />
 
         <ImageButton
             android:id="@+id/imgSpot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:background="@android:color/transparent"
             android:paddingBottom="42.0dip"
-            android:src="@drawable/floatingpin"
-            android:layout_centerInParent="true" />
+            android:src="@drawable/floatingpin" />
     </RelativeLayout>
-
 
 
 </LinearLayout>

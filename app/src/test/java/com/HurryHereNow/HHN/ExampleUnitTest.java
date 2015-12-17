@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN;
+package com.spawny.HHNbeta;
 
 import org.junit.Test;
 

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ffeeeeee">
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/rel1"
@@ -13,15 +13,6 @@
         android:orientation="horizontal"
         android:padding="8.0dip">
 
-        <!--<ImageButton
-            android:id="@+id/imgBtnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="left"
-            android:background="@android:color/transparent"
-            android:src="@drawable/backred" />-->
 
         <TextView
             android:id="@+id/imgBtnBack"
@@ -33,8 +24,7 @@
             android:text="&lt; Back"
             android:textColor="@color/lighter_gray"
             android:textSize="14dip"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtCompanyName"
@@ -44,24 +34,14 @@
             android:layout_weight="1.0"
             android:ellipsize="marquee"
             android:focusable="true"
+            android:gravity="center_vertical|center_horizontal"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:text="Vendor page"
             android:textColor="@android:color/white"
             android:textSize="16.0dip"
-            android:textStyle="bold"
-            android:gravity="center_vertical|center_horizontal" />
+            android:textStyle="bold" />
 
-        <!--<ImageButton
-            android:id="@+id/imgBtnGoToMap"
-            android:layout_width="60.0dip"
-            android:layout_height="60.0dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:paddingRight="22.0dip"
-            android:scaleType="fitCenter"
-            android:src="@drawable/backtomap" />-->
 
         <ImageButton
             android:id="@+id/ellipse"
@@ -71,30 +51,10 @@
             android:background="@android:color/transparent"
             android:gravity="right"
             android:scaleType="fitCenter"
-            android:src="@drawable/ellipsize"
-            />
+            android:src="@drawable/ellipsize" />
 
-        <!--<TextView
-            android:id="@+id/ellipse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:layout_gravity="right"
-            android:gravity="right"
-            android:background="@color/Red_700"
-            android:text="&#8226;&#8226;&#8226;"
-            android:textColor="@color/lighter_gray"
-            android:textSize="32dip"
-            android:textStyle="bold"
-            android:paddingBottom="10dip"
-            />-->
     </LinearLayout>
-
-    <!-- android:layout_alignParentBottom="false"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="false"
-            android:layout_alignTop="@+id/txtCompanyName"
-            android:layout_centerInParent="true" -->
 
 
     <FrameLayout
@@ -106,12 +66,13 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imgBigLogo"
                 android:layout_width="fill_parent"
-                android:layout_height="200.0dip"
+                android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:cropToPadding="false"
@@ -131,19 +92,22 @@
 
             <TextView
                 android:id="@+id/txtCurrentOffers"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imgBigLogo"
+                android:background="@color/Red_700"
+                android:gravity="top"
+                android:paddingBottom="6.0dip"
                 android:paddingLeft="10.0dip"
                 android:paddingTop="6.0dip"
                 android:text="Current Offers"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 android:textSize="16.0dip" />
 
             <ListView
                 android:id="@android:id/list"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/txtCurrentOffers"
                 android:clipToPadding="false"
                 android:paddingBottom="70dip" />
@@ -151,23 +115,49 @@
 
     </FrameLayout>
 
-    <!-- TODO Add Up Triangle here? -->
-    <!-- TODO Possibly round corners too -->
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ellipe_overlay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rel1"
-        android:layout_margin="10dip"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rel1">
 
-        <ListView
-            android:id="@+id/list2"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:clipToPadding="false" />
+        <ImageView
+            android:id="@+id/triangleUp"
+            android:layout_width="50dip"
+            android:layout_height="25dip"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="false"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/triangle_up" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dip"
+            android:layout_marginRight="7dip"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/round"
+            android:orientation="vertical">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dip"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/list2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:clipToPadding="false"
+                    android:padding="5dip" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
 </RelativeLayout>

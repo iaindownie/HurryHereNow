@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN.adapters;
+package com.spawny.HHNbeta.adapters;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -10,17 +10,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.HurryHereNow.HHN.Constants;
-import com.HurryHereNow.HHN.FragmentOffer;
-import com.HurryHereNow.HHN.FragmentRetailerDetail;
-import com.HurryHereNow.HHN.ImageLoader;
-import com.HurryHereNow.HHN.R;
-import com.HurryHereNow.HHN.data.Offer;
-import com.HurryHereNow.HHN.data.Retailer;
-import com.HurryHereNow.HHN.data.RetailerOfferForList;
-import com.HurryHereNow.HHN.data.RetailerOffers;
+import com.spawny.HHNbeta.Constants;
+import com.spawny.HHNbeta.FragmentRetailerDetail;
+import com.spawny.HHNbeta.ImageLoader;
+import com.spawny.HHNbeta.R;
+import com.spawny.HHNbeta.data.Offer;
+import com.spawny.HHNbeta.data.Retailer;
+import com.spawny.HHNbeta.data.RetailerOfferForList;
+import com.spawny.HHNbeta.data.RetailerOffers;
 
 import java.util.ArrayList;
 
@@ -84,7 +82,9 @@ public class OfferCustomAdapter extends BaseAdapter {
         }
 
         //holder.image1.setImageResource(R.drawable.thumbsup);
-        imageLoader.DisplayImage(Constants.BASE_URL + r.getSmallImage(), holder.image1);
+        String imageUrl = Constants.BASE_URL + "/images/offers/" + o.getOfferId() + ".png";
+        //imageLoader.DisplayImage(Constants.BASE_URL + r.getSmallImage(), holder.image1);
+        imageLoader.DisplayImage(imageUrl, holder.image1);
         holder.txtComment.setText(o.getDescription());
         holder.txtName.setText(ro.getName());
         convertView.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN;
+package com.spawny.HHNbeta;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 /**
  * Created by iaindownie on 29/11/2015.
+ * Empty Fragment to initiate the whole fragment palava. This is instantly
+ * replaced programmatically in MainActivity
  */
 public class FragmentFiller extends Fragment {
 

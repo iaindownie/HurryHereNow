@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN;
+package com.spawny.HHNbeta;
 
 import android.app.ListFragment;
 import android.app.ProgressDialog;
@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.HurryHereNow.HHN.adapters.TalkCustomAdapter;
+import com.spawny.HHNbeta.adapters.TalkCustomAdapter;
 
 import java.util.ArrayList;
 

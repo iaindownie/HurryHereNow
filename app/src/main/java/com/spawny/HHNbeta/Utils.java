@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN;
+package com.spawny.HHNbeta;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -31,6 +31,11 @@ public class Utils {
         }
     }
 
+    /**
+     * Method to calculate the number of remaining days for an offer
+     * @param endDate - A String data from the SERVER data download
+     * @return - a count of number of days left
+     */
     public static int getDaysRemaining(String endDate){
         Calendar now = Calendar.getInstance();
         Calendar end = convertToCalendar(endDate);
@@ -40,9 +45,9 @@ public class Utils {
     }
 
     /**
-     * Based on example: "2015-12-21 15:39:00"
-     * @param date
-     * @return
+     * Converts String date to Calendar: Based on example: "2015-12-21 15:39:00"
+     * @param date - A string date
+     * @return - Calendar set to date in String
      */
     public static Calendar convertToCalendar(String date){
         Calendar cal = Calendar.getInstance();

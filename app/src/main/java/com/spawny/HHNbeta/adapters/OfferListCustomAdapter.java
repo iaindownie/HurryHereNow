@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN.adapters;
+package com.spawny.HHNbeta.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,11 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.HurryHereNow.HHN.Constants;
-import com.HurryHereNow.HHN.ImageLoader;
-import com.HurryHereNow.HHN.R;
-import com.HurryHereNow.HHN.Utils;
-import com.HurryHereNow.HHN.data.Offer;
+import com.spawny.HHNbeta.Constants;
+import com.spawny.HHNbeta.ImageLoader;
+import com.spawny.HHNbeta.R;
+import com.spawny.HHNbeta.Utils;
+import com.spawny.HHNbeta.data.Offer;
 
 /**
  * Created by iaindownie on 15/12/2015.

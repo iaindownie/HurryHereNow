@@ -1,4 +1,4 @@
-package com.HurryHereNow.HHN.adapters;
+package com.spawny.HHNbeta.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.HurryHereNow.HHN.R;
+import com.spawny.HHNbeta.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

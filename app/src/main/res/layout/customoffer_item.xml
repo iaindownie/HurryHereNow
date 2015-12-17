@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="75dip"
-    android:padding="6dip"
-    android:background="@color/white">
+    android:layout_width="match_parent"
+    android:layout_height="160.0dip"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="6dip">
 
     <ImageView
         android:id="@+id/Image1"
-        android:layout_width="65.0dip"
-        android:layout_height="65.0dip"
+        android:layout_width="70.0dip"
+        android:layout_height="70.0dip"
         android:padding="5.0dip"
         android:src="@drawable/icon" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.0">
+        android:layout_weight="1.0"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/txtComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="15.0dip"
             android:layout_gravity="top"
-            android:gravity="top" />
+            android:gravity="top"
+            android:textColor="@android:color/black"
+            android:textSize="15.0dip" />
 
         <TextView
             android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
             android:textColor="@color/black"
             android:textSize="12.0dip"
-            android:textStyle="bold"
-            android:gravity="bottom"
-            android:layout_gravity="bottom" />
+            android:textStyle="bold" />
 
 
     </LinearLayout>
@@ -46,68 +47,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="end"
-        android:src="@drawable/arrowright"
-        android:paddingRight="8dip"
         android:paddingLeft="8dip"
-        />
+        android:paddingRight="8dip"
+        android:src="@drawable/arrowright" />
 
 </LinearLayout>
 
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="#ffeeeeee"
-    android:padding="6.0dip">
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:padding="8.0dip">
-
-        <ImageView
-            android:id="@+id/Image1"
-            android:layout_width="65.0dip"
-            android:layout_height="65.0dip"
-            android:padding="5.0dip"
-            android:src="@drawable/icon" />
-
-        <TextView
-            android:id="@+id/txtComment"
-            android:layout_width="match_parent"
-            android:layout_height="57.0dip"
-            android:layout_toRightOf="@+id/Image1"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="6.0dip"
-            android:textColor="@android:color/black"
-            android:textSize="15.0dip"
-            android:paddingRight="6dip"
-            android:layout_marginRight="20dip" />
-
-        <TextView
-            android:id="@+id/txtName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/Image1"
-            android:paddingLeft="6.0dip"
-            android:paddingTop="6.0dip"
-            android:textColor="#ffd1cdcd"
-            android:textSize="12.0dip"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/ArrowRight"
-            android:layout_width="20dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/arrowright"
-            android:layout_alignTop="@+id/txtComment"
-            android:layout_alignRight="@+id/txtComment"
-            android:layout_alignEnd="@+id/txtComment"
-            android:layout_marginRight="19dp"
-            android:layout_marginEnd="19dp" />
-    </RelativeLayout>
-</RelativeLayout>-->
