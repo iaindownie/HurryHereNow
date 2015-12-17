@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="#ffeeeeee">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rel1"
         android:layout_width="fill_parent"
         android:layout_height="50.0dip"
@@ -27,27 +27,30 @@
             android:id="@+id/imgBtnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="left"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginRight="20dp"
             android:background="@color/Red_700"
             android:text="&lt; Back"
             android:textColor="@color/lighter_gray"
-            android:textSize="18dip"
-            android:textStyle="bold" />
+            android:textSize="14dip"
+            android:textStyle="bold"
+            />
 
         <TextView
             android:id="@+id/txtCompanyName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:ellipsize="end"
-            android:text="asdfasdfads"
+            android:layout_gravity="center"
+            android:layout_weight="1.0"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Vendor page"
             android:textColor="@android:color/white"
             android:textSize="16.0dip"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="center_vertical|center_horizontal" />
 
         <!--<ImageButton
             android:id="@+id/imgBtnGoToMap"
@@ -60,23 +63,38 @@
             android:scaleType="fitCenter"
             android:src="@drawable/backtomap" />-->
 
-        <TextView
+        <ImageButton
+            android:id="@+id/ellipse"
+            android:layout_width="wrap_content"
+            android:layout_height="46.0dip"
+            android:layout_gravity="center_vertical|right"
+            android:background="@android:color/transparent"
+            android:gravity="right"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ellipsize"
+            />
+
+        <!--<TextView
             android:id="@+id/ellipse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="false"
-            android:layout_alignTop="@+id/txtCompanyName"
-            android:layout_centerInParent="true"
+
             android:layout_gravity="right"
+            android:gravity="right"
             android:background="@color/Red_700"
-            android:gravity="top|center"
             android:text="&#8226;&#8226;&#8226;"
             android:textColor="@color/lighter_gray"
             android:textSize="32dip"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:textStyle="bold"
+            android:paddingBottom="10dip"
+            />-->
+    </LinearLayout>
+
+    <!-- android:layout_alignParentBottom="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="false"
+            android:layout_alignTop="@+id/txtCompanyName"
+            android:layout_centerInParent="true" -->
 
 
     <FrameLayout

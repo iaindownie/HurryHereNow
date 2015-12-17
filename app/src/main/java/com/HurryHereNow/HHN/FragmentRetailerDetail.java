@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -97,7 +98,19 @@ public class FragmentRetailerDetail extends ListFragment {
         listView.setAdapter(retailerExtraAdapter);
 
 
-        TextView ellipse = (TextView) v.findViewById(R.id.ellipse);
+        /*TextView ellipse = (TextView) v.findViewById(R.id.ellipse);
+        ellipse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (ll.isShown()) {
+                    ll.setVisibility(View.GONE);
+                } else {
+                    ll.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });*/
+
+        ImageButton ellipse = (ImageButton) v.findViewById(R.id.ellipse);
         ellipse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (ll.isShown()) {

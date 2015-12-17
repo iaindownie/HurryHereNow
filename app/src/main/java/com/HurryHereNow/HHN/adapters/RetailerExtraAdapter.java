@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.HurryHereNow.HHN.FragmentOffer;
 import com.HurryHereNow.HHN.R;
@@ -61,7 +62,7 @@ public class RetailerExtraAdapter extends BaseAdapter {
 
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.customoffer_item, null);
+            convertView = layoutInflater.inflate(R.layout.retailer_extra_item, null);
             holder = new ViewHolder();
             holder.image1 = (ImageView) convertView.findViewById(R.id.Image1);
             holder.txtComment = (TextView) convertView.findViewById(R.id.txtComment);
@@ -93,17 +94,25 @@ public class RetailerExtraAdapter extends BaseAdapter {
                             .commit();
                 } else {
                     String website = ro.getSite();
+                    if(website.length()==0){
+                        myToast("No website for this vendor", Toast.LENGTH_SHORT);
+                    }else{
                     String urlStart = "http://";
                     if(!website.startsWith(urlStart)){
                         website = urlStart + website;
                     }
                     Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse(website));
                     ((Activity) context).startActivity(i);
+                    }
                 }
 
             }
         });
         return convertView;
+    }
+
+    public void myToast(String str, int len) {
+        Toast.makeText((Activity) context, str, len).show();
     }
 
 }
