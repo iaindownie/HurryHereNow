@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -60,15 +59,16 @@ public class FragmentOffer extends Fragment {
     private LatLng position;
     private Button searchButton;
     private Button listButton;
-    private HashMap allCategories;
+    //private HashMap allCategories;
     private HashMap<Marker, RetailerOffers> mSimpleMarkersHashMap;
     private ArrayList<RetailerOffers> mSimpleMyMarkersArray = new ArrayList<RetailerOffers>();
+    private int numOffers = 1;
 
     private Projection projection;
 
     LinearLayout ll;
-    TextView data;
     ImageView tHolder;
+    ImageView dot1, dot2, dot3;
 
     private ViewPager vp;
 
@@ -76,8 +76,6 @@ public class FragmentOffer extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-
         // inflate and return the layout
         View v = inflater.inflate(R.layout.fragment_offer, container, false);
         return v;
@@ -133,15 +131,9 @@ public class FragmentOffer extends Fragment {
         //Enable GPS
         gMap.setMyLocationEnabled(true);
 
-        /*gMap.addMarker(new MarkerOptions()
-                .position(new LatLng(52.2068236, 0.1187916))
-                .title("Hello world"));*/
-
+        // This moves the camera to the position and zoom level
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(position, 12);
         gMap.moveCamera(update);
-
-
-        mapView.onResume();
 
 
         ll = (LinearLayout) getActivity().findViewById(R.id.mapPopover);
@@ -170,15 +162,7 @@ public class FragmentOffer extends Fragment {
         //params.rightMargin = sideMargin;
         //params.topMargin = topMargin;
         //params.bottomMargin = bottomMargin;
-
-
-        data = (TextView) getActivity().findViewById(R.id.txtNve);
-        data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myToast("Touched!", Toast.LENGTH_SHORT);
-            }
-        });*/
+        */
 
 
         ll.setVisibility(View.GONE);
@@ -191,6 +175,20 @@ public class FragmentOffer extends Fragment {
                 tHolder.setVisibility(View.GONE);
             }
         });
+
+        /*gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
+                LatLng position2 = marker.getPosition();
+                double newLat = position2.latitude + 0.003;
+                double newLon = position2.longitude;
+                CameraUpdate update = CameraUpdateFactory.newLatLng(new LatLng(newLat, newLon));
+                gMap.moveCamera(update);
+                marker.showInfoWindow();
+
+                return true;
+            }
+        });*/
 
         // Initialize the HashMap for Markers and MyMarker object
         mSimpleMarkersHashMap = new HashMap<Marker, RetailerOffers>();
@@ -252,6 +250,10 @@ public class FragmentOffer extends Fragment {
             }
         });
 
+        dot1 = (ImageView) this.getActivity().findViewById(R.id.dot11);
+        dot2 = (ImageView) this.getActivity().findViewById(R.id.dot22);
+        dot3 = (ImageView) this.getActivity().findViewById(R.id.dot33);
+
         vp = (ViewPager) this.getActivity().findViewById(R.id.pager);
 
         /**
@@ -264,13 +266,30 @@ public class FragmentOffer extends Fragment {
             @Override
             public void onPageSelected(int pos) {
                 currentPage = pos;
-                System.out.println("VPager page:" + pos);
+                System.out.println("VPager page:" + currentPage);
+                if (currentPage == 0) {
+                    dot1.setImageResource(R.drawable.doton);
+                    dot2.setImageResource(R.drawable.dotoff);
+                    dot3.setImageResource(R.drawable.dotoff);
+                } else if (currentPage == 1) {
+                    dot1.setImageResource(R.drawable.dotoff);
+                    dot2.setImageResource(R.drawable.doton);
+                    dot3.setImageResource(R.drawable.dotoff);
+                } else {
+                    dot1.setImageResource(R.drawable.dotoff);
+                    dot2.setImageResource(R.drawable.dotoff);
+                    dot3.setImageResource(R.drawable.doton);
+                }
             }
 
             public final int getCurrentPage() {
                 return currentPage;
             }
         });
+
+
+        mapView.onResume();
+
 
     }
 
@@ -383,13 +402,8 @@ public class FragmentOffer extends Fragment {
                 gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
-                        System.out.println("MyMarker has been clicked!");
                         marker.showInfoWindow();
-                        //marker.hideInfoWindow();
-                        Projection projection = gMap.getProjection();
-                        LatLng markerLocation = marker.getPosition();
-                        Point screenPosition = projection.toScreenLocation(markerLocation);
-                        System.out.println("OnMarkerClick! Position" + screenPosition.toString());
+
                         return true;
                     }
                 });
@@ -420,7 +434,8 @@ public class FragmentOffer extends Fragment {
             tHolder.setVisibility(View.GONE);
 
             //final Marker tempMarker = marker;
-            RetailerOffers ro = mSimpleMarkersHashMap.get(marker);
+            final RetailerOffers ro = mSimpleMarkersHashMap.get(marker);
+            Offer[] offers = ro.getOffers();
 
             final int cat = ro.getCategory();
             final String url = ro.getSite();
@@ -434,8 +449,33 @@ public class FragmentOffer extends Fragment {
                 markerStoreName.setText(ro.getStoreName());
                 return v;
             } else {
+                numOffers = offers.length;
+
                 vp.setAdapter(new ViewPagerAdapter(((Activity) context), ro));
+
+
                 ll.setVisibility(View.VISIBLE);
+                System.out.println("Number of offers:" + numOffers);
+                if (numOffers == 1) {
+                    System.out.println("Inside:" + 1);
+                    dot1.setVisibility(View.VISIBLE);
+                    dot1.setImageResource(R.drawable.doton);
+                    dot2.setVisibility(View.GONE);
+                    dot3.setVisibility(View.GONE);
+                } else if (numOffers == 2) {
+                    System.out.println("Inside:" + 2);
+                    dot1.setVisibility(View.VISIBLE);
+                    dot1.setImageResource(R.drawable.doton);
+                    dot2.setVisibility(View.VISIBLE);
+                    dot3.setVisibility(View.GONE);
+                } else {
+                    System.out.println("Inside:" + 3);
+                    dot1.setVisibility(View.VISIBLE);
+                    dot1.setImageResource(R.drawable.doton);
+                    dot2.setVisibility(View.VISIBLE);
+                    dot3.setVisibility(View.VISIBLE);
+                }
+
                 tHolder.setVisibility(View.VISIBLE);
                 return null;
 
@@ -445,15 +485,13 @@ public class FragmentOffer extends Fragment {
 
     public class ViewPagerAdapter extends PagerAdapter {
         LayoutInflater inflater;
-        String[] country = new String[]{"China", "India", "United States", "Indonesia",
-                "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Japan"};
 
         Offer[] offers;
         public ImageLoader imageLoader;
         Context context;
         RetailerOffers retailerOffers;
 
-        ViewPagerAdapter(Context c, RetailerOffers ro){
+        ViewPagerAdapter(Context c, RetailerOffers ro) {
             retailerOffers = ro;
             offers = ro.getOffers();
             context = c;
@@ -462,6 +500,7 @@ public class FragmentOffer extends Fragment {
 
         @Override
         public int getCount() {
+            numOffers = offers.length;
             return offers.length;
         }
 
@@ -471,32 +510,77 @@ public class FragmentOffer extends Fragment {
         }
 
 
-
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 
             Offer o = offers[position];
-            System.out.println(o.getDescription());
             inflater = (LayoutInflater) getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View itemView = inflater.inflate(R.layout.viewpager_item, container,
+            View itemView = inflater.inflate(R.layout.item_viewpager, container,
                     false);
 
             ImageView offerImage = (ImageView) itemView.findViewById(R.id.offerImage);
             String imageUrl = Constants.BASE_URL + "/images/offers/" + o.getOfferId() + ".png";
             //imageLoader.DisplayImage(Constants.BASE_URL + r.getSmallImage(), holder.image1);
             imageLoader.DisplayImage(imageUrl, offerImage);
-            TextView txtcountry = (TextView) itemView.findViewById(R.id.txtOfferDesc);
-            txtcountry.setText(o.getDescription());
+            TextView txtOfferDesc = (TextView) itemView.findViewById(R.id.txtOfferDesc);
+            txtOfferDesc.setText(o.getDescription());
             TextView txtStoreName = (TextView) itemView.findViewById(R.id.txtStoreName);
             txtStoreName.setText(retailerOffers.getName());
             ((ViewPager) container).addView(itemView);
+
+            txtOfferDesc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("ViewPager has been clicked...");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ORIGIN", "map");
+                    bundle.putSerializable("RETAILEROFFERS", retailerOffers);
+                    FragmentRetailerDetail nextFrag = new FragmentRetailerDetail();
+                    nextFrag.setArguments(bundle);
+                    FragmentTransaction transaction = ((Activity) context).getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.theFragment, nextFrag)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+            txtStoreName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("ViewPager has been clicked...");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ORIGIN", "map");
+                    bundle.putSerializable("RETAILEROFFERS", retailerOffers);
+                    FragmentRetailerDetail nextFrag = new FragmentRetailerDetail();
+                    nextFrag.setArguments(bundle);
+                    FragmentTransaction transaction = ((Activity) context).getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.theFragment, nextFrag)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+            offerImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("ViewPager has been clicked...");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ORIGIN", "map");
+                    bundle.putSerializable("RETAILEROFFERS", retailerOffers);
+                    FragmentRetailerDetail nextFrag = new FragmentRetailerDetail();
+                    nextFrag.setArguments(bundle);
+                    FragmentTransaction transaction = ((Activity) context).getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.theFragment, nextFrag)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+
             return itemView;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            // Remove viewpager_item.xml from ViewPager
+            // Remove item_viewpager.xml from ViewPager
             ((ViewPager) container).removeView((RelativeLayout) object);
         }
     }
