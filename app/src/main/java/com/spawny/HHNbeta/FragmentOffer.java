@@ -16,6 +16,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.spawny.HHNbeta.data.Offer;
 import com.spawny.HHNbeta.data.RetailerOffers;
 
 import java.util.ArrayList;
@@ -65,6 +69,8 @@ public class FragmentOffer extends Fragment {
     LinearLayout ll;
     TextView data;
     ImageView tHolder;
+
+    private ViewPager vp;
 
 
     @Override
@@ -246,6 +252,26 @@ public class FragmentOffer extends Fragment {
             }
         });
 
+        vp = (ViewPager) this.getActivity().findViewById(R.id.pager);
+
+        /**
+         * Get the current vPager position from the ViewPager by
+         * extending SimpleOnPageChangeListener class and updating the TextView
+         */
+        vp.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            private int currentPage;
+
+            @Override
+            public void onPageSelected(int pos) {
+                currentPage = pos;
+                System.out.println("VPager page:" + pos);
+            }
+
+            public final int getCurrentPage() {
+                return currentPage;
+            }
+        });
+
     }
 
 
@@ -312,7 +338,7 @@ public class FragmentOffer extends Fragment {
                 Marker currentMarker = gMap.addMarker(markerOption);
                 mSimpleMarkersHashMap.put(currentMarker, ro);
 
-                gMap.setInfoWindowAdapter(new SimpleInfoWindowAdapter());
+                gMap.setInfoWindowAdapter(new SimpleInfoWindowAdapter(getActivity()));
 
 
             }
@@ -375,7 +401,11 @@ public class FragmentOffer extends Fragment {
 
 
     public class SimpleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        public SimpleInfoWindowAdapter() {
+
+        Context context;
+
+        public SimpleInfoWindowAdapter(Context c) {
+            context = c;
         }
 
         @Override
@@ -388,52 +418,51 @@ public class FragmentOffer extends Fragment {
         public View getInfoContents(Marker marker) {
             ll.setVisibility(View.GONE);
             tHolder.setVisibility(View.GONE);
-            View v;
-            final Marker tempMarker = marker;
-            RetailerOffers ro = mSimpleMarkersHashMap.get(marker);
 
+            //final Marker tempMarker = marker;
+            RetailerOffers ro = mSimpleMarkersHashMap.get(marker);
 
             final int cat = ro.getCategory();
             final String url = ro.getSite();
 
-            /*if (cat == 99) {
+            if (cat == 99) {
+                View v;
                 v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_simple, null);
                 TextView markerDescription = (TextView) v.findViewById(R.id.spotWindowSimpleDescription);
                 TextView markerStoreName = (TextView) v.findViewById(R.id.spotWindowSimpleRetailer);
-                markerDescription.setText(myMarker.getDescription());
-                markerStoreName.setText(myMarker.getStoreName());
+                markerDescription.setText(ro.getDescription());
+                markerStoreName.setText(ro.getStoreName());
+                return v;
             } else {
-                v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_complex, null);
+                vp.setAdapter(new ViewPagerAdapter(((Activity) context), ro));
+                ll.setVisibility(View.VISIBLE);
+                tHolder.setVisibility(View.VISIBLE);
+                return null;
 
-                TextView txtPve = (TextView) v.findViewById(R.id.txtPve);
-                TextView txtNve = (TextView) v.findViewById(R.id.txtNve);
-                txtPve.setText("0");
-                txtNve.setText("0");
-
-
-            }*/
-            if (cat == 99) {
-                //data.setText("Store: " + ro.getStoreName());
-            } else {
-                //data.setText("Postcode: " + ro.getPostcode());
             }
-            ll.setVisibility(View.VISIBLE);
-            tHolder.setVisibility(View.VISIBLE);
-
-
-            v = getActivity().getLayoutInflater().inflate(R.layout.fragment_filler, null);
-            return null;
         }
     }
 
-    /*class ViewPagerAdapter extends PagerAdapter {
+    public class ViewPagerAdapter extends PagerAdapter {
         LayoutInflater inflater;
         String[] country = new String[]{"China", "India", "United States", "Indonesia",
                 "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Japan"};
 
+        Offer[] offers;
+        public ImageLoader imageLoader;
+        Context context;
+        RetailerOffers retailerOffers;
+
+        ViewPagerAdapter(Context c, RetailerOffers ro){
+            retailerOffers = ro;
+            offers = ro.getOffers();
+            context = c;
+            imageLoader = new ImageLoader(context);
+        }
+
         @Override
         public int getCount() {
-            return country.length;
+            return offers.length;
         }
 
         @Override
@@ -441,16 +470,26 @@ public class FragmentOffer extends Fragment {
             return view == ((RelativeLayout) object);
         }
 
+
+
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 
+            Offer o = offers[position];
+            System.out.println(o.getDescription());
             inflater = (LayoutInflater) getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View itemView = inflater.inflate(R.layout.viewpager_item, container,
                     false);
 
-            TextView txtcountry = (TextView) itemView.findViewById(R.id.country);
-            txtcountry.setText(country[position]);
+            ImageView offerImage = (ImageView) itemView.findViewById(R.id.offerImage);
+            String imageUrl = Constants.BASE_URL + "/images/offers/" + o.getOfferId() + ".png";
+            //imageLoader.DisplayImage(Constants.BASE_URL + r.getSmallImage(), holder.image1);
+            imageLoader.DisplayImage(imageUrl, offerImage);
+            TextView txtcountry = (TextView) itemView.findViewById(R.id.txtOfferDesc);
+            txtcountry.setText(o.getDescription());
+            TextView txtStoreName = (TextView) itemView.findViewById(R.id.txtStoreName);
+            txtStoreName.setText(retailerOffers.getName());
             ((ViewPager) container).addView(itemView);
             return itemView;
         }
@@ -460,7 +499,7 @@ public class FragmentOffer extends Fragment {
             // Remove viewpager_item.xml from ViewPager
             ((ViewPager) container).removeView((RelativeLayout) object);
         }
-    }*/
+    }
 
     /**
      * The methods below are templates added to try to prevent the

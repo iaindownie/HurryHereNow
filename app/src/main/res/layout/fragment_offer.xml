@@ -106,7 +106,7 @@
                     android:id="@+id/dot11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/dotoff"  android:visibility="invisible" />
+                    android:src="@drawable/dotoff"  /> <!-- android:visibility="invisible" -->
 
                 <ImageView
                     android:id="@+id/dot22"
@@ -114,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="10.0dip"
                     android:paddingRight="3.0dip"
-                    android:src="@drawable/dotoff"  android:visibility="invisible"/>
+                    android:src="@drawable/dotoff"  /> <!-- android:visibility="invisible" -->
 
                 <ImageView
                     android:id="@+id/dot33"
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="10.0dip"
                     android:paddingRight="3.0dip"
-                    android:src="@drawable/dotoff"  android:visibility="invisible"/>
+                    android:src="@drawable/dotoff"  /> <!-- android:visibility="invisible" -->
             </LinearLayout>
 
             <LinearLayout
