@@ -1,5 +1,6 @@
 package com.spawny.HHNbeta;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -14,13 +16,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -47,7 +50,7 @@ public class FragmentOffer extends Fragment {
     private String rawOfferJSON = "";
     private String category;
     private MapView mapView;
-    private GoogleMap map;
+    private GoogleMap gMap;
     private LocationManager locManager;
     private Location l;
     private LatLng position;
@@ -57,10 +60,27 @@ public class FragmentOffer extends Fragment {
     private HashMap<Marker, RetailerOffers> mSimpleMarkersHashMap;
     private ArrayList<RetailerOffers> mSimpleMyMarkersArray = new ArrayList<RetailerOffers>();
 
+    private Projection projection;
+
+    LinearLayout ll;
+    TextView data;
+    ImageView tHolder;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
+        // inflate and return the layout
+        View v = inflater.inflate(R.layout.fragment_offer, container, false);
+        return v;
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         // Bundle for if arriving from the Retailers Extra page
         Bundle bundle = getArguments();
@@ -70,19 +90,17 @@ public class FragmentOffer extends Fragment {
             tempLat = bundle.getDouble("LAT", 0.0);
             tempLon = bundle.getDouble("LON", 0.0);
         }
-
-        // inflate and return the layout
-        View v = inflater.inflate(R.layout.fragment_offer, container, false);
-        mapView = (MapView) v.findViewById(R.id.offerMapView);
+        mapView = (MapView) getActivity().findViewById(R.id.offerMapView);
         mapView.onCreate(savedInstanceState);
-        map = mapView.getMap();
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        gMap = mapView.getMap();
+        projection = gMap.getProjection();
+        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         //Map Settings
-        map.getUiSettings().setMyLocationButtonEnabled(true);
-        map.getUiSettings().setCompassEnabled(true);
-        map.getUiSettings().setZoomControlsEnabled(true);
-        map.getUiSettings().setMapToolbarEnabled(false);
+        gMap.getUiSettings().setMyLocationButtonEnabled(true);
+        gMap.getUiSettings().setCompassEnabled(true);
+        gMap.getUiSettings().setZoomControlsEnabled(true);
+        gMap.getUiSettings().setMapToolbarEnabled(false);
 
         MapsInitializer.initialize(getActivity());
 
@@ -107,23 +125,66 @@ public class FragmentOffer extends Fragment {
         }
 
         //Enable GPS
-        map.setMyLocationEnabled(true);
+        gMap.setMyLocationEnabled(true);
 
-        /*map.addMarker(new MarkerOptions()
+        /*gMap.addMarker(new MarkerOptions()
                 .position(new LatLng(52.2068236, 0.1187916))
                 .title("Hello world"));*/
 
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(position, 12);
-        map.moveCamera(update);
+        gMap.moveCamera(update);
+
+
         mapView.onResume();
 
-        return v;
 
-    }
+        ll = (LinearLayout) getActivity().findViewById(R.id.mapPopover);
+        tHolder = (ImageView) getActivity().findViewById(R.id.triangleDown);
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+
+        /*RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ll.getLayoutParams();
+        // Changes the height and width and margins to the specified *pixels*
+        int boxHeight = (new Double(Constants.SCREENHEIGHT * 0.5).intValue());
+        int boxWidth = (new Double(Constants.SCREENWIDTH * 0.75).intValue());
+        int sideMargin = (new Double(Constants.SCREENWIDTH * 0.15).intValue());
+        int bottomMargin = (new Double(Constants.SCREENHEIGHT * 0.48).intValue());
+        int topMargin = (new Double(Constants.SCREENHEIGHT * 0.1).intValue());
+        int centerPointH = boxHeight/2;
+        int centerPointW = boxWidth/2;
+
+        System.out.println("Width = " + boxWidth + "w x Height = " + boxHeight + "h");
+        System.out.println("BoxWidth = " + boxWidth + "w x BoxHeight = " + boxHeight + "h");
+        System.out.println("SideMargin = " + sideMargin + "px : TopMargin = " + topMargin + "px");
+        System.out.println("CenterPoint = " + centerPointW + " : " + centerPointH);
+
+
+        //params.height = boxHeight;
+        //params.width = boxWidth;
+        //params.leftMargin = sideMargin;
+        //params.rightMargin = sideMargin;
+        //params.topMargin = topMargin;
+        //params.bottomMargin = bottomMargin;
+
+
+        data = (TextView) getActivity().findViewById(R.id.txtNve);
+        data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myToast("Touched!", Toast.LENGTH_SHORT);
+            }
+        });*/
+
+
+        ll.setVisibility(View.GONE);
+        tHolder.setVisibility(View.GONE);
+
+        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                ll.setVisibility(View.GONE);
+                tHolder.setVisibility(View.GONE);
+            }
+        });
 
         // Initialize the HashMap for Markers and MyMarker object
         mSimpleMarkersHashMap = new HashMap<Marker, RetailerOffers>();
@@ -148,6 +209,7 @@ public class FragmentOffer extends Fragment {
                 mSimpleMyMarkersArray = JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category);
                 setUpMap();
                 plotSimpleMarkers(mSimpleMyMarkersArray);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -225,11 +287,38 @@ public class FragmentOffer extends Fragment {
             if (this.asyncDialog.isShowing()) {
                 this.asyncDialog.dismiss();
             }
-            //showMarkers();
             setUpMap();
             plotSimpleMarkers(mSimpleMyMarkersArray);
         }
     }
+
+
+    private void plotSimpleMarkers(ArrayList<RetailerOffers> retailers) {
+
+        if (retailers.size() > 0) {
+            for (RetailerOffers ro : retailers) {
+
+                final int cat = ro.getCategory();
+
+                // Create user marker with custom icon and other options
+                MarkerOptions markerOption = new MarkerOptions().position(new LatLng(ro.getLatitude(), ro.getLongitude()));
+                if (cat == 99) {
+                    markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.spotshare));
+                } else {
+                    markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_marker));
+                }
+
+
+                Marker currentMarker = gMap.addMarker(markerOption);
+                mSimpleMarkersHashMap.put(currentMarker, ro);
+
+                gMap.setInfoWindowAdapter(new SimpleInfoWindowAdapter());
+
+
+            }
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -255,41 +344,26 @@ public class FragmentOffer extends Fragment {
         mapView.onLowMemory();
     }
 
-
-    private void plotSimpleMarkers(ArrayList<RetailerOffers> markers) {
-
-        if (markers.size() > 0) {
-            for (RetailerOffers myMarker : markers) {
-
-                final int cat = myMarker.getCategory();
-
-                // Create user marker with custom icon and other options
-                MarkerOptions markerOption = new MarkerOptions().position(new LatLng(myMarker.getLatitude(), myMarker.getLongitude()));
-                if (cat == 99) {
-                    markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.spotshare));
-                } else {
-                    markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_marker));
-                }
-
-                Marker currentMarker = map.addMarker(markerOption);
-                mSimpleMarkersHashMap.put(currentMarker, myMarker);
-
-                map.setInfoWindowAdapter(new SimpleInfoWindowAdapter());
-
-            }
-        }
+    public void myToast(String str, int len) {
+        Toast.makeText(getActivity(), str, len).show();
     }
 
 
     private void setUpMap() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (map == null) {
+        // Do a null check to confirm that we have not already instantiated the gMap.
+        if (gMap == null) {
 
-            if (map != null) {
-                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            if (gMap != null) {
+                gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
+                        System.out.println("MyMarker has been clicked!");
                         marker.showInfoWindow();
+                        //marker.hideInfoWindow();
+                        Projection projection = gMap.getProjection();
+                        LatLng markerLocation = marker.getPosition();
+                        Point screenPosition = projection.toScreenLocation(markerLocation);
+                        System.out.println("OnMarkerClick! Position" + screenPosition.toString());
                         return true;
                     }
                 });
@@ -309,52 +383,50 @@ public class FragmentOffer extends Fragment {
             return null;
         }
 
+
         @Override
         public View getInfoContents(Marker marker) {
+            ll.setVisibility(View.GONE);
+            tHolder.setVisibility(View.GONE);
             View v;
-            RetailerOffers myMarker = mSimpleMarkersHashMap.get(marker);
+            final Marker tempMarker = marker;
+            RetailerOffers ro = mSimpleMarkersHashMap.get(marker);
 
-            final int cat = myMarker.getCategory();
-            final String url = myMarker.getSite();
 
-            if (cat == 99) {
+            final int cat = ro.getCategory();
+            final String url = ro.getSite();
+
+            /*if (cat == 99) {
                 v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_simple, null);
                 TextView markerDescription = (TextView) v.findViewById(R.id.spotWindowSimpleDescription);
                 TextView markerStoreName = (TextView) v.findViewById(R.id.spotWindowSimpleRetailer);
                 markerDescription.setText(myMarker.getDescription());
                 markerStoreName.setText(myMarker.getStoreName());
             } else {
-                /*v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_complex, null);
+                v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_complex, null);
 
                 TextView txtPve = (TextView) v.findViewById(R.id.txtPve);
                 TextView txtNve = (TextView) v.findViewById(R.id.txtNve);
                 txtPve.setText("0");
-                txtNve.setText("0");*/
+                txtNve.setText("0");
 
-                /*ViewPager vPager = null;
-                vPager = (ViewPager) v.findViewById(R.id.pager);
-                vPager.setAdapter(new ViewPagerAdapter());*/
-                v = getActivity().getLayoutInflater().inflate(R.layout.marker_filler, null);
-                Toast.makeText(getActivity(), "Need a properly positioned overlay", Toast.LENGTH_SHORT).show();
 
+            }*/
+            if (cat == 99) {
+                //data.setText("Store: " + ro.getStoreName());
+            } else {
+                //data.setText("Postcode: " + ro.getPostcode());
             }
-
-            /*map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                @Override
-                public void onInfoWindowClick(Marker marker) {
-                    if (cat == 99) {
-                        System.out.println("In Spot & Share: " + url);
-                        // Need to redirect to the Retailers Activity or Fragment here...
-                    }
-                }
-            });*/
+            ll.setVisibility(View.VISIBLE);
+            tHolder.setVisibility(View.VISIBLE);
 
 
-            return v;
+            v = getActivity().getLayoutInflater().inflate(R.layout.fragment_filler, null);
+            return null;
         }
     }
 
-    class ViewPagerAdapter extends PagerAdapter {
+    /*class ViewPagerAdapter extends PagerAdapter {
         LayoutInflater inflater;
         String[] country = new String[]{"China", "India", "United States", "Indonesia",
                 "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Japan"};
@@ -388,6 +460,54 @@ public class FragmentOffer extends Fragment {
             // Remove viewpager_item.xml from ViewPager
             ((ViewPager) container).removeView((RelativeLayout) object);
         }
+    }*/
+
+    /**
+     * The methods below are templates added to try to prevent the
+     * fragments crashing on loading after sleep.
+     */
+    public static final String TAG = "FragmentOffer";
+
+    @Override
+    public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(activity, attrs, savedInstanceState);
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("tag", TAG);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }

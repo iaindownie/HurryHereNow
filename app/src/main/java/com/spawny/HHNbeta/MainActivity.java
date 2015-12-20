@@ -6,8 +6,11 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 
 /**
@@ -25,9 +28,18 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        Constants.setScreenWidth(width);
+        Constants.setScreenHeight(height);
+        System.out.println(">>> MainActivity screensize from constants = " + Constants.SCREENWIDTH + "w x " + Constants.SCREENHEIGHT + "h");
+
         prefs = getPreferences(Context.MODE_PRIVATE);
         starter = prefs.getString("ORIGINATOR", "MAP");
-        System.out.println("Starter: " + starter);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -99,7 +111,7 @@ public class MainActivity extends Activity {
 
     }
 
-    public void updateOffersButton(boolean state){
+    public void updateOffersButton(boolean state) {
         offersButton.setEnabled(state);
     }
 

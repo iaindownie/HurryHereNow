@@ -70,7 +70,7 @@ public class OfferCustomAdapter extends BaseAdapter {
 
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.customoffer_item, null);
+            convertView = layoutInflater.inflate(R.layout.item_list_offer, null);
             holder = new ViewHolder();
             holder.image1 = (ImageView) convertView.findViewById(R.id.Image1);
             holder.txtComment = (TextView) convertView.findViewById(R.id.txtComment);
@@ -101,6 +101,7 @@ public class OfferCustomAdapter extends BaseAdapter {
                         .commit();
             }
         });
+        notifyDataSetChanged();
         return convertView;
     }
 

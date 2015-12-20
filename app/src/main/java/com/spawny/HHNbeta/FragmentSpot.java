@@ -1,6 +1,7 @@
 package com.spawny.HHNbeta;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +50,14 @@ public class FragmentSpot extends Fragment {
                              Bundle savedInstanceState) {
         // inflat and return the layout
         View v = inflater.inflate(R.layout.fragment_spot, container, false);
-        mapView = (MapView) v.findViewById(R.id.spotMapView);
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mapView = (MapView) getActivity().findViewById(R.id.spotMapView);
         mapView.onCreate(savedInstanceState);
 
         map = mapView.getMap();
@@ -101,7 +110,7 @@ public class FragmentSpot extends Fragment {
         });*/
 
 
-        TextView but1 = (TextView) v.findViewById(R.id.continueTitle);
+        TextView but1 = (TextView) getActivity().findViewById(R.id.continueTitle);
         but1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 collectSpotDetails();
@@ -110,7 +119,7 @@ public class FragmentSpot extends Fragment {
 
         uploadStatus = "Thanks for sharing your offer with the Hurry Here Now community! It will be activated soon...";
 
-        return v;
+
     }
 
     private void collectSpotDetails() {
@@ -130,7 +139,7 @@ public class FragmentSpot extends Fragment {
 
         TextView termsConditions = (TextView) dialog.findViewById(R.id.txtTandC);
         StringBuilder tandc = new StringBuilder();
-        tandc.append("I agree to the <a href=\"http://www.google.co.uk\">Terms & Conditions</a>:");
+        tandc.append("I agree to the <a href=\"http://www.hurryherenow.com/legal-user-terms.pdf\">Terms & Conditions</a>:");
         termsConditions.setText(Html.fromHtml(tandc.toString()));
         termsConditions.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -243,5 +252,51 @@ public class FragmentSpot extends Fragment {
         }
     }
 
+    /**
+     * The methods below are templates added to try to prevent the
+     * fragments crashing on loading after sleep.
+     */
+    public static final String TAG = "FragmentSpot";
+
+    @Override
+    public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(activity, attrs, savedInstanceState);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("tag", TAG);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 
 }

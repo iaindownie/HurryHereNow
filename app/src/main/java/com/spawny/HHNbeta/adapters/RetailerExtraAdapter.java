@@ -62,7 +62,7 @@ public class RetailerExtraAdapter extends BaseAdapter {
 
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.retailer_extra_item, null);
+            convertView = layoutInflater.inflate(R.layout.item_retailer_extra, null);
             holder = new ViewHolder();
             holder.image1 = (ImageView) convertView.findViewById(R.id.imageView2);
             holder.txtComment = (TextView) convertView.findViewById(R.id.textView);
@@ -73,7 +73,7 @@ public class RetailerExtraAdapter extends BaseAdapter {
         }
 
         if (innerPosition == 0) {
-            holder.image1.setImageResource(R.drawable.chatgrey100);
+            holder.image1.setImageResource(R.drawable.view_retailer_on_map_icon);
             holder.txtComment.setText("View on map");
         } else {
             holder.image1.setImageResource(R.drawable.website);
@@ -94,20 +94,21 @@ public class RetailerExtraAdapter extends BaseAdapter {
                             .commit();
                 } else {
                     String website = ro.getSite();
-                    if(website.length()==0){
+                    if (website.length() == 0) {
                         myToast("No current website for this vendor", Toast.LENGTH_SHORT);
-                    }else{
-                    String urlStart = "http://";
-                    if(!website.startsWith(urlStart)){
-                        website = urlStart + website;
-                    }
-                    Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse(website));
-                    ((Activity) context).startActivity(i);
+                    } else {
+                        String urlStart = "http://";
+                        if (!website.startsWith(urlStart)) {
+                            website = urlStart + website;
+                        }
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(website));
+                        ((Activity) context).startActivity(i);
                     }
                 }
 
             }
         });
+        notifyDataSetChanged();
         return convertView;
     }
 

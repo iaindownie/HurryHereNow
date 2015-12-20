@@ -59,7 +59,7 @@ public class OfferListCustomAdapter extends BaseAdapter {
 
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.retailer_offer_list_item, null);
+            convertView = layoutInflater.inflate(R.layout.item_retailer_offer_list, null);
             holder = new ViewHolder();
             holder.image1 = (ImageView) convertView.findViewById(R.id.Image1);
             holder.txtComment = (TextView) convertView.findViewById(R.id.txtComment);
@@ -74,7 +74,7 @@ public class OfferListCustomAdapter extends BaseAdapter {
         imageLoader.DisplayImage(imageUrl, holder.image1);
         holder.txtComment.setText(anOffer.getDescription());
         holder.txtDaysLeft.setText(Utils.getDaysRemaining(anOffer.getEndDate()) + "d");
-
+        notifyDataSetChanged();
         return convertView;
     }
 

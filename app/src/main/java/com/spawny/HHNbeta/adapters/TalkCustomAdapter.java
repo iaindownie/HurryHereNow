@@ -58,7 +58,7 @@ public class TalkCustomAdapter extends BaseAdapter {
         HashMap aMap = (HashMap) aList.get(position);
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.talk_item, null);
+            convertView = layoutInflater.inflate(R.layout.item_talk, null);
             holder = new ViewHolder();
             holder.likeBooleanImage = (ImageView) convertView.findViewById(R.id.likeBooleanImage);
             holder.txtComment = (TextView) convertView.findViewById(R.id.txtComment);
@@ -85,6 +85,7 @@ public class TalkCustomAdapter extends BaseAdapter {
                 Toast.makeText(context, "Item " + (innerPosition + 1) + ": Option to do more...", Toast.LENGTH_SHORT).show();
             }
         });*/
+        notifyDataSetChanged();
         return convertView;
     }
 

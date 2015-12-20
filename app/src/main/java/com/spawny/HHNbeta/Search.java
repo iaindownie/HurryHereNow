@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 
 /**
  * Created by iaindownie on 11/12/2015.
- * Main search Activity (not a Fragment). Reopens
+ * Main search_screen Activity (not a Fragment). Reopens
  * Main Activity once used, passing Category to Bundle and
  * Shared Preferences
  */
@@ -25,7 +25,7 @@ public class Search extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.search);
+        setContentView(R.layout.search_screen);
 
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
