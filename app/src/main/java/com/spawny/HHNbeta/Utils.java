@@ -41,7 +41,7 @@ public class Utils {
         Calendar end = convertToCalendar(endDate);
         long diff = end.getTime().getTime() - now.getTime().getTime();
         Long diffDays = diff / (24 * 60 * 60 * 1000);
-        return diffDays.intValue();
+        return diffDays.intValue()+1;
     }
 
     /**

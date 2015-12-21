@@ -70,7 +70,7 @@ public class OfferListCustomAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        String imageUrl = Constants.BASE_URL + "/images/offers/" + anOffer.getOfferId() + ".png";
+        String imageUrl = Constants.WWW_BASE_URL + "/images/offers/" + anOffer.getOfferId() + ".png";
         imageLoader.DisplayImage(imageUrl, holder.image1);
         holder.txtComment.setText(anOffer.getDescription());
         holder.txtDaysLeft.setText(Utils.getDaysRemaining(anOffer.getEndDate()) + "d");

@@ -1,6 +1,7 @@
 package com.spawny.HHNbeta;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -21,7 +22,10 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -68,9 +72,13 @@ public class FragmentOffer extends Fragment {
 
     LinearLayout ll;
     ImageView tHolder;
-    ImageView dot1, dot2, dot3;
+    ImageView dot1, dot2, dot3, pveImage, nveImage;
+    TextView clock, pve, nve;
 
     private ViewPager vp;
+
+    private RetailerOffers ros;
+    private Offer[] outerOffers;
 
 
     @Override
@@ -180,7 +188,7 @@ public class FragmentOffer extends Fragment {
             @Override
             public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
                 LatLng position2 = marker.getPosition();
-                double newLat = position2.latitude + 0.003;
+                double newLat = position2.latitude + 0.005;
                 double newLon = position2.longitude;
                 CameraUpdate update = CameraUpdateFactory.newLatLng(new LatLng(newLat, newLon));
                 gMap.moveCamera(update);
@@ -203,10 +211,9 @@ public class FragmentOffer extends Fragment {
         editor.apply();
         //category = prefs.getString("CATEGORY", "0");
         category = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("CATEGORY", "0");
-        System.out.println("MAP Category: " + category);
 
-        //new DownloadOffersTask().execute();
-        if (rawOfferJSON.length() == 0 || (diffInTime > 600000)) {
+        // If no data or data is 5 minutes old
+        if (rawOfferJSON.length() == 0 || (diffInTime > 300000)) {
             new DownloadOffersTask().execute();
         } else {
             try {
@@ -256,6 +263,12 @@ public class FragmentOffer extends Fragment {
 
         vp = (ViewPager) this.getActivity().findViewById(R.id.pager);
 
+        clock = (TextView) this.getActivity().findViewById(R.id.txtOfferEnds);
+        pveImage = (ImageView) this.getActivity().findViewById(R.id.imgThumbsUp);
+        nveImage = (ImageView) this.getActivity().findViewById(R.id.imgThumbsDown);
+        pve = (TextView) this.getActivity().findViewById(R.id.txtPve);
+        nve = (TextView) this.getActivity().findViewById(R.id.txtNve);
+
         /**
          * Get the current vPager position from the ViewPager by
          * extending SimpleOnPageChangeListener class and updating the TextView
@@ -266,19 +279,49 @@ public class FragmentOffer extends Fragment {
             @Override
             public void onPageSelected(int pos) {
                 currentPage = pos;
-                System.out.println("VPager page:" + currentPage);
+                clock.setText(Utils.getDaysRemaining(outerOffers[currentPage].getEndDate()) + "d");
+                pve.setText("" + outerOffers[currentPage].getPve());
+                nve.setText("" + outerOffers[currentPage].getNve());
+                pve.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), true);
+                    }
+                });
+                nve.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), false);
+                    }
+                });
+                pveImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), true);
+                    }
+                });
+                nveImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), false);
+                    }
+                });
+
                 if (currentPage == 0) {
                     dot1.setImageResource(R.drawable.doton);
                     dot2.setImageResource(R.drawable.dotoff);
                     dot3.setImageResource(R.drawable.dotoff);
+
                 } else if (currentPage == 1) {
                     dot1.setImageResource(R.drawable.dotoff);
                     dot2.setImageResource(R.drawable.doton);
                     dot3.setImageResource(R.drawable.dotoff);
+
                 } else {
                     dot1.setImageResource(R.drawable.dotoff);
                     dot2.setImageResource(R.drawable.dotoff);
                     dot3.setImageResource(R.drawable.doton);
+
                 }
             }
 
@@ -293,6 +336,106 @@ public class FragmentOffer extends Fragment {
 
     }
 
+    private void collectRateDetails(String offerId, boolean like) {
+        final String offer_id = offerId;
+        final Dialog dialog = new Dialog(getActivity());
+        final boolean disLike = like;
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+        dialog.setContentView(R.layout.rate_dialog);
+        Button submit = (Button) dialog.findViewById(R.id.rateSubmit);
+        Button dismiss = (Button) dialog.findViewById(R.id.rateDismiss);
+        dialog.show();
+        final EditText txtRateOffer = (EditText) dialog.findViewById(R.id.txtRateOffer);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            // @Override
+            public void onClick(View v) {
+                if (txtRateOffer.getText().toString().length() == 0) {
+                    myToast("Please enter a comment before you submit", Toast.LENGTH_LONG);
+                } else {
+                    String[] s = new String[]{txtRateOffer.getText().toString(),offer_id};
+                    if (disLike) {
+                        new UploadingPositiveRating().execute(s);
+                    } else {
+                        new UploadingNegativeRating().execute(s);
+                    }
+                    InputMethodManager imm = (InputMethodManager) getActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mapView.getWindowToken(), 0);
+                    rateDetailsResult();
+                    dialog.dismiss();
+                }
+            }
+        });
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            // @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void rateDetailsResult() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+        dialog.setContentView(R.layout.rate_dialog_result);
+        Button dismiss = (Button) dialog.findViewById(R.id.spotDismissResult);
+        dialog.show();
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            // @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private class UploadingPositiveRating extends AsyncTask<String, Void, Void> {
+
+        // can use UI thread here
+        protected void onPreExecute() {
+
+        }
+
+        // automatically done on worker thread (separate from UI thread)
+        @Override
+        protected Void doInBackground(String... params) {
+
+            try {
+                String success = JSONUtilities.uploadPositiveRating(params[0], params[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        // can use UI thread here
+        protected void onPostExecute(final String result) {
+        }
+    }
+
+    private class UploadingNegativeRating extends AsyncTask<String, Void, Void> {
+
+        // can use UI thread here
+        protected void onPreExecute() {
+
+        }
+
+        // automatically done on worker thread (separate from UI thread)
+        @Override
+        protected Void doInBackground(String... params) {
+
+            try {
+                String success = JSONUtilities.uploadNegativeRating(params[0], params[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        // can use UI thread here
+        protected void onPostExecute(final String result) {
+        }
+    }
 
     private class DownloadOffersTask extends AsyncTask<String, Void, String> {
         private final ProgressDialog asyncDialog = new ProgressDialog(
@@ -308,9 +451,9 @@ public class FragmentOffer extends Fragment {
         // automatically done on worker thread (separate from UI thread)
         protected String doInBackground(final String... args) {
             try {
-                String rootURL = "http://api.hurryherenow.com/api/promotions?";
-                String lat = "latitude=52.415127";
-                String lon = "longitude=0.7504132";
+                String rootURL = Constants.API_BASE_URL + "/api/promotions?";
+                String lat = "latitude=" + position.latitude;
+                String lon = "longitude=" + position.longitude;
                 String distance = "distance=" + Constants.PROMOTIONS_DISTANCE;
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
@@ -432,10 +575,11 @@ public class FragmentOffer extends Fragment {
         public View getInfoContents(Marker marker) {
             ll.setVisibility(View.GONE);
             tHolder.setVisibility(View.GONE);
+            outerOffers = null;
 
             //final Marker tempMarker = marker;
             final RetailerOffers ro = mSimpleMarkersHashMap.get(marker);
-            Offer[] offers = ro.getOffers();
+            final Offer[] offers = ro.getOffers();
 
             final int cat = ro.getCategory();
             final String url = ro.getSite();
@@ -453,28 +597,55 @@ public class FragmentOffer extends Fragment {
 
                 vp.setAdapter(new ViewPagerAdapter(((Activity) context), ro));
 
+                ros = ro;
+                outerOffers = offers;
+
 
                 ll.setVisibility(View.VISIBLE);
-                System.out.println("Number of offers:" + numOffers);
+                clock.setText(Utils.getDaysRemaining(offers[0].getEndDate()) + "d");
+                pve.setText("" + offers[0].getPve());
+                nve.setText("" + offers[0].getNve());
+                pve.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        collectRateDetails("" + offers[0].getOfferId(), true);
+                    }
+                });
+                nve.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        collectRateDetails("" + offers[0].getOfferId(), false);
+                    }
+                });
+                pveImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        collectRateDetails("" + offers[0].getOfferId(), true);
+                    }
+                });
+                nveImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        collectRateDetails("" + offers[0].getOfferId(), false);
+                    }
+                });
                 if (numOffers == 1) {
-                    System.out.println("Inside:" + 1);
                     dot1.setVisibility(View.VISIBLE);
                     dot1.setImageResource(R.drawable.doton);
                     dot2.setVisibility(View.GONE);
                     dot3.setVisibility(View.GONE);
                 } else if (numOffers == 2) {
-                    System.out.println("Inside:" + 2);
                     dot1.setVisibility(View.VISIBLE);
                     dot1.setImageResource(R.drawable.doton);
                     dot2.setVisibility(View.VISIBLE);
                     dot3.setVisibility(View.GONE);
                 } else {
-                    System.out.println("Inside:" + 3);
                     dot1.setVisibility(View.VISIBLE);
                     dot1.setImageResource(R.drawable.doton);
                     dot2.setVisibility(View.VISIBLE);
                     dot3.setVisibility(View.VISIBLE);
                 }
+
 
                 tHolder.setVisibility(View.VISIBLE);
                 return null;
@@ -520,7 +691,7 @@ public class FragmentOffer extends Fragment {
                     false);
 
             ImageView offerImage = (ImageView) itemView.findViewById(R.id.offerImage);
-            String imageUrl = Constants.BASE_URL + "/images/offers/" + o.getOfferId() + ".png";
+            String imageUrl = Constants.WWW_BASE_URL + "/images/offers/" + o.getOfferId() + ".png";
             //imageLoader.DisplayImage(Constants.BASE_URL + r.getSmallImage(), holder.image1);
             imageLoader.DisplayImage(imageUrl, offerImage);
             TextView txtOfferDesc = (TextView) itemView.findViewById(R.id.txtOfferDesc);
@@ -532,7 +703,6 @@ public class FragmentOffer extends Fragment {
             txtOfferDesc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("ViewPager has been clicked...");
                     Bundle bundle = new Bundle();
                     bundle.putString("ORIGIN", "map");
                     bundle.putSerializable("RETAILEROFFERS", retailerOffers);
@@ -547,7 +717,6 @@ public class FragmentOffer extends Fragment {
             txtStoreName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("ViewPager has been clicked...");
                     Bundle bundle = new Bundle();
                     bundle.putString("ORIGIN", "map");
                     bundle.putSerializable("RETAILEROFFERS", retailerOffers);
@@ -562,7 +731,6 @@ public class FragmentOffer extends Fragment {
             offerImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("ViewPager has been clicked...");
                     Bundle bundle = new Bundle();
                     bundle.putString("ORIGIN", "map");
                     bundle.putSerializable("RETAILEROFFERS", retailerOffers);

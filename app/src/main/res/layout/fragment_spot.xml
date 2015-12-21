@@ -73,7 +73,7 @@
             android:layout_gravity="center"
             android:background="@android:color/transparent"
             android:paddingBottom="42.0dip"
-            android:src="@drawable/floatingpin" />
+            android:src="@drawable/spotshare" />
     </RelativeLayout>
 
 

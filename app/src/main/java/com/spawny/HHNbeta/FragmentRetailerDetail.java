@@ -91,7 +91,7 @@ public class FragmentRetailerDetail extends ListFragment {
         TextView address = (TextView) getActivity().findViewById(R.id.txtAddress);
         address.setText(formatAddress(ro));
         imageView = (ImageView) getActivity().findViewById(R.id.imgBigLogo);
-        new ImageLoadTask(Constants.BASE_URL + rT.getLargeImage(), imageView).execute();
+        new ImageLoadTask(Constants.WWW_BASE_URL + rT.getLargeImage(), imageView).execute();
 
         offerListCustomAdapter = new OfferListCustomAdapter(getActivity(), o);
         setListAdapter(offerListCustomAdapter);

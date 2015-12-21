@@ -82,7 +82,7 @@ public class OfferCustomAdapter extends BaseAdapter {
         }
 
         //holder.image1.setImageResource(R.drawable.thumbsup);
-        String imageUrl = Constants.BASE_URL + "/images/offers/" + o.getOfferId() + ".png";
+        String imageUrl = Constants.WWW_BASE_URL + "/images/offers/" + o.getOfferId() + ".png";
         //imageLoader.DisplayImage(Constants.BASE_URL + r.getSmallImage(), holder.image1);
         imageLoader.DisplayImage(imageUrl, holder.image1);
         holder.txtComment.setText(o.getDescription());

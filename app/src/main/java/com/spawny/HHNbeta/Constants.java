@@ -8,8 +8,9 @@ public class Constants {
 
     // Set default distance for promotions API
     public static int PROMOTIONS_DISTANCE = 50;
-    // Set base URL for use throughout App
-    public static String BASE_URL = "http://hurryherenow.com";
+    // Set base URLs for use throughout App
+    public static String API_BASE_URL = "http://api.hurryherenow.com";
+    public static String WWW_BASE_URL = "http://www.hurryherenow.com";
 
     public static int SCREENWIDTH = 0;
     public static int SCREENHEIGHT = 0;

@@ -17,14 +17,17 @@
         <TextView
             android:id="@+id/imgBtnBack"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:layout_gravity="left|center_vertical"
             android:layout_marginRight="20dp"
             android:background="@color/Red_700"
             android:text="&lt; Back"
             android:textColor="@color/lighter_gray"
             android:textSize="15dip"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+
+            />
 
         <TextView
             android:id="@+id/txtCompanyName"
@@ -48,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="46.0dip"
             android:layout_gravity="center_vertical|right"
-            android:background="@android:color/transparent"
+            android:background="@color/transparent"
             android:gravity="right"
             android:scaleType="fitCenter"
             android:src="@drawable/ellipsize" />

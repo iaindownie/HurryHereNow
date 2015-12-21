@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
         int height = size.y;
         Constants.setScreenWidth(width);
         Constants.setScreenHeight(height);
-        System.out.println(">>> MainActivity screensize from constants = " + Constants.SCREENWIDTH + "w x " + Constants.SCREENHEIGHT + "h");
+        //System.out.println(">>> MainActivity screensize from constants = " + Constants.SCREENWIDTH + "w x " + Constants.SCREENHEIGHT + "h");
 
         prefs = getPreferences(Context.MODE_PRIVATE);
         starter = prefs.getString("ORIGINATOR", "MAP");
@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
         talkButton = (ImageButton) findViewById(R.id.button3);
         switch (view.getId()) {
             case R.id.button1:
-                System.out.println("Offer button used...");
+                //System.out.println("Offer button used...");
                 fr = new FragmentOffer();
                 talkButton.setImageDrawable(getResources().getDrawable(R.drawable.chatgrey100));
                 offersButton.setImageDrawable(getResources().getDrawable(R.drawable.offersred100));
@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
                 talkButton.setEnabled(true);
                 break;
             case R.id.button2:
-                System.out.println("Spot button used...");
+                //System.out.println("Spot button used...");
                 fr = new FragmentSpot();
                 talkButton.setImageDrawable(getResources().getDrawable(R.drawable.chatgrey100));
                 offersButton.setImageDrawable(getResources().getDrawable(R.drawable.offersgrey100));
@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
                 talkButton.setEnabled(true);
                 break;
             case R.id.button3:
-                System.out.println("Talk button used...");
+                //System.out.println("Talk button used...");
                 fr = new FragmentTalk();
                 talkButton.setImageDrawable(getResources().getDrawable(R.drawable.chatred100));
                 offersButton.setImageDrawable(getResources().getDrawable(R.drawable.offersgrey100));
@@ -93,17 +93,6 @@ public class MainActivity extends Activity {
                 fr = new FragmentOffer();
                 break;
         }
-
-
-
-
-        /*if (view == findViewById(R.id.button2)) {
-            fr = new FragmentSpot();
-
-        } else {
-            fr = new FragmentOffer();
-        }*/
-
 
         ft.replace(R.id.theFragment, fr);
         ft.addToBackStack(null);
@@ -121,7 +110,6 @@ public class MainActivity extends Activity {
         //Log.i(TAG, "Activity Life Cycle : onStart : Activity Started");
     }
 
-    // The expandableListView is set as focus to make sure keyboard doesn't appear onResume
     @Override
     protected void onResume() {
         super.onResume();

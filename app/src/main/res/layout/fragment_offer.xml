@@ -135,8 +135,8 @@
                 android:background="#ffeeeeee"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="8.0dip"
-                android:paddingTop="8.0dip">
+                android:paddingBottom="3.0dip"
+                android:paddingTop="3.0dip">
 
                 <ImageView
                     android:id="@+id/imageView1"

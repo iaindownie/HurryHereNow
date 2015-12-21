@@ -70,10 +70,9 @@ public class FragmentList extends ListFragment {
         if (category.equals("99")) {
             category = "0";
         }
-        System.out.println("LIST Category: " + category);
 
-        //new DownloadOffersTask().execute();
-        if (rawOfferJSON.length() == 0 || (diffInTime > 600000)) {
+        // If no data or data is 5 minutes old
+        if (rawOfferJSON.length() == 0 || (diffInTime > 300000)) {
             new DownloadOffersTask().execute();
         } else {
             try {
@@ -151,9 +150,9 @@ public class FragmentList extends ListFragment {
         // automatically done on worker thread (separate from UI thread)
         protected String doInBackground(final String... args) {
             try {
-                String rootURL = Constants.BASE_URL + "/api/promotions?";
+                String rootURL = Constants.API_BASE_URL + "/api/promotions?";
                 String lat = "latitude=" + position.latitude;
-                String lon = "longitude=0.7504132" + position.longitude;
+                String lon = "longitude=" + position.longitude;
                 String distance = "distance=" + Constants.PROMOTIONS_DISTANCE;
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;

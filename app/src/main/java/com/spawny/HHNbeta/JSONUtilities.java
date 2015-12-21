@@ -107,7 +107,7 @@ public class JSONUtilities {
      * @return - Success or fail with error message
      */
     public static String uploadSpotAndShare(String sN, String sDesc, String lat, String lon) {
-        String rootUrl = Constants.BASE_URL + "/api/user-offer?";
+        String rootUrl = Constants.API_BASE_URL + "/api/user-offer?";
         int statusCode = 0;
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -117,6 +117,71 @@ public class JSONUtilities {
             urlParameters.add(new BasicNameValuePair("description", sDesc));
             urlParameters.add(new BasicNameValuePair("latitude", lat));
             urlParameters.add(new BasicNameValuePair("longitude", lon));
+
+            httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
+
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            statusCode = httpResponse.getStatusLine().getStatusCode();
+
+        } catch (UnsupportedEncodingException e) {
+            return "fail: UnsupportedEncodingException";
+        } catch (MalformedURLException e) {
+            return "fail: MalformedURLException";
+        } catch (IOException e) {
+            return "fail: IOException";
+        }
+
+        if (statusCode == 200) {
+            return "success";
+        } else {
+            return "fail: catchall";
+        }
+    }
+
+
+    public static String uploadPositiveRating(String comment, String offerId) {
+        //System.out.println("Calling + positive rating JSON Utilities + " + offerId);
+        String rootUrl = Constants.API_BASE_URL + "/api/rate?";
+        int statusCode = 0;
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(rootUrl);
+            List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+            urlParameters.add(new BasicNameValuePair("offerId", offerId));
+            urlParameters.add(new BasicNameValuePair("type", "1"));
+            urlParameters.add(new BasicNameValuePair("comment", comment));
+
+            httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
+
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            statusCode = httpResponse.getStatusLine().getStatusCode();
+
+        } catch (UnsupportedEncodingException e) {
+            return "fail: UnsupportedEncodingException";
+        } catch (MalformedURLException e) {
+            return "fail: MalformedURLException";
+        } catch (IOException e) {
+            return "fail: IOException";
+        }
+
+        if (statusCode == 200) {
+            return "success";
+        } else {
+            return "fail: catchall";
+        }
+    }
+
+    public static String uploadNegativeRating(String comment, String offerId) {
+        //System.out.println("Calling - negative rating JSON Utilities + " + offerId);
+        String rootUrl = Constants.API_BASE_URL + "/api/rate?";
+        int statusCode = 0;
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(rootUrl);
+            List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+            urlParameters.add(new BasicNameValuePair("offerId", offerId));
+            urlParameters.add(new BasicNameValuePair("type", "2"));
+            urlParameters.add(new BasicNameValuePair("comment", comment));
 
             httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
 
@@ -170,18 +235,17 @@ public class JSONUtilities {
 
     /**
      * Method to PARSE the Offer JSON String to individual Offer items
-     * @param str - Takes the JSON String
+     *
+     * @param str      - Takes the JSON String
      * @param category - Takes a category to return subsets if needed
      * @return - ArrayList of all Retailers (as POJO's) for all/individual categories
      * @throws Exception
      */
     public static ArrayList<RetailerOffers> convertJSONSpotAndSharePromotionsToArrayList(String str, String category) throws Exception {
-        System.out.println("In convertJSONSpotAndSharePromotionsToArrayList");
         JSONObject json = new JSONObject(str);
         ArrayList everything = new ArrayList();
 
         JSONObject json2 = json.getJSONObject("userSubmitted");
-        System.out.println("Processing userSubmitted");
         Iterator it = json2.keys();
         while (it.hasNext()) {
             RetailerOffers p = new RetailerOffers();
@@ -268,6 +332,7 @@ public class JSONUtilities {
 
     /**
      * Helper method to split the base Retailer POJO to represent individual Offers
+     *
      * @param aList - An ArrayList of Retailers
      * @return - An ArrayList of Offers
      * @throws Exception

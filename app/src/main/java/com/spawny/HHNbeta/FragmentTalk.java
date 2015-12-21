@@ -43,7 +43,8 @@ public class FragmentTalk extends ListFragment {
         long diffInTime = currentTime - lastTime;
         rawTalkJSON = prefs.getString("RAWTALKJSON", "");
 
-        if (rawTalkJSON.length() == 0 || (diffInTime > 600000)) {
+        // If no data or data is 5 minutes old
+        if (rawTalkJSON.length() == 0 || (diffInTime > 300000)) {
             new DownloadTalksTask().execute();
         } else {
             try {
@@ -71,7 +72,7 @@ public class FragmentTalk extends ListFragment {
         // automatically done on worker thread (separate from UI thread)
         protected String doInBackground(final String... args) {
             try {
-                String path = "http://api.hurryherenow.com/api/talk";
+                String path = Constants.API_BASE_URL + "/api/talk";
                 rawTalkJSON = JSONUtilities.downloadAllTalksFromURL(path);
                 allTalks = JSONUtilities.convertJSONTalksToArrayList(rawTalkJSON);
             } catch (Exception e) {
