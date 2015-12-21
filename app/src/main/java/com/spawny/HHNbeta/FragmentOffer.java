@@ -20,6 +20,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -70,7 +71,7 @@ public class FragmentOffer extends Fragment {
 
     private Projection projection;
 
-    LinearLayout ll;
+    LinearLayout ll, opaqueLayer;
     ImageView tHolder;
     ImageView dot1, dot2, dot3, pveImage, nveImage;
     TextView clock, pve, nve;
@@ -145,8 +146,8 @@ public class FragmentOffer extends Fragment {
 
 
         ll = (LinearLayout) getActivity().findViewById(R.id.mapPopover);
+        opaqueLayer = (LinearLayout) getActivity().findViewById(R.id.opaqueLayer);
         tHolder = (ImageView) getActivity().findViewById(R.id.triangleDown);
-
 
         /*RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ll.getLayoutParams();
         // Changes the height and width and margins to the specified *pixels*
@@ -165,22 +166,36 @@ public class FragmentOffer extends Fragment {
 
 
         //params.height = boxHeight;
-        //params.width = boxWidth;
+        params.width = boxWidth;
         //params.leftMargin = sideMargin;
         //params.rightMargin = sideMargin;
         //params.topMargin = topMargin;
-        //params.bottomMargin = bottomMargin;
-        */
-
+        //params.bottomMargin = bottomMargin;*/
 
         ll.setVisibility(View.GONE);
+        opaqueLayer.setVisibility(View.GONE);
         tHolder.setVisibility(View.GONE);
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+                opaqueLayer.setVisibility(View.GONE);
                 ll.setVisibility(View.GONE);
                 tHolder.setVisibility(View.GONE);
+            }
+        });
+
+        opaqueLayer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    opaqueLayer.setVisibility(View.GONE);
+                    ll.setVisibility(View.GONE);
+                    tHolder.setVisibility(View.GONE);
+                    // Do what you want
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -220,7 +235,6 @@ public class FragmentOffer extends Fragment {
                 mSimpleMyMarkersArray = JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category);
                 setUpMap();
                 plotSimpleMarkers(mSimpleMyMarkersArray);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -332,9 +346,8 @@ public class FragmentOffer extends Fragment {
 
 
         mapView.onResume();
-
-
     }
+
 
     private void collectRateDetails(String offerId, boolean like) {
         final String offer_id = offerId;
@@ -573,6 +586,7 @@ public class FragmentOffer extends Fragment {
 
         @Override
         public View getInfoContents(Marker marker) {
+            opaqueLayer.setVisibility(View.GONE);
             ll.setVisibility(View.GONE);
             tHolder.setVisibility(View.GONE);
             outerOffers = null;
@@ -600,7 +614,7 @@ public class FragmentOffer extends Fragment {
                 ros = ro;
                 outerOffers = offers;
 
-
+                opaqueLayer.setVisibility(View.VISIBLE);
                 ll.setVisibility(View.VISIBLE);
                 clock.setText(Utils.getDaysRemaining(offers[0].getEndDate()) + "d");
                 pve.setText("" + offers[0].getPve());

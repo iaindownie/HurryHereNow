@@ -7,7 +7,7 @@ package com.spawny.HHNbeta;
 public class Constants {
 
     // Set default distance for promotions API
-    public static int PROMOTIONS_DISTANCE = 50;
+    public static int PROMOTIONS_DISTANCE = 70;
     // Set base URLs for use throughout App
     public static String API_BASE_URL = "http://api.hurryherenow.com";
     public static String WWW_BASE_URL = "http://www.hurryherenow.com";

@@ -1,6 +1,7 @@
 package com.spawny.HHNbeta;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,6 +13,10 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
  * Created by iaindownie on 29/11/2015.
@@ -28,6 +33,22 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
+        // Getting status
+        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
+
+        // Showing status
+        if(status== ConnectionResult.SUCCESS) {
+            //myToast("Google Play Services are available", Toast.LENGTH_LONG);
+        }
+        else{
+            //myToast("Google Play Services are not available", Toast.LENGTH_LONG);
+            int requestCode = 10;
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, requestCode);
+            dialog.show();
+        }*/
+
+        //Need to keep this in as it's used for the resizing large retailer image.
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
@@ -98,6 +119,10 @@ public class MainActivity extends Activity {
         ft.addToBackStack(null);
         ft.commit();
 
+    }
+
+    public void myToast(String str, int len) {
+        Toast.makeText(this, str, len).show();
     }
 
     public void updateOffersButton(boolean state) {
