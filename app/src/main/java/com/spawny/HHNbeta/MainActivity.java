@@ -33,8 +33,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-        // Getting status
+
+        /*// Getting status
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
 
         // Showing status
