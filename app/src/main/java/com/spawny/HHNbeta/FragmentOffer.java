@@ -138,6 +138,10 @@ public class FragmentOffer extends Fragment {
             position = new LatLng(l.getLatitude(), l.getLongitude());
         }
 
+        if(Constants.IS_DEBUG){
+            position = new LatLng(52.2068236, 0.1187916);
+        }
+
         //Enable GPS
         gMap.setMyLocationEnabled(true);
 
@@ -445,6 +449,7 @@ public class FragmentOffer extends Fragment {
                 String lat = "latitude=" + position.latitude;
                 String lon = "longitude=" + position.longitude;
                 String distance = "distance=" + Constants.PROMOTIONS_DISTANCE;
+                if(Constants.IS_DEBUG) distance = "distance=120";
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
                 rawOfferJSON = JSONUtilities.downloadAllPromotionsFromURL(path);

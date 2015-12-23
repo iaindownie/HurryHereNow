@@ -1,6 +1,7 @@
 package com.spawny.HHNbeta;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.spawny.HHNbeta.adapters.TalkCustomAdapter;
 
@@ -19,12 +21,13 @@ import java.util.ArrayList;
 /**
  * Created by iaindownie on 29/11/2015.
  */
-public class FragmentTalk extends ListFragment {
+public class FragmentTalk extends Fragment {
 
     SharedPreferences prefs;
     String rawTalkJSON = "";
     ArrayList allTalks;
     TalkCustomAdapter talkCustomAdapter;
+    ListView lv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class FragmentTalk extends ListFragment {
         long diffInTime = currentTime - lastTime;
         rawTalkJSON = prefs.getString("RAWTALKJSON", "");
 
+        lv = (ListView) getActivity().findViewById(R.id.talkList);
+
         // If no data or data is 5 minutes old
         if (rawTalkJSON.length() == 0 || (diffInTime > 300000)) {
             new DownloadTalksTask().execute();
@@ -50,7 +55,8 @@ public class FragmentTalk extends ListFragment {
             try {
                 allTalks = JSONUtilities.convertJSONTalksToArrayList(rawTalkJSON);
                 talkCustomAdapter = new TalkCustomAdapter(getActivity(), allTalks);
-                setListAdapter(talkCustomAdapter);
+                lv.setAdapter(talkCustomAdapter);
+                //setListAdapter(talkCustomAdapter);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -85,7 +91,8 @@ public class FragmentTalk extends ListFragment {
         // can use UI thread here
         protected void onPostExecute(final String result) {
             talkCustomAdapter = new TalkCustomAdapter(getActivity(), allTalks);
-            setListAdapter(talkCustomAdapter);
+            lv.setAdapter(talkCustomAdapter);
+            //setListAdapter(talkCustomAdapter);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("RAWTALKJSON", rawTalkJSON);
             editor.putLong("TALKGRAB_TIME", System.currentTimeMillis());

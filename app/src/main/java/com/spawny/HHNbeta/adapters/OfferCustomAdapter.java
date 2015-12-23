@@ -92,6 +92,7 @@ public class OfferCustomAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Bundle bundle=new Bundle();
                 bundle.putString("ORIGIN", "list");
+                bundle.putInt("LISTPOSITION", innerPosition);
                 bundle.putSerializable("RETAILEROFFERS", unexpanded);
                 FragmentRetailerDetail nextFrag = new FragmentRetailerDetail();
                 nextFrag.setArguments(bundle);

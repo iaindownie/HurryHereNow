@@ -1,6 +1,7 @@
 package com.spawny.HHNbeta;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
@@ -20,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.spawny.HHNbeta.adapters.OfferCustomAdapter;
@@ -31,7 +33,7 @@ import java.util.ArrayList;
  * Created by iaindownie on 29/11/2015.
  * The main Offers > List fragment
  */
-public class FragmentList extends ListFragment {
+public class FragmentList extends Fragment {
 
     private SharedPreferences prefs;
     private String rawOfferJSON = "";
@@ -43,6 +45,9 @@ public class FragmentList extends ListFragment {
     private Button mapButton;
     private ArrayList<RetailerOffers> offerArray = new ArrayList<RetailerOffers>();
     private OfferCustomAdapter offerCustomAdapter;
+
+    private ListView lv;
+    private int listPosition = 0;
 
 
     @Override
@@ -56,6 +61,11 @@ public class FragmentList extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        if(bundle!=null) {
+            listPosition = bundle.getInt("LISTPOSITION", 0);
+        }
 
         prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
         long lastTime = prefs.getLong("OFFERGRAB_TIME", System.currentTimeMillis());
@@ -71,6 +81,8 @@ public class FragmentList extends ListFragment {
             category = "0";
         }
 
+        lv = (ListView) getActivity().findViewById(R.id.offerlist);
+
         // If no data or data is 5 minutes old
         if (rawOfferJSON.length() == 0 || (diffInTime > 300000)) {
             new DownloadOffersTask().execute();
@@ -78,7 +90,9 @@ public class FragmentList extends ListFragment {
             try {
                 offerArray = JSONUtilities.expandPromotionsArrayList(JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category));
                 offerCustomAdapter = new OfferCustomAdapter(getActivity(), offerArray);
-                setListAdapter(offerCustomAdapter);
+                //setListAdapter(offerCustomAdapter);
+                lv.setAdapter(offerCustomAdapter);
+                lv.setSelection(listPosition);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -100,6 +114,10 @@ public class FragmentList extends ListFragment {
             position = new LatLng(52.2068236, 0.1187916);
         } else {
             position = new LatLng(l.getLatitude(), l.getLongitude());
+        }
+
+        if(Constants.IS_DEBUG){
+            position = new LatLng(52.2068236, 0.1187916);
         }
 
         /**
@@ -154,6 +172,7 @@ public class FragmentList extends ListFragment {
                 String lat = "latitude=" + position.latitude;
                 String lon = "longitude=" + position.longitude;
                 String distance = "distance=" + Constants.PROMOTIONS_DISTANCE;
+                if(Constants.IS_DEBUG) distance = "distance=120";
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
                 rawOfferJSON = JSONUtilities.downloadAllPromotionsFromURL(path);
@@ -168,7 +187,9 @@ public class FragmentList extends ListFragment {
         // can use UI thread here
         protected void onPostExecute(final String result) {
             offerCustomAdapter = new OfferCustomAdapter(getActivity(), offerArray);
-            setListAdapter(offerCustomAdapter);
+            //setListAdapter(offerCustomAdapter);
+            lv.setAdapter(offerCustomAdapter);
+            lv.setSelection(listPosition);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("RAWOFFERJSON", rawOfferJSON);
             editor.putLong("OFFERGRAB_TIME", System.currentTimeMillis());

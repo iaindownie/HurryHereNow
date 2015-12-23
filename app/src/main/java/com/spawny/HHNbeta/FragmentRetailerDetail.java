@@ -37,6 +37,7 @@ public class FragmentRetailerDetail extends ListFragment {
     SharedPreferences prefs;
     RetailerOffers ro;
     String origin = "map";
+    int listPosition = 0;
     ArrayList offers;
 
     ImageView imageView;
@@ -65,13 +66,18 @@ public class FragmentRetailerDetail extends ListFragment {
         Retailer rT = ro.getRetailer();
         Offer[] o = ro.getOffers();
 
-        origin = bundle.getString("ORIGIN");
+        origin = bundle.getString("ORIGIN", "map");
+
+        listPosition = bundle.getInt("LISTPOSITION", 0);
 
         TextView back = (TextView) getActivity().findViewById(R.id.imgBtnBack);
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (origin.equals("list")) {
+                    Bundle bundle=new Bundle();
+                    bundle.putInt("LISTPOSITION", listPosition);
                     FragmentList nextFrag = new FragmentList();
+                    nextFrag.setArguments(bundle);
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.theFragment, nextFrag)
                             .addToBackStack(null)
