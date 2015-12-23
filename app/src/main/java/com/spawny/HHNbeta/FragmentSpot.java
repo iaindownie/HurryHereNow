@@ -161,7 +161,11 @@ public class FragmentSpot extends Fragment {
                     myToast("Please enter both fields and agree to T&C", Toast.LENGTH_LONG);
                 } else {
                     String[] s = new String[]{storeName.getText().toString(), desc.getText().toString(), "" + ll.latitude, "" + ll.longitude};
-                    new UploadingSpotAndShare().execute(s);
+                    if (Constants.IS_DEBUG) {
+                        myToast("DEBUG UploadingSpotAndShare(): Worked, but upload disabled by ISD", Toast.LENGTH_LONG);
+                    } else {
+                        new UploadingSpotAndShare().execute(s);
+                    }
                     InputMethodManager imm = (InputMethodManager) getActivity()
                             .getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(mapView.getWindowToken(), 0);

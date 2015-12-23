@@ -19,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -299,25 +300,25 @@ public class FragmentOffer extends Fragment {
                 pve.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), true);
+                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), "1");
                     }
                 });
                 nve.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), false);
+                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), "2");
                     }
                 });
                 pveImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), true);
+                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), "1");
                     }
                 });
                 nveImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), false);
+                        collectRateDetails("" + outerOffers[currentPage].getOfferId(), "2");
                     }
                 });
 
@@ -349,10 +350,10 @@ public class FragmentOffer extends Fragment {
     }
 
 
-    private void collectRateDetails(String offerId, boolean like) {
+    private void collectRateDetails(String offerId, String mType) {
         final String offer_id = offerId;
         final Dialog dialog = new Dialog(getActivity());
-        final boolean disLike = like;
+        final String type = mType;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
         dialog.setContentView(R.layout.rate_dialog);
         Button submit = (Button) dialog.findViewById(R.id.rateSubmit);
@@ -366,11 +367,11 @@ public class FragmentOffer extends Fragment {
                 if (txtRateOffer.getText().toString().length() == 0) {
                     myToast("Please enter a comment before you submit", Toast.LENGTH_LONG);
                 } else {
-                    String[] s = new String[]{txtRateOffer.getText().toString(),offer_id};
-                    if (disLike) {
-                        new UploadingPositiveRating().execute(s);
+                    String[] s = new String[]{txtRateOffer.getText().toString(),offer_id, type};
+                    if (Constants.IS_DEBUG) {
+                        myToast("DEBUG UploadingRating(): Worked, but upload disabled by ISD", Toast.LENGTH_LONG);
                     } else {
-                        new UploadingNegativeRating().execute(s);
+                        new UploadingRating().execute(s);
                     }
                     InputMethodManager imm = (InputMethodManager) getActivity()
                             .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -402,7 +403,7 @@ public class FragmentOffer extends Fragment {
         });
     }
 
-    private class UploadingPositiveRating extends AsyncTask<String, Void, Void> {
+    private class UploadingRating extends AsyncTask<String, Void, Void> {
 
         // can use UI thread here
         protected void onPreExecute() {
@@ -414,31 +415,7 @@ public class FragmentOffer extends Fragment {
         protected Void doInBackground(String... params) {
 
             try {
-                String success = JSONUtilities.uploadPositiveRating(params[0], params[1]);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        // can use UI thread here
-        protected void onPostExecute(final String result) {
-        }
-    }
-
-    private class UploadingNegativeRating extends AsyncTask<String, Void, Void> {
-
-        // can use UI thread here
-        protected void onPreExecute() {
-
-        }
-
-        // automatically done on worker thread (separate from UI thread)
-        @Override
-        protected Void doInBackground(String... params) {
-
-            try {
-                String success = JSONUtilities.uploadNegativeRating(params[0], params[1]);
+                String success = JSONUtilities.uploadRating(params[0], params[1], params[2]);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -622,25 +599,25 @@ public class FragmentOffer extends Fragment {
                 pve.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        collectRateDetails("" + offers[0].getOfferId(), true);
+                        collectRateDetails("" + offers[0].getOfferId(), "1");
                     }
                 });
                 nve.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        collectRateDetails("" + offers[0].getOfferId(), false);
+                        collectRateDetails("" + offers[0].getOfferId(), "2");
                     }
                 });
                 pveImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        collectRateDetails("" + offers[0].getOfferId(), true);
+                        collectRateDetails("" + offers[0].getOfferId(), "1");
                     }
                 });
                 nveImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        collectRateDetails("" + offers[0].getOfferId(), false);
+                        collectRateDetails("" + offers[0].getOfferId(), "2");
                     }
                 });
                 if (numOffers == 1) {
@@ -787,6 +764,12 @@ public class FragmentOffer extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        // Possible error on Inflate fix?
+        Log.i("INFO", "FragmentOffer onDestroyView");
+        FragmentOffer f = (FragmentOffer)getFragmentManager().findFragmentByTag("FragmentOffer");
+        if(f != null){
+            getFragmentManager().beginTransaction().remove(f).commit();
+        }
     }
 
     @Override

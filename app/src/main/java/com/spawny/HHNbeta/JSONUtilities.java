@@ -139,7 +139,7 @@ public class JSONUtilities {
     }
 
 
-    public static String uploadPositiveRating(String comment, String offerId) {
+    public static String uploadRating(String comment, String offerId, String type) {
         //System.out.println("Calling + positive rating JSON Utilities + " + offerId);
         String rootUrl = Constants.API_BASE_URL + "/api/rate?";
         int statusCode = 0;
@@ -148,7 +148,7 @@ public class JSONUtilities {
             HttpPost httpPost = new HttpPost(rootUrl);
             List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
             urlParameters.add(new BasicNameValuePair("offerId", offerId));
-            urlParameters.add(new BasicNameValuePair("type", "1"));
+            urlParameters.add(new BasicNameValuePair("type", type));
             urlParameters.add(new BasicNameValuePair("comment", comment));
 
             httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
@@ -171,37 +171,7 @@ public class JSONUtilities {
         }
     }
 
-    public static String uploadNegativeRating(String comment, String offerId) {
-        //System.out.println("Calling - negative rating JSON Utilities + " + offerId);
-        String rootUrl = Constants.API_BASE_URL + "/api/rate?";
-        int statusCode = 0;
-        try {
-            DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(rootUrl);
-            List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-            urlParameters.add(new BasicNameValuePair("offerId", offerId));
-            urlParameters.add(new BasicNameValuePair("type", "2"));
-            urlParameters.add(new BasicNameValuePair("comment", comment));
 
-            httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
-
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            statusCode = httpResponse.getStatusLine().getStatusCode();
-
-        } catch (UnsupportedEncodingException e) {
-            return "fail: UnsupportedEncodingException";
-        } catch (MalformedURLException e) {
-            return "fail: MalformedURLException";
-        } catch (IOException e) {
-            return "fail: IOException";
-        }
-
-        if (statusCode == 200) {
-            return "success";
-        } else {
-            return "fail: catchall";
-        }
-    }
 
     /**
      * Method to get Offer data from SERVER via API
