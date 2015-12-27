@@ -3,7 +3,6 @@ package com.spawny.HHNbeta;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,17 +12,20 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.spawny.HHNbeta.adapters.OfferCustomAdapter;
+import com.spawny.HHNbeta.adapters.ListOfOffersAdapter;
 import com.spawny.HHNbeta.data.RetailerOffers;
 
 import java.util.ArrayList;
@@ -43,10 +45,14 @@ public class FragmentList extends Fragment {
     private Button searchButton;
     private Button mapButton;
     private ArrayList<RetailerOffers> offerArray = new ArrayList<RetailerOffers>();
-    private OfferCustomAdapter offerCustomAdapter;
+    //private OfferCustomAdapter offerCustomAdapter;
 
-    private ListView lv;
+    //private ListView lv;
     private int listPosition = 0;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView mRecyclerView;
+    private ListOfOffersAdapter mListOfOffersAdapter;
 
 
     @Override
@@ -81,7 +87,7 @@ public class FragmentList extends Fragment {
         }
 
 
-        lv = (ListView) getActivity().findViewById(R.id.offerlist);
+        /*lv = (ListView) getActivity().findViewById(R.id.offerlist);
 
         // If no data or data is 5 minutes old
         if (rawOfferJSON.length() == 0 || (diffInTime > 300000)) {
@@ -96,7 +102,7 @@ public class FragmentList extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         Criteria criteria = new Criteria();
         criteria.setPowerRequirement(Criteria.POWER_LOW);
@@ -111,14 +117,46 @@ public class FragmentList extends Fragment {
         }
 
         if (l == null) {
-            position = new LatLng(52.2068236, 0.1187916);
+            position = new LatLng(Constants.CAMBRIDGE_LAT, Constants.CAMBRIDGE_LON);
         } else {
             position = new LatLng(l.getLatitude(), l.getLongitude());
         }
 
         if (Constants.IS_DEBUG) {
-            position = new LatLng(52.2068236, 0.1187916);
+            position = new LatLng(Constants.CAMBRIDGE_LAT, Constants.CAMBRIDGE_LON);
         }
+
+        new DownloadOffersTask().execute();
+
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) this.getActivity().findViewById(R.id.offer_swipe_refresh_layout);
+        mRecyclerView = (RecyclerView) this.getActivity().findViewById(R.id.offer_recyclerview);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+
+
+        try {
+            offerArray = JSONUtilities.expandPromotionsArrayList(JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        setupAdapter(offerArray);
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        new DownloadOffersTask().execute();
+                        //setupAdapter(allTalks);
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 2500);
+            }
+        });
 
         /**
          * The Offers > Search button. It creates a new Activity not a fragment, and
@@ -153,16 +191,22 @@ public class FragmentList extends Fragment {
 
     }
 
+    private void setupAdapter(ArrayList aList) {
+        mListOfOffersAdapter = new ListOfOffersAdapter(getActivity(), aList);
+        mRecyclerView.setAdapter(mListOfOffersAdapter);
+        mRecyclerView.scrollToPosition(listPosition);
+    }
+
 
     private class DownloadOffersTask extends AsyncTask<String, Void, String> {
-        private final ProgressDialog asyncDialog = new ProgressDialog(
-                getActivity());
+        //private final ProgressDialog asyncDialog = new ProgressDialog(
+        //        getActivity());
 
         // can use UI thread here
         protected void onPreExecute() {
-            this.asyncDialog.setTitle("Grabbing offers");
-            this.asyncDialog.setMessage("Please wait...");
-            this.asyncDialog.show();
+            //this.asyncDialog.setTitle("Grabbing offers");
+            //this.asyncDialog.setMessage("Please wait...");
+            //this.asyncDialog.show();
         }
 
         // automatically done on worker thread (separate from UI thread)
@@ -186,17 +230,20 @@ public class FragmentList extends Fragment {
 
         // can use UI thread here
         protected void onPostExecute(final String result) {
-            offerCustomAdapter = new OfferCustomAdapter(getActivity(), offerArray);
+            //offerCustomAdapter = new OfferCustomAdapter(getActivity(), offerArray);
             //setListAdapter(offerCustomAdapter);
-            lv.setAdapter(offerCustomAdapter);
-            lv.setSelection(listPosition);
+            //lv.setAdapter(offerCustomAdapter);
+            //lv.setSelection(listPosition);
+
+            setupAdapter(offerArray);
+
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("RAWOFFERJSON", rawOfferJSON);
             editor.putLong("OFFERGRAB_TIME", System.currentTimeMillis());
             editor.apply();
-            if (this.asyncDialog.isShowing()) {
-                this.asyncDialog.dismiss();
-            }
+            //if (this.asyncDialog.isShowing()) {
+            //    this.asyncDialog.dismiss();
+            //}
 
         }
     }
@@ -240,6 +287,7 @@ public class FragmentList extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        setupAdapter(offerArray);
     }
 
     @Override

@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.spawny.HHNbeta.adapters.OfferListCustomAdapter;
+import com.spawny.HHNbeta.adapters.RetailerOfferListAdapter;
 import com.spawny.HHNbeta.adapters.RetailerExtraAdapter;
 import com.spawny.HHNbeta.data.Offer;
 import com.spawny.HHNbeta.data.Retailer;
@@ -41,7 +41,7 @@ public class FragmentRetailerDetail extends ListFragment {
     ArrayList offers;
 
     ImageView imageView;
-    OfferListCustomAdapter offerListCustomAdapter;
+    RetailerOfferListAdapter offerListCustomAdapter;
     private ArrayAdapter<String> listAdapter;
     RetailerExtraAdapter retailerExtraAdapter;
 
@@ -99,7 +99,7 @@ public class FragmentRetailerDetail extends ListFragment {
         imageView = (ImageView) getActivity().findViewById(R.id.imgBigLogo);
         new ImageLoadTask(Constants.WWW_BASE_URL + rT.getLargeImage(), imageView).execute();
 
-        offerListCustomAdapter = new OfferListCustomAdapter(getActivity(), o);
+        offerListCustomAdapter = new RetailerOfferListAdapter(getActivity(), o);
         setListAdapter(offerListCustomAdapter);
 
 

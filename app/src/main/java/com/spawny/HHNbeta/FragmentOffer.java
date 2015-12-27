@@ -133,13 +133,13 @@ public class FragmentOffer extends Fragment {
         if (tempLat != 0.0) {
             position = new LatLng(tempLat, tempLon);
         } else if (l == null) {
-            position = new LatLng(52.2068236, 0.1187916);
+            position = new LatLng(Constants.CAMBRIDGE_LAT, Constants.CAMBRIDGE_LON);
         } else {
             position = new LatLng(l.getLatitude(), l.getLongitude());
         }
 
         if(Constants.IS_DEBUG){
-            position = new LatLng(52.2068236, 0.1187916);
+            position = new LatLng(Constants.CAMBRIDGE_LAT, Constants.CAMBRIDGE_LON);
         }
 
         //Enable GPS

@@ -33,4 +33,7 @@ public class Constants {
     public static void setScreenHeight(int screenHeight) {
         Constants.SCREENHEIGHT = screenHeight;
     }
+
+    public static double CAMBRIDGE_LAT = 52.2068236;
+    public static double CAMBRIDGE_LON = 0.1187916;
 }

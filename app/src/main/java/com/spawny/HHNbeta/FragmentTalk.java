@@ -2,8 +2,6 @@ package com.spawny.HHNbeta;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ListFragment;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -16,9 +14,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import com.spawny.HHNbeta.adapters.TalkCustomAdapter;
 import com.spawny.HHNbeta.adapters.TalkRecyclerCustomAdapter;
 
 import java.util.ArrayList;
@@ -38,7 +34,6 @@ public class FragmentTalk extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private TalkRecyclerCustomAdapter mTalkRecyclerCustomAdapter;
-
 
 
     @Override
@@ -108,7 +103,7 @@ public class FragmentTalk extends Fragment {
     }
 
     private void setupAdapter(ArrayList aList) {
-        mTalkRecyclerCustomAdapter = new TalkRecyclerCustomAdapter(getActivity(),aList);
+        mTalkRecyclerCustomAdapter = new TalkRecyclerCustomAdapter(getActivity(), aList);
         mRecyclerView.setAdapter(mTalkRecyclerCustomAdapter);
     }
 
@@ -193,6 +188,7 @@ public class FragmentTalk extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        setupAdapter(allTalks);
     }
 
     @Override

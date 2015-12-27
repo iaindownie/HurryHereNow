@@ -17,13 +17,13 @@ import com.spawny.HHNbeta.data.Offer;
 /**
  * Created by iaindownie on 15/12/2015.
  */
-public class OfferListCustomAdapter extends BaseAdapter {
+public class RetailerOfferListAdapter extends BaseAdapter {
     private Offer[] o;
     private LayoutInflater layoutInflater;
     final Context context;
     public ImageLoader imageLoader;
 
-    public OfferListCustomAdapter(Context aContext, Offer[] o) {
+    public RetailerOfferListAdapter(Context aContext, Offer[] o) {
         this.o = o;
         layoutInflater = LayoutInflater.from(aContext);
         context = aContext;
