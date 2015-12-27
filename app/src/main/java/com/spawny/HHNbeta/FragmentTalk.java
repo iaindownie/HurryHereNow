@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.spawny.HHNbeta.adapters.TalkCustomAdapter;
+import com.spawny.HHNbeta.adapters.TalkRecyclerCustomAdapter;
 
 import java.util.ArrayList;
 
@@ -26,8 +31,15 @@ public class FragmentTalk extends Fragment {
     SharedPreferences prefs;
     String rawTalkJSON = "";
     ArrayList allTalks;
-    TalkCustomAdapter talkCustomAdapter;
-    ListView lv;
+    //TalkCustomAdapter talkCustomAdapter;
+    //ListView lv;
+
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView mRecyclerView;
+    private TalkRecyclerCustomAdapter mTalkRecyclerCustomAdapter;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +58,38 @@ public class FragmentTalk extends Fragment {
         long diffInTime = currentTime - lastTime;
         rawTalkJSON = prefs.getString("RAWTALKJSON", "");
 
-        lv = (ListView) getActivity().findViewById(R.id.talkList);
+        new DownloadTalksTask().execute();
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) this.getActivity().findViewById(R.id.talk_swipe_refresh_layout);
+        mRecyclerView = (RecyclerView) this.getActivity().findViewById(R.id.talk_recyclerview);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+
+
+        try {
+            allTalks = JSONUtilities.convertJSONTalksToArrayList(rawTalkJSON);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        setupAdapter(allTalks);
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        new DownloadTalksTask().execute();
+                        //setupAdapter(allTalks);
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 2500);
+            }
+        });
+
+        /*lv = (ListView) getActivity().findViewById(R.id.talkList);
 
         // If no data or data is 5 minutes old
         if (rawTalkJSON.length() == 0 || (diffInTime > 300000)) {
@@ -60,19 +103,24 @@ public class FragmentTalk extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
     }
 
+    private void setupAdapter(ArrayList aList) {
+        mTalkRecyclerCustomAdapter = new TalkRecyclerCustomAdapter(getActivity(),aList);
+        mRecyclerView.setAdapter(mTalkRecyclerCustomAdapter);
+    }
+
     private class DownloadTalksTask extends AsyncTask<String, Void, String> {
-        private final ProgressDialog asyncDialog = new ProgressDialog(
-                getActivity());
+        //private final ProgressDialog asyncDialog = new ProgressDialog(
+        //        getActivity());
 
         // can use UI thread here
         protected void onPreExecute() {
-            this.asyncDialog.setTitle("Grabbing talk data");
-            this.asyncDialog.setMessage("Please wait...");
-            this.asyncDialog.show();
+            //this.asyncDialog.setTitle("Grabbing talk data");
+            //this.asyncDialog.setMessage("Please wait...");
+            //this.asyncDialog.show();
         }
 
         // automatically done on worker thread (separate from UI thread)
@@ -90,16 +138,19 @@ public class FragmentTalk extends Fragment {
 
         // can use UI thread here
         protected void onPostExecute(final String result) {
-            talkCustomAdapter = new TalkCustomAdapter(getActivity(), allTalks);
-            lv.setAdapter(talkCustomAdapter);
+            //talkCustomAdapter = new TalkCustomAdapter(getActivity(), allTalks);
+            //lv.setAdapter(talkCustomAdapter);
             //setListAdapter(talkCustomAdapter);
+
+            setupAdapter(allTalks);
+
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("RAWTALKJSON", rawTalkJSON);
             editor.putLong("TALKGRAB_TIME", System.currentTimeMillis());
             editor.apply();
-            if (this.asyncDialog.isShowing()) {
-                this.asyncDialog.dismiss();
-            }
+            //if (this.asyncDialog.isShowing()) {
+            //    this.asyncDialog.dismiss();
+            //}
         }
     }
 

@@ -3,7 +3,6 @@ package com.spawny.HHNbeta;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -63,7 +62,7 @@ public class FragmentList extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         Bundle bundle = getArguments();
-        if(bundle!=null) {
+        if (bundle != null) {
             listPosition = bundle.getInt("LISTPOSITION", 0);
         }
 
@@ -80,6 +79,7 @@ public class FragmentList extends Fragment {
         if (category.equals("99")) {
             category = "0";
         }
+
 
         lv = (ListView) getActivity().findViewById(R.id.offerlist);
 
@@ -116,7 +116,7 @@ public class FragmentList extends Fragment {
             position = new LatLng(l.getLatitude(), l.getLongitude());
         }
 
-        if(Constants.IS_DEBUG){
+        if (Constants.IS_DEBUG) {
             position = new LatLng(52.2068236, 0.1187916);
         }
 
@@ -151,8 +151,8 @@ public class FragmentList extends Fragment {
         });
 
 
-
     }
+
 
     private class DownloadOffersTask extends AsyncTask<String, Void, String> {
         private final ProgressDialog asyncDialog = new ProgressDialog(
@@ -172,7 +172,7 @@ public class FragmentList extends Fragment {
                 String lat = "latitude=" + position.latitude;
                 String lon = "longitude=" + position.longitude;
                 String distance = "distance=" + Constants.PROMOTIONS_DISTANCE;
-                if(Constants.IS_DEBUG) distance = "distance=120";
+                if (Constants.IS_DEBUG) distance = "distance=120";
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
                 rawOfferJSON = JSONUtilities.downloadAllPromotionsFromURL(path);

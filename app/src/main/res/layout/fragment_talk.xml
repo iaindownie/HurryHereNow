@@ -16,13 +16,28 @@
         android:textSize="21.0dip"
         android:textStyle="bold" />
 
-    <ListView
+    <!--<ListView
         android:id="@+id/talkList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:paddingBottom="70dip">
 
-    </ListView>
+    </ListView>-->
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/talk_swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/talk_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
