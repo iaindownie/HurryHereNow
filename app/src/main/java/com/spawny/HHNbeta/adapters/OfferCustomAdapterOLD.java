@@ -25,13 +25,13 @@ import java.util.ArrayList;
 /**
  * Created by iaindownie on 14/12/2015.
  */
-public class OfferCustomAdapter extends BaseAdapter {
+public class OfferCustomAdapterOLD extends BaseAdapter {
     private ArrayList aList;
     private LayoutInflater layoutInflater;
     final Context context;
     public ImageLoader imageLoader;
 
-    public OfferCustomAdapter(Context aContext, ArrayList aList) {
+    public OfferCustomAdapterOLD(Context aContext, ArrayList aList) {
         this.aList = aList;
         layoutInflater = LayoutInflater.from(aContext);
         context = aContext;

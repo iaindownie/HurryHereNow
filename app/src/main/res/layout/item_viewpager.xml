@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="135dip"
+    android:background="@color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/lin2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip">
+
+        <ImageView
+            android:id="@+id/offerImage"
+            android:layout_width="120dip"
+            android:layout_height="120dip"
+            android:padding="5.0dip"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="Vendor icon"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_menu_gallery" />
+
+        <TextView
+            android:id="@+id/txtOfferDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/offerImage"
+            android:paddingLeft="5.0dip"
+            android:paddingTop="1.0dip" />
+
+        <TextView
+            android:id="@+id/txtStoreName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtOfferDesc"
+            android:layout_toRightOf="@+id/offerImage"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:paddingBottom="3.0dip"
+            android:paddingLeft="5.0dip"
+            android:paddingTop="3.0dip"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="#ff2d2d2d"
+            android:textStyle="bold" />
+
+        <!--<LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtStoreName"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingBottom="5.0dip"
+            android:paddingTop="12.0dip" />-->
+    </RelativeLayout>
+</RelativeLayout>

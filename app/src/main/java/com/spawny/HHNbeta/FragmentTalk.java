@@ -27,7 +27,7 @@ public class FragmentTalk extends Fragment {
     SharedPreferences prefs;
     String rawTalkJSON = "";
     ArrayList allTalks;
-    //TalkCustomAdapter talkCustomAdapter;
+    //TalkCustomAdapterOLD talkCustomAdapter;
     //ListView lv;
 
 
@@ -92,7 +92,7 @@ public class FragmentTalk extends Fragment {
         } else {
             try {
                 allTalks = JSONUtilities.convertJSONTalksToArrayList(rawTalkJSON);
-                talkCustomAdapter = new TalkCustomAdapter(getActivity(), allTalks);
+                talkCustomAdapter = new TalkCustomAdapterOLD(getActivity(), allTalks);
                 lv.setAdapter(talkCustomAdapter);
                 //setListAdapter(talkCustomAdapter);
             } catch (Exception e) {
@@ -133,7 +133,7 @@ public class FragmentTalk extends Fragment {
 
         // can use UI thread here
         protected void onPostExecute(final String result) {
-            //talkCustomAdapter = new TalkCustomAdapter(getActivity(), allTalks);
+            //talkCustomAdapter = new TalkCustomAdapterOLD(getActivity(), allTalks);
             //lv.setAdapter(talkCustomAdapter);
             //setListAdapter(talkCustomAdapter);
 

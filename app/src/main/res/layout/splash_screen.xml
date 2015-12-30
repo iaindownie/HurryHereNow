@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/Red_700">
+    android:background="@color/Red_700"
+    android:id="@+id/splash_container">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/splash_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom|center"

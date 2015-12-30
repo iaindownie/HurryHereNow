@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/offer_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="62dip">
 
     <RelativeLayout
-        android:id="@+id/container"
+        android:id="@+id/offer_inner_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/gridLayout1"
+            android:id="@+id/offer_inner_gridLayout1"
             android:layout_width="fill_parent"
             android:layout_height="50dip"
             android:background="#ffd22820"
@@ -20,7 +21,7 @@
             android:padding="5.0px">
 
             <LinearLayout
-                android:id="@+id/linLay1"
+                android:id="@+id/offer_inner_linLay1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -33,14 +34,14 @@
                 android:paddingTop="1.0dip">
 
                 <Button
-                    android:id="@+id/imgBtnFake"
+                    android:id="@+id/offer_inner_imgBtnFake"
                     android:layout_width="75.0dip"
                     android:layout_height="35dip"
                     android:background="@drawable/mapbutton"
                     android:enabled="false" />
 
                 <Button
-                    android:id="@+id/imgBtnListView"
+                    android:id="@+id/offer_inner_imgBtnListView"
                     android:layout_width="75.0dip"
                     android:layout_height="35dip"
                     android:background="@drawable/listbutton"
@@ -48,7 +49,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/imgBtnSearch"
+                android:id="@+id/offer_inner_imgBtnSearch"
                 android:layout_width="40.0dip"
                 android:layout_height="40.0dip"
                 android:layout_alignParentRight="true"
@@ -59,43 +60,44 @@
         </RelativeLayout>
 
         <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/offerMapView"
+            android:id="@+id/offer_inner_MapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/gridLayout1" />
+            android:layout_below="@+id/offer_inner_gridLayout1" />
 
         <RelativeLayout
+            android:id="@+id/offer_inner_relLay1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <View
-                android:id="@+id/anchor"
+                android:id="@+id/offer_inner_anchor"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_centerInParent="true" />
 
             <LinearLayout
-                android:id="@+id/opaqueLayer"
+                android:id="@+id/offer_inner_opaqueLayer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/translucent_black"
                 android:orientation="vertical" />
 
             <ImageView
-                android:id="@+id/triangleDown"
+                android:id="@+id/offer_inner_triangleDown"
                 android:layout_width="60dip"
                 android:layout_height="60dip"
-                android:layout_above="@id/anchor"
+                android:layout_above="@id/offer_inner_anchor"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="0dp"
                 android:src="@drawable/triangle_down" />
 
 
             <LinearLayout
-                android:id="@+id/mapPopover"
+                android:id="@+id/offer_inner_mapPopover"
                 android:layout_width="300dip"
                 android:layout_height="200dip"
-                android:layout_above="@+id/anchor"
+                android:layout_above="@+id/offer_inner_anchor"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="25dp"
                 android:background="@drawable/round"
@@ -103,12 +105,13 @@
                 android:orientation="vertical">
 
                 <android.support.v4.view.ViewPager
-                    android:id="@+id/pager"
+                    android:id="@+id/offer_inner_pager"
                     android:layout_width="match_parent"
                     android:layout_height="135dip"
                     android:paddingTop="7dip" />
 
                 <LinearLayout
+                    android:id="@+id/offer_inner_linLay2"
                     android:layout_width="match_parent"
                     android:layout_height="20dip"
                     android:layout_gravity="center_horizontal"
@@ -119,33 +122,34 @@
                     android:paddingTop="1dip">
 
                     <ImageView
-                        android:id="@+id/dot11"
+                        android:id="@+id/offer_inner_dot11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/dotoff"
-                        android:visibility="invisible"
-                        android:layout_gravity="center_vertical" />
+                        android:visibility="invisible" />
 
                     <ImageView
-                        android:id="@+id/dot22"
+                        android:id="@+id/offer_inner_dot22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:paddingLeft="10.0dip"
                         android:src="@drawable/dotoff"
-                        android:visibility="invisible"
-                        android:layout_gravity="center_vertical" />
+                        android:visibility="invisible" />
 
                     <ImageView
-                        android:id="@+id/dot33"
+                        android:id="@+id/offer_inner_dot33"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:paddingLeft="10dip"
                         android:src="@drawable/dotoff"
-                        android:visibility="invisible"
-                        android:layout_gravity="center_vertical" />
+                        android:visibility="invisible" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/offer_inner_linLay3"
                     android:layout_width="match_parent"
                     android:layout_height="35.0dip"
                     android:background="#ffeeeeee"
@@ -155,7 +159,7 @@
                     android:paddingTop="1dip">
 
                     <ImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/offer_inner_imageView1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10.0dip"
@@ -163,7 +167,7 @@
                         android:src="@drawable/clock" />
 
                     <TextView
-                        android:id="@+id/txtOfferEnds"
+                        android:id="@+id/offer_inner_txtOfferEnds"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="50.0dip"
@@ -171,16 +175,16 @@
                         android:textStyle="bold" />
 
                     <ImageButton
-                        android:id="@+id/imgThumbsUp"
+                        android:id="@+id/offer_inner_imgThumbsUp"
                         android:layout_width="30dip"
                         android:layout_height="30dip"
+                        android:layout_gravity="center_vertical"
                         android:background="#ffeeeeee"
                         android:paddingRight="3.0dip"
-                        android:src="@drawable/thumbsup"
-                        android:layout_gravity="center_vertical" />
+                        android:src="@drawable/thumbsup" />
 
                     <TextView
-                        android:id="@+id/txtPve"
+                        android:id="@+id/offer_inner_txtPve"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="50.0dip"
@@ -188,16 +192,16 @@
                         android:textStyle="bold" />
 
                     <ImageButton
-                        android:id="@+id/imgThumbsDown"
+                        android:id="@+id/offer_inner_imgThumbsDown"
                         android:layout_width="30dip"
                         android:layout_height="30dip"
+                        android:layout_gravity="center_vertical"
                         android:background="#ffeeeeee"
                         android:paddingRight="3.0dip"
-                        android:src="@drawable/thumbsdown"
-                        android:layout_gravity="center_vertical" />
+                        android:src="@drawable/thumbsdown" />
 
                     <TextView
-                        android:id="@+id/txtNve"
+                        android:id="@+id/offer_inner_txtNve"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#ffc91c11"
@@ -205,12 +209,13 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/offer_inner_imgBlank"
                     android:layout_width="wrap_content"
                     android:layout_height="10dip"
                     android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="3dip"
                     android:background="@color/white"
-                    android:src="@drawable/blank"
-                    android:layout_marginBottom="3dip"/>
+                    android:src="@drawable/blank" />
 
             </LinearLayout>
 
@@ -218,215 +223,4 @@
 
     </RelativeLayout>
 
-
 </LinearLayout>
-
-
-    <!--
-    <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="62dip">
-
-        <RelativeLayout
-            android:id="@+id/gridLayout1"
-            android:layout_width="fill_parent"
-            android:layout_height="50dip"
-            android:background="#ffd22820"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="5.0px">
-
-            <LinearLayout
-                android:id="@+id/linLay1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="3.0dip"
-                android:layout_marginTop="3.0dip"
-                android:layout_weight="1.0"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:paddingTop="1.0dip">
-
-                <Button
-                    android:id="@+id/imgBtnFake"
-                    android:layout_width="75.0dip"
-                    android:layout_height="35dip"
-                    android:background="@drawable/mapbutton"
-                    android:enabled="false" />
-
-                <Button
-                    android:id="@+id/imgBtnListView"
-                    android:layout_width="75.0dip"
-                    android:layout_height="35dip"
-                    android:background="@drawable/listbutton"
-                    android:enabled="true" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/imgBtnSearch"
-                android:layout_width="40.0dip"
-                android:layout_height="40.0dip"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="top|right|center"
-                android:layout_marginRight="20.0dip"
-                android:background="@drawable/searchbutton" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <View
-                android:id="@+id/anchor"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_centerInParent="true" />
-
-            <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/offerMapView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <LinearLayout
-                android:id="@+id/opaqueLayer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/translucent_black"
-                android:orientation="vertical" />
-
-            <ImageView
-                android:id="@+id/triangleDown"
-                android:layout_width="60dip"
-                android:layout_height="60dip"
-                android:layout_above="@id/anchor"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:src="@drawable/triangle_down" />
-
-
-    <LinearLayout
-    android:id="@+id/mapPopover"
-    android:layout_width="300dip"
-    android:layout_height="155dip"
-    android:layout_above="@+id/anchor"
-    android:layout_centerHorizontal="true"
-    android:layout_marginBottom="50dp"
-    android:background="@drawable/round"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="290dip"
-        android:layout_height="85dip"
-        android:paddingTop="5dip" />
-
-    <LinearLayout
-        android:layout_width="250dip"
-        android:layout_height="20dip"
-        android:layout_gravity="center_horizontal"
-        android:background="#ffffffff"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingBottom="5.0dip"
-        android:paddingTop="5.0dip">
-
-        <ImageView
-            android:id="@+id/dot11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/dotoff"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/dot22"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10.0dip"
-            android:src="@drawable/dotoff"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/dot33"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10.0dip"
-            android:src="@drawable/dotoff"
-            android:visibility="invisible" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35.0dip"
-        android:background="#ffeeeeee"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="3.0dip"
-        android:paddingTop="3.0dip">
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10.0dip"
-            android:paddingRight="3.0dip"
-            android:src="@drawable/clock" />
-
-        <TextView
-            android:id="@+id/txtOfferEnds"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="50.0dip"
-            android:textColor="#ff2d2d2d"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/imgThumbsUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#ffeeeeee"
-            android:paddingRight="3.0dip"
-            android:src="@drawable/thumbsup" />
-
-        <TextView
-            android:id="@+id/txtPve"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="50.0dip"
-            android:textColor="#ff29c200"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/imgThumbsDown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#ffeeeeee"
-            android:paddingRight="3.0dip"
-            android:src="@drawable/thumbsdown" />
-
-        <TextView
-            android:id="@+id/txtNve"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ffc91c11"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="7dip"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@color/white"
-        android:src="@drawable/blank" />
-
-    </LinearLayout>
-
-        </RelativeLayout>
-        </LinearLayout>
-    -->

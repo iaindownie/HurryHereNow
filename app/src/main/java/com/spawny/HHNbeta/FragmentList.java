@@ -45,7 +45,7 @@ public class FragmentList extends Fragment {
     private Button searchButton;
     private Button mapButton;
     private ArrayList<RetailerOffers> offerArray = new ArrayList<RetailerOffers>();
-    //private OfferCustomAdapter offerCustomAdapter;
+    //private OfferCustomAdapterOLD offerCustomAdapter;
 
     //private ListView lv;
     private int listPosition = 0;
@@ -95,7 +95,7 @@ public class FragmentList extends Fragment {
         } else {
             try {
                 offerArray = JSONUtilities.expandPromotionsArrayList(JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category));
-                offerCustomAdapter = new OfferCustomAdapter(getActivity(), offerArray);
+                offerCustomAdapter = new OfferCustomAdapterOLD(getActivity(), offerArray);
                 //setListAdapter(offerCustomAdapter);
                 lv.setAdapter(offerCustomAdapter);
                 lv.setSelection(listPosition);
@@ -177,7 +177,7 @@ public class FragmentList extends Fragment {
         /**
          * The Offers > Maps button, replacing the fragment from List
          */
-        mapButton = (Button) this.getActivity().findViewById(R.id.imgBtnFake);
+        mapButton = (Button) this.getActivity().findViewById(R.id.offer_inner_imgBtnFake);
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FragmentOffer nextFrag = new FragmentOffer();
@@ -230,7 +230,7 @@ public class FragmentList extends Fragment {
 
         // can use UI thread here
         protected void onPostExecute(final String result) {
-            //offerCustomAdapter = new OfferCustomAdapter(getActivity(), offerArray);
+            //offerCustomAdapter = new OfferCustomAdapterOLD(getActivity(), offerArray);
             //setListAdapter(offerCustomAdapter);
             //lv.setAdapter(offerCustomAdapter);
             //lv.setSelection(listPosition);

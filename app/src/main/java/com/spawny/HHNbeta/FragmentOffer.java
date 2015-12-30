@@ -104,7 +104,7 @@ public class FragmentOffer extends Fragment {
             tempLat = bundle.getDouble("LAT", 0.0);
             tempLon = bundle.getDouble("LON", 0.0);
         }
-        mapView = (MapView) getActivity().findViewById(R.id.offerMapView);
+        mapView = (MapView) getActivity().findViewById(R.id.offer_inner_MapView);
         mapView.onCreate(savedInstanceState);
         gMap = mapView.getMap();
         projection = gMap.getProjection();
@@ -139,7 +139,11 @@ public class FragmentOffer extends Fragment {
         }
 
         if(Constants.IS_DEBUG){
-            position = new LatLng(Constants.CAMBRIDGE_LAT, Constants.CAMBRIDGE_LON);
+            if (tempLat != 0.0) {
+                position = new LatLng(tempLat, tempLon);
+            } else {
+                position = new LatLng(Constants.CAMBRIDGE_LAT, Constants.CAMBRIDGE_LON);
+            }
         }
 
         //Enable GPS
@@ -150,9 +154,9 @@ public class FragmentOffer extends Fragment {
         gMap.moveCamera(update);
 
 
-        ll = (LinearLayout) getActivity().findViewById(R.id.mapPopover);
-        opaqueLayer = (LinearLayout) getActivity().findViewById(R.id.opaqueLayer);
-        tHolder = (ImageView) getActivity().findViewById(R.id.triangleDown);
+        ll = (LinearLayout) getActivity().findViewById(R.id.offer_inner_mapPopover);
+        opaqueLayer = (LinearLayout) getActivity().findViewById(R.id.offer_inner_opaqueLayer);
+        tHolder = (ImageView) getActivity().findViewById(R.id.offer_inner_triangleDown);
 
         /*RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ll.getLayoutParams();
         // Changes the height and width and margins to the specified *pixels*
@@ -249,14 +253,14 @@ public class FragmentOffer extends Fragment {
          * The Offers > Search button. It creates a new Activity not a fragment, and
          * closes the existing Main Activity and Fragments
          */
-        searchButton = (Button) this.getActivity().findViewById(R.id.imgBtnSearch);
+        searchButton = (Button) this.getActivity().findViewById(R.id.offer_inner_imgBtnSearch);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("ORIGINATOR", "MAP");
                 editor.apply();
-                Intent mapView = new Intent(getActivity(), Search.class);
-                startActivity(mapView);
+                Intent searchView = new Intent(getActivity(), Search.class);
+                startActivity(searchView);
                 getActivity().finish();
             }
         });
@@ -264,7 +268,7 @@ public class FragmentOffer extends Fragment {
         /**
          * The Offers > Lists button, replacing the fragment from Map
          */
-        listButton = (Button) this.getActivity().findViewById(R.id.imgBtnListView);
+        listButton = (Button) this.getActivity().findViewById(R.id.offer_inner_imgBtnListView);
         listButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity) getActivity()).updateOffersButton(true);
@@ -276,17 +280,17 @@ public class FragmentOffer extends Fragment {
             }
         });
 
-        dot1 = (ImageView) this.getActivity().findViewById(R.id.dot11);
-        dot2 = (ImageView) this.getActivity().findViewById(R.id.dot22);
-        dot3 = (ImageView) this.getActivity().findViewById(R.id.dot33);
+        dot1 = (ImageView) this.getActivity().findViewById(R.id.offer_inner_dot11);
+        dot2 = (ImageView) this.getActivity().findViewById(R.id.offer_inner_dot22);
+        dot3 = (ImageView) this.getActivity().findViewById(R.id.offer_inner_dot33);
 
-        vp = (ViewPager) this.getActivity().findViewById(R.id.pager);
+        vp = (ViewPager) this.getActivity().findViewById(R.id.offer_inner_pager);
 
-        clock = (TextView) this.getActivity().findViewById(R.id.txtOfferEnds);
-        pveImage = (ImageView) this.getActivity().findViewById(R.id.imgThumbsUp);
-        nveImage = (ImageView) this.getActivity().findViewById(R.id.imgThumbsDown);
-        pve = (TextView) this.getActivity().findViewById(R.id.txtPve);
-        nve = (TextView) this.getActivity().findViewById(R.id.txtNve);
+        clock = (TextView) this.getActivity().findViewById(R.id.offer_inner_txtOfferEnds);
+        pveImage = (ImageView) this.getActivity().findViewById(R.id.offer_inner_imgThumbsUp);
+        nveImage = (ImageView) this.getActivity().findViewById(R.id.offer_inner_imgThumbsDown);
+        pve = (TextView) this.getActivity().findViewById(R.id.offer_inner_txtPve);
+        nve = (TextView) this.getActivity().findViewById(R.id.offer_inner_txtNve);
 
         /**
          * Get the current vPager position from the ViewPager by
@@ -350,7 +354,7 @@ public class FragmentOffer extends Fragment {
         });
 
 
-        mapView.onResume();
+        //mapView.onResume();
     }
 
 
@@ -507,6 +511,8 @@ public class FragmentOffer extends Fragment {
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        setUpMap();
+        plotSimpleMarkers(mSimpleMyMarkersArray);
     }
 
     @Override
@@ -769,12 +775,6 @@ public class FragmentOffer extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Possible error on Inflate fix?
-        Log.i("INFO", "FragmentOffer onDestroyView");
-        FragmentOffer f = (FragmentOffer)getFragmentManager().findFragmentByTag("FragmentOffer");
-        if(f != null){
-            getFragmentManager().beginTransaction().remove(f).commit();
-        }
     }
 
     @Override

@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,15 +20,19 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
+
 /**
  * Created by iaindownie on 29/11/2015.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
     private SharedPreferences prefs;
     String starter = "MAP";
     ImageButton offersButton;
     ImageButton talkButton;
+
+    private static final String TAG = "MainActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +40,20 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-        /*// Getting status
-        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
+        // Getting status
+        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
         // Showing status
         if(status== ConnectionResult.SUCCESS) {
             //myToast("Google Play Services are available", Toast.LENGTH_LONG);
+            Log.i(TAG, "Google Play Services is installed on this device.");
         }
         else{
             //myToast("Google Play Services are not available", Toast.LENGTH_LONG);
             int requestCode = 10;
             Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, requestCode);
             dialog.show();
-        }*/
+        }/**/
 
         //Need to keep this in as it's used for the resizing large retailer image.
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);

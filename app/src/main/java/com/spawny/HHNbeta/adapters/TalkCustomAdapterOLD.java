@@ -16,12 +16,12 @@ import java.util.HashMap;
 /**
  * Created by iaindownie on 30/11/2015.
  */
-public class TalkCustomAdapter extends BaseAdapter {
+public class TalkCustomAdapterOLD extends BaseAdapter {
     ArrayList aList;
     private LayoutInflater layoutInflater;
     //Context context;
 
-    public TalkCustomAdapter(Context aContext, ArrayList aList) {
+    public TalkCustomAdapterOLD(Context aContext, ArrayList aList) {
         this.aList = aList;
         layoutInflater = LayoutInflater.from(aContext);
         //context = aContext;

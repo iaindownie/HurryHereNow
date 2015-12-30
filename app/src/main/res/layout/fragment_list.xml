@@ -6,7 +6,7 @@
     android:paddingBottom="62dip">
 
     <RelativeLayout
-        android:id="@+id/gridLayout1"
+        android:id="@+id/offer_inner_gridLayout1"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:background="#ffd22820"
@@ -15,7 +15,7 @@
         android:padding="5.0px">
 
         <LinearLayout
-            android:id="@+id/linLay1"
+            android:id="@+id/offer_inner_linLay1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -28,7 +28,7 @@
             android:paddingTop="1.0dip">
 
             <Button
-                android:id="@+id/imgBtnFake"
+                android:id="@+id/offer_inner_imgBtnFake"
                 android:layout_width="75.0dip"
                 android:layout_height="35dip"
                 android:background="@drawable/mapbutton"

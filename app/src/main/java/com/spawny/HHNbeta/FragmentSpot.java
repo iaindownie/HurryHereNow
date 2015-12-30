@@ -83,7 +83,7 @@ public class FragmentSpot extends Fragment {
         }
 
         if (l == null) {
-            position = new LatLng(52.2068236, 0.1187916);
+            position = new LatLng(Constants.CAMBRIDGE_LAT, Constants.CAMBRIDGE_LON);
         } else {
             position = new LatLng(l.getLatitude(), l.getLongitude());
         }

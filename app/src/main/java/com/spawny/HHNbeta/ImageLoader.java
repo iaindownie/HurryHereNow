@@ -37,7 +37,9 @@ public class ImageLoader {
         executorService = Executors.newFixedThreadPool(5);
     }
 
-    final int stub_id = R.drawable.icon;
+    // Adjusted by ISD for smaller image and betetr image
+    // was R.drawable.icon
+    final int stub_id = R.drawable.awaiting_small;
 
     public void DisplayImage(String url, ImageView imageView) {
         imageViews.put(imageView, url);
