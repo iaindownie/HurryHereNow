@@ -81,6 +81,7 @@ public class FragmentOffer extends Fragment {
 
     private RetailerOffers ros;
     private Offer[] outerOffers;
+    private int zoomLevel = 12;
 
 
     @Override
@@ -103,6 +104,7 @@ public class FragmentOffer extends Fragment {
         if (bundle != null) {
             tempLat = bundle.getDouble("LAT", 0.0);
             tempLon = bundle.getDouble("LON", 0.0);
+            zoomLevel = 14;
         }
         mapView = (MapView) getActivity().findViewById(R.id.offer_inner_MapView);
         mapView.onCreate(savedInstanceState);
@@ -150,7 +152,7 @@ public class FragmentOffer extends Fragment {
         gMap.setMyLocationEnabled(true);
 
         // This moves the camera to the position and zoom level
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(position, 12);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(position, zoomLevel);
         gMap.moveCamera(update);
 
 

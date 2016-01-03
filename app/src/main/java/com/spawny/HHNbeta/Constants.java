@@ -7,7 +7,7 @@ package com.spawny.HHNbeta;
 public class Constants {
 
     // Static var for preventing uploads if in development mode
-    public static boolean IS_DEBUG = true;
+    public static boolean IS_DEBUG = false;
 
     // Set default distance for promotions API
     public static int PROMOTIONS_DISTANCE = 50;
