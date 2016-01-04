@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:padding="5dip"
-            android:text="Offer uploaded"
+            android:text="@string/offer_uploaded"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
     </LinearLayout>
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:padding="1dip"
-            android:text="Dismiss" />
+            android:text="@string/dismiss" />
 
 
     </LinearLayout>

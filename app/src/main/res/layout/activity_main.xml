@@ -72,6 +72,6 @@
             android:padding="20dip"
             android:paddingRight="20dip"
             android:src="@drawable/floatingbutton"
-            android:text="Floating Button" />
+            android:text="@string/floating_button" />
     </FrameLayout>
 </RelativeLayout>

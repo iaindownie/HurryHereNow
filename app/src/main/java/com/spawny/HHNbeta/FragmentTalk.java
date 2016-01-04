@@ -53,7 +53,7 @@ public class FragmentTalk extends Fragment {
         new DownloadTalksTask().execute();
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) this.getActivity().findViewById(R.id.talk_swipe_refresh_layout);
-        mRecyclerView = (RecyclerView) this.getActivity().findViewById(R.id.talk_recyclerview);
+        mRecyclerView = (RecyclerView) this.getActivity().findViewById(R.id.talk_recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 

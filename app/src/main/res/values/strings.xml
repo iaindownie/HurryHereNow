@@ -1,5 +1,28 @@
 <resources>
     <string name="app_name">Hurry Here Now v2</string>
     <string name="action_settings">Settings</string>
+    <string name="floating_button">Floating Button</string>
+    <string name="move_marker_txt">Move marker to the offer location</string>
+    <string name="spot_amp_share"><![CDATA[Spot & Share]]></string>
+    <string name="continue_label"><![CDATA[Continue >]]></string>
+    <string name="talk_label">Talk</string>
+    <string name="vendor_icon">Vendor icon</string>
+    <string name="rating_title">What did you think of this offer?</string>
+    <string name="rating_thanks">Thanks you for rating this offer!</string>
+    <string name="success">Success</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="groceries">Groceries</string>
+    <string name="off_licence">Off-Licence</string>
+    <string name="pubs_amp_bars"><![CDATA[Pubs & Bars]]></string>
+    <string name="coffee_amp_cafes"><![CDATA[Coffee & Cafes]]></string>
+    <string name="food">Food</string>
+    <string name="hair_amp_beauty"><![CDATA[Hair & Beauty]]></string>
+    <string name="other">Other</string>
+    <string name="all_categories">All categories</string>
+    <string name="offer_details">Offer Details</string>
+    <string name="store_name">Store Name:</string>
+    <string name="offer_description">Offer Description:</string>
+    <string name="submit">Submit</string>
+    <string name="offer_uploaded">Offer uploaded</string>
 
 </resources>

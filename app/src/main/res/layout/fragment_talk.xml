@@ -11,7 +11,7 @@
         android:layout_gravity="center"
         android:background="@color/Red_700"
         android:gravity="center"
-        android:text="Talk"
+        android:text="@string/talk_label"
         android:textColor="@color/white"
         android:textSize="21.0dip"
         android:textStyle="bold" />
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/talk_recyclerview"
+            android:id="@+id/talk_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false">

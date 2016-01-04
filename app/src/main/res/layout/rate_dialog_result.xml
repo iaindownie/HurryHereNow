@@ -11,7 +11,7 @@
         android:layout_gravity="center_vertical"
         android:gravity="center_horizontal"
         android:padding="5dip"
-        android:text="Success"
+        android:text="@string/success"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:paddingLeft="5.0dip"
-        android:text="Thanks you for rating this offer!"
+        android:text="@string/rating_thanks"
         android:textColor="@color/common_google_signin_btn_text_light" />
 
     <LinearLayout
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:padding="1dip"
-            android:text="Dismiss" />
+            android:text="@string/dismiss" />
 
     </LinearLayout>
 </LinearLayout>

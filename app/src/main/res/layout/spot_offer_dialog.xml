@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:gravity="start"
             android:padding="5dip"
-            android:text="Offer Details"
+            android:text="@string/offer_details"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
 
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="5.0dip"
-            android:text="Store Name:"
+            android:text="@string/store_name"
             android:textColor="@color/common_google_signin_btn_text_light" />
 
         <EditText
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="5.0dip"
-            android:text="Offer Description:"
+            android:text="@string/offer_description"
             android:textColor="@color/common_google_signin_btn_text_light" />
 
         <EditText
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:padding="1dip"
-            android:text="Dismiss" />
+            android:text="@string/dismiss" />
 
         <Button
             android:id="@+id/spotSubmit"
@@ -133,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:padding="1dip"
-            android:text="Submit" />
+            android:text="@string/submit" />
 
 
     </LinearLayout>

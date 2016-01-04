@@ -470,13 +470,13 @@ public class FragmentOffer extends Fragment {
             if (mSimpleMyMarkersArray.size() == 0) {
                 myToast("No offers in your area", Toast.LENGTH_LONG);
             }
+            if (this.asyncDialog.isShowing()) {
+                this.asyncDialog.dismiss();
+            }
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("RAWOFFERJSON", rawOfferJSON);
             editor.putLong("OFFERGRAB_TIME", System.currentTimeMillis());
             editor.apply();
-            if (this.asyncDialog.isShowing()) {
-                this.asyncDialog.dismiss();
-            }
             setUpMap();
             plotSimpleMarkers(mSimpleMyMarkersArray);
         }

@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             android:gravity="start"
             android:padding="5dip"
-            android:text="What did you think of this offer?"
+            android:text="@string/rating_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
 

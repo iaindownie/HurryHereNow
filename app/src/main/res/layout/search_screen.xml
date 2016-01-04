@@ -47,7 +47,7 @@
                     android:layout_marginTop="0.0dip"
                     android:gravity="center"
                     android:paddingTop="9.0dip"
-                    android:text="Groceries"
+                    android:text="@string/groceries"
                     android:textColor="@android:color/white"
                     android:textSize="18.0sp"
                     android:textStyle="bold" />
@@ -74,7 +74,7 @@
                     android:layout_marginTop="0.0dip"
                     android:gravity="center"
                     android:paddingTop="9.0dip"
-                    android:text="Off-Licence"
+                    android:text="@string/off_licence"
                     android:textColor="@android:color/white"
                     android:textSize="18.0sp"
                     android:textStyle="bold" />
@@ -108,7 +108,7 @@
                     android:layout_marginTop="0.0dip"
                     android:gravity="center"
                     android:paddingTop="9.0dip"
-                    android:text="Pubs &amp; Bars"
+                    android:text="@string/pubs_amp_bars"
                     android:textColor="@android:color/white"
                     android:textSize="18.0sp"
                     android:textStyle="bold" />
@@ -135,7 +135,7 @@
                     android:layout_marginTop="0.0dip"
                     android:gravity="center"
                     android:paddingTop="9.0dip"
-                    android:text="Coffee &amp; Cafes"
+                    android:text="@string/coffee_amp_cafes"
                     android:textColor="@android:color/white"
                     android:textSize="18.0sp"
                     android:textStyle="bold" />
@@ -169,7 +169,7 @@
                     android:layout_marginTop="0.0dip"
                     android:gravity="center"
                     android:paddingTop="9.0dip"
-                    android:text="     Food      "
+                    android:text="@string/food"
                     android:textColor="@android:color/white"
                     android:textSize="18.0sp"
                     android:textStyle="bold" />
@@ -196,7 +196,7 @@
                     android:layout_marginTop="0.0dip"
                     android:gravity="center"
                     android:paddingTop="9.0dip"
-                    android:text="Hair &amp; Beauty"
+                    android:text="@string/hair_amp_beauty"
                     android:textColor="@android:color/white"
                     android:textSize="18.0sp"
                     android:textStyle="bold" />
@@ -230,7 +230,7 @@
                     android:layout_marginTop="0.0dip"
                     android:gravity="center"
                     android:paddingTop="9.0dip"
-                    android:text="    Other    "
+                    android:text="@string/other"
                     android:textColor="@android:color/white"
                     android:textSize="18.0sp"
                     android:textStyle="bold" />
@@ -257,7 +257,7 @@
                     android:layout_marginTop="0.0dip"
                     android:gravity="center"
                     android:paddingTop="9.0dip"
-                    android:text="Spot &amp; Share"
+                    android:text="@string/spot_amp_share"
                     android:textColor="@android:color/white"
                     android:textSize="18.0sp"
                     android:textStyle="bold" />
@@ -279,7 +279,7 @@
                 android:background="#ffd22820"
                 android:gravity="center"
                 android:paddingBottom="12dip"
-                android:text="All categories"
+                android:text="@string/all_categories"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
