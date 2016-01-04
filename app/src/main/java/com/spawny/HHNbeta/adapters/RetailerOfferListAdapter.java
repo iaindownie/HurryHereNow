@@ -78,6 +78,4 @@ public class RetailerOfferListAdapter extends BaseAdapter {
         return convertView;
     }
 
-
-
 }

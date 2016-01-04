@@ -1,6 +1,5 @@
 package com.spawny.HHNbeta;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -44,11 +43,10 @@ public class MainActivity extends FragmentActivity {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
         // Showing status
-        if(status== ConnectionResult.SUCCESS) {
+        if (status == ConnectionResult.SUCCESS) {
             //myToast("Google Play Services are available", Toast.LENGTH_LONG);
             Log.i(TAG, "Google Play Services is installed on this device.");
-        }
-        else{
+        } else {
             //myToast("Google Play Services are not available", Toast.LENGTH_LONG);
             int requestCode = 10;
             Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, requestCode);

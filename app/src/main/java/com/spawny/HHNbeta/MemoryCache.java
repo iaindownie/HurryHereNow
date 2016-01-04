@@ -23,8 +23,13 @@ public class MemoryCache {
     private long limit = 1000000;//max memory in bytes
 
     public MemoryCache() {
+        // Original...
         //use 25% of available heap size
-        setLimit(Runtime.getRuntime().maxMemory() / 4);
+        //setLimit(Runtime.getRuntime().maxMemory() / 4);
+
+        //ISD adpatation to reduce resource use?
+        //use 20% of available heap size
+        setLimit(Runtime.getRuntime().maxMemory() / 5);
     }
 
     public void setLimit(long new_limit) {

@@ -19,7 +19,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -60,11 +59,8 @@ public class FragmentOffer extends Fragment {
     private String category;
     private MapView mapView;
     private GoogleMap gMap;
-    private LocationManager locManager;
     private Location l;
     private LatLng position;
-    private Button searchButton;
-    private Button listButton;
     //private HashMap allCategories;
     private HashMap<Marker, RetailerOffers> mSimpleMarkersHashMap;
     private ArrayList<RetailerOffers> mSimpleMyMarkersArray = new ArrayList<RetailerOffers>();
@@ -72,10 +68,10 @@ public class FragmentOffer extends Fragment {
 
     private Projection projection;
 
-    LinearLayout ll, opaqueLayer;
-    ImageView tHolder;
-    ImageView dot1, dot2, dot3, pveImage, nveImage;
-    TextView clock, pve, nve;
+    private LinearLayout ll, opaqueLayer;
+    private ImageView tHolder;
+    private ImageView dot1, dot2, dot3, pveImage, nveImage;
+    private TextView clock, pve, nve;
 
     private ViewPager vp;
 
@@ -124,12 +120,12 @@ public class FragmentOffer extends Fragment {
         criteria.setPowerRequirement(Criteria.POWER_LOW);
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 
-        locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        String bestprovider = locManager.getBestProvider(criteria, false);
+        LocationManager locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        String bestProvider = locManager.getBestProvider(criteria, false);
 
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            l = locManager.getLastKnownLocation(bestprovider);
+            l = locManager.getLastKnownLocation(bestProvider);
         }
 
         if (tempLat != 0.0) {
@@ -140,7 +136,7 @@ public class FragmentOffer extends Fragment {
             position = new LatLng(l.getLatitude(), l.getLongitude());
         }
 
-        if(Constants.IS_DEBUG){
+        if (Constants.IS_DEBUG) {
             if (tempLat != 0.0) {
                 position = new LatLng(tempLat, tempLon);
             } else {
@@ -199,7 +195,7 @@ public class FragmentOffer extends Fragment {
         opaqueLayer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     opaqueLayer.setVisibility(View.GONE);
                     ll.setVisibility(View.GONE);
                     tHolder.setVisibility(View.GONE);
@@ -228,9 +224,9 @@ public class FragmentOffer extends Fragment {
         mSimpleMarkersHashMap = new HashMap<Marker, RetailerOffers>();
 
         prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
-        long lastTime = prefs.getLong("OFFERGRAB_TIME", System.currentTimeMillis());
-        long currentTime = System.currentTimeMillis();
-        long diffInTime = currentTime - lastTime;
+        //long lastTime = prefs.getLong("OFFERGRAB_TIME", System.currentTimeMillis());
+        //long currentTime = System.currentTimeMillis();
+        //long diffInTime = currentTime - lastTime;
         rawOfferJSON = prefs.getString("RAWOFFERJSON", "");
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("ORIGINATOR", "MAP");
@@ -239,7 +235,7 @@ public class FragmentOffer extends Fragment {
         category = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("CATEGORY", "0");
 
         // If no data or data is 5 minutes old
-        if (rawOfferJSON.length() == 0 || (diffInTime > 300000)) {
+        /*if (rawOfferJSON.length() == 0 || (diffInTime > 300000)) {
             new DownloadOffersTask().execute();
         } else {
             try {
@@ -249,13 +245,15 @@ public class FragmentOffer extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
+
+        new DownloadOffersTask().execute();
 
         /**
          * The Offers > Search button. It creates a new Activity not a fragment, and
          * closes the existing Main Activity and Fragments
          */
-        searchButton = (Button) this.getActivity().findViewById(R.id.offer_inner_imgBtnSearch);
+        Button searchButton = (Button) this.getActivity().findViewById(R.id.offer_inner_imgBtnSearch);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = prefs.edit();
@@ -270,7 +268,7 @@ public class FragmentOffer extends Fragment {
         /**
          * The Offers > Lists button, replacing the fragment from Map
          */
-        listButton = (Button) this.getActivity().findViewById(R.id.offer_inner_imgBtnListView);
+        Button listButton = (Button) this.getActivity().findViewById(R.id.offer_inner_imgBtnListView);
         listButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity) getActivity()).updateOffersButton(true);
@@ -377,7 +375,7 @@ public class FragmentOffer extends Fragment {
                 if (txtRateOffer.getText().toString().length() == 0) {
                     myToast("Please enter a comment before you submit", Toast.LENGTH_LONG);
                 } else {
-                    String[] s = new String[]{txtRateOffer.getText().toString(),offer_id, type};
+                    String[] s = new String[]{txtRateOffer.getText().toString(), offer_id, type};
                     if (Constants.IS_DEBUG) {
                         myToast("DEBUG UploadingRating(): Worked, but upload disabled by ISD", Toast.LENGTH_LONG);
                     } else {
@@ -455,7 +453,7 @@ public class FragmentOffer extends Fragment {
                 String lat = "latitude=" + position.latitude;
                 String lon = "longitude=" + position.longitude;
                 String distance = "distance=" + Constants.PROMOTIONS_DISTANCE;
-                if(Constants.IS_DEBUG) distance = "distance=120";
+                if (Constants.IS_DEBUG) distance = "distance=120";
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
                 rawOfferJSON = JSONUtilities.downloadAllPromotionsFromURL(path);
@@ -469,6 +467,9 @@ public class FragmentOffer extends Fragment {
 
         // can use UI thread here
         protected void onPostExecute(final String result) {
+            if (mSimpleMyMarkersArray.size() == 0) {
+                myToast("No offers in your area", Toast.LENGTH_LONG);
+            }
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("RAWOFFERJSON", rawOfferJSON);
             editor.putLong("OFFERGRAB_TIME", System.currentTimeMillis());
@@ -513,8 +514,7 @@ public class FragmentOffer extends Fragment {
     public void onResume() {
         super.onResume();
         mapView.onResume();
-        setUpMap();
-        plotSimpleMarkers(mSimpleMyMarkersArray);
+        new DownloadOffersTask().execute();
     }
 
     @Override

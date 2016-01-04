@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.spawny.HHNbeta.adapters.TalkRecyclerCustomAdapter;
 
@@ -24,13 +25,9 @@ import java.util.ArrayList;
  */
 public class FragmentTalk extends Fragment {
 
-    SharedPreferences prefs;
-    String rawTalkJSON = "";
-    ArrayList allTalks;
-    //TalkCustomAdapterOLD talkCustomAdapter;
-    //ListView lv;
-
-
+    private SharedPreferences prefs;
+    private String rawTalkJSON = "";
+    private ArrayList allTalks;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private TalkRecyclerCustomAdapter mTalkRecyclerCustomAdapter;
@@ -48,9 +45,9 @@ public class FragmentTalk extends Fragment {
         allTalks = new ArrayList();
 
         prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
-        long lastTime = prefs.getLong("TALKGRAB_TIME", System.currentTimeMillis());
-        long currentTime = System.currentTimeMillis();
-        long diffInTime = currentTime - lastTime;
+        //long lastTime = prefs.getLong("TALKGRAB_TIME", System.currentTimeMillis());
+        //long currentTime = System.currentTimeMillis();
+        //long diffInTime = currentTime - lastTime;
         rawTalkJSON = prefs.getString("RAWTALKJSON", "");
 
         new DownloadTalksTask().execute();
@@ -108,14 +105,9 @@ public class FragmentTalk extends Fragment {
     }
 
     private class DownloadTalksTask extends AsyncTask<String, Void, String> {
-        //private final ProgressDialog asyncDialog = new ProgressDialog(
-        //        getActivity());
 
         // can use UI thread here
         protected void onPreExecute() {
-            //this.asyncDialog.setTitle("Grabbing talk data");
-            //this.asyncDialog.setMessage("Please wait...");
-            //this.asyncDialog.show();
         }
 
         // automatically done on worker thread (separate from UI thread)
@@ -133,9 +125,9 @@ public class FragmentTalk extends Fragment {
 
         // can use UI thread here
         protected void onPostExecute(final String result) {
-            //talkCustomAdapter = new TalkCustomAdapterOLD(getActivity(), allTalks);
-            //lv.setAdapter(talkCustomAdapter);
-            //setListAdapter(talkCustomAdapter);
+            if (allTalks.size() == 0) {
+                myToast("No user offers in your area", Toast.LENGTH_LONG);
+            }
 
             setupAdapter(allTalks);
 
@@ -143,9 +135,7 @@ public class FragmentTalk extends Fragment {
             editor.putString("RAWTALKJSON", rawTalkJSON);
             editor.putLong("TALKGRAB_TIME", System.currentTimeMillis());
             editor.apply();
-            //if (this.asyncDialog.isShowing()) {
-            //    this.asyncDialog.dismiss();
-            //}
+
         }
     }
 
@@ -210,6 +200,10 @@ public class FragmentTalk extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    public void myToast(String str, int len) {
+        Toast.makeText(getActivity(), str, len).show();
     }
 
 }

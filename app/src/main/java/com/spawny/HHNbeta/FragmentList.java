@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.spawny.HHNbeta.adapters.ListOfOffersAdapter;
@@ -38,16 +39,10 @@ public class FragmentList extends Fragment {
 
     private SharedPreferences prefs;
     private String rawOfferJSON = "";
-    private LocationManager locManager;
     private Location l;
     private LatLng position;
     private String category;
-    private Button searchButton;
-    private Button mapButton;
     private ArrayList<RetailerOffers> offerArray = new ArrayList<RetailerOffers>();
-    //private OfferCustomAdapterOLD offerCustomAdapter;
-
-    //private ListView lv;
     private int listPosition = 0;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -73,22 +68,19 @@ public class FragmentList extends Fragment {
         }
 
         prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
-        long lastTime = prefs.getLong("OFFERGRAB_TIME", System.currentTimeMillis());
-        long currentTime = System.currentTimeMillis();
-        long diffInTime = currentTime - lastTime;
+        //long lastTime = prefs.getLong("OFFERGRAB_TIME", System.currentTimeMillis());
+        //long currentTime = System.currentTimeMillis();
+        //long diffInTime = currentTime - lastTime;
         rawOfferJSON = prefs.getString("RAWOFFERJSON", "");
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("ORIGINATOR", "MAP");
         editor.apply();
-        //category = prefs.getString("CATEGORY", "0");
         category = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("CATEGORY", "0");
         if (category.equals("99")) {
             category = "0";
         }
 
-
-        /*lv = (ListView) getActivity().findViewById(R.id.offerlist);
-
+        /*
         // If no data or data is 5 minutes old
         if (rawOfferJSON.length() == 0 || (diffInTime > 300000)) {
             new DownloadOffersTask().execute();
@@ -108,7 +100,7 @@ public class FragmentList extends Fragment {
         criteria.setPowerRequirement(Criteria.POWER_LOW);
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 
-        locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         String bestprovider = locManager.getBestProvider(criteria, false);
 
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -162,7 +154,7 @@ public class FragmentList extends Fragment {
          * The Offers > Search button. It creates a new Activity not a fragment, and
          * closes the existing Main Activity and Fragments
          */
-        searchButton = (Button) this.getActivity().findViewById(R.id.imgBtnSearch);
+        Button searchButton = (Button) this.getActivity().findViewById(R.id.imgBtnSearch);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = prefs.edit();
@@ -177,7 +169,7 @@ public class FragmentList extends Fragment {
         /**
          * The Offers > Maps button, replacing the fragment from List
          */
-        mapButton = (Button) this.getActivity().findViewById(R.id.offer_inner_imgBtnFake);
+        Button mapButton = (Button) this.getActivity().findViewById(R.id.offer_inner_imgBtnFake);
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FragmentOffer nextFrag = new FragmentOffer();
@@ -187,7 +179,6 @@ public class FragmentList extends Fragment {
                         .commit();
             }
         });
-
 
     }
 
@@ -199,14 +190,9 @@ public class FragmentList extends Fragment {
 
 
     private class DownloadOffersTask extends AsyncTask<String, Void, String> {
-        //private final ProgressDialog asyncDialog = new ProgressDialog(
-        //        getActivity());
 
         // can use UI thread here
         protected void onPreExecute() {
-            //this.asyncDialog.setTitle("Grabbing offers");
-            //this.asyncDialog.setMessage("Please wait...");
-            //this.asyncDialog.show();
         }
 
         // automatically done on worker thread (separate from UI thread)
@@ -230,10 +216,9 @@ public class FragmentList extends Fragment {
 
         // can use UI thread here
         protected void onPostExecute(final String result) {
-            //offerCustomAdapter = new OfferCustomAdapterOLD(getActivity(), offerArray);
-            //setListAdapter(offerCustomAdapter);
-            //lv.setAdapter(offerCustomAdapter);
-            //lv.setSelection(listPosition);
+            if (offerArray.size() == 0) {
+                myToast("No offers in your area", Toast.LENGTH_LONG);
+            }
 
             setupAdapter(offerArray);
 
@@ -241,9 +226,6 @@ public class FragmentList extends Fragment {
             editor.putString("RAWOFFERJSON", rawOfferJSON);
             editor.putLong("OFFERGRAB_TIME", System.currentTimeMillis());
             editor.apply();
-            //if (this.asyncDialog.isShowing()) {
-            //    this.asyncDialog.dismiss();
-            //}
 
         }
     }
@@ -309,5 +291,9 @@ public class FragmentList extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    public void myToast(String str, int len) {
+        Toast.makeText(getActivity(), str, len).show();
     }
 }
