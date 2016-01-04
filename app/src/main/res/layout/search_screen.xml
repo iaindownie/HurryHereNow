@@ -268,7 +268,8 @@
             android:id="@id/second_row"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.0">
+            android:layout_weight="0.0"
+            android:paddingTop="10dip">
 
             <Button
                 android:id="@+id/btnReset"
@@ -278,11 +279,12 @@
                 android:layout_weight="2.0"
                 android:background="#ffd22820"
                 android:gravity="center"
-                android:paddingBottom="12dip"
+                android:paddingBottom="15dip"
                 android:text="@string/all_categories"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="20sp"/>
         </TableRow>
     </TableLayout>
 </RelativeLayout>
