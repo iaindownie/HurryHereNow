@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -196,6 +197,12 @@ public class FragmentSpot extends Fragment {
             // @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                ((MainActivity) getActivity()).updateOffersButton(true);
+                FragmentOffer nextFrag = new FragmentOffer();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.theFragment, nextFrag)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }

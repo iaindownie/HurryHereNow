@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffeeeeee"
-    android:padding="8.0dip">
+    android:padding="4.0dip">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="left"
-        android:orientation="horizontal"
-        android:padding="10.0dip">
+        android:padding="6.0dip">
 
         <ImageView
             android:id="@+id/likeBooleanImage"

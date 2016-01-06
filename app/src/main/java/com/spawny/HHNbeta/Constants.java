@@ -7,10 +7,11 @@ package com.spawny.HHNbeta;
 public class Constants {
 
     // Static var for preventing uploads if in development mode
+    // and center location on Cambridge. Set to TRUE for debugging work
     public static boolean IS_DEBUG = false;
 
     // Set default distance for promotions API
-    public static int PROMOTIONS_DISTANCE = 50;
+    public static int PROMOTIONS_DISTANCE = 60;
     // Set base URLs for use throughout App
     public static String API_BASE_URL = "http://api.hurryherenow.com";
     public static String WWW_BASE_URL = "http://www.hurryherenow.com";

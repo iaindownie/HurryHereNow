@@ -68,6 +68,7 @@
 
         <activity
             android:name="com.spawny.HHNbeta.Search"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>

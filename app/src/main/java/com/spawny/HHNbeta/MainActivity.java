@@ -130,6 +130,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void updateOffersButton(boolean state) {
+        offersButton.setImageDrawable(getResources().getDrawable(R.drawable.offersred100));
         offersButton.setEnabled(state);
     }
 
