@@ -158,11 +158,11 @@ public class FragmentSpot extends Fragment {
             // @Override
             public void onClick(View v) {
                 if (storeName.getText().toString().length() == 0 || desc.getText().toString().length() == 0 || checked[0] == false) {
-                    myToast("Please enter both fields and agree to T&C", Toast.LENGTH_LONG);
+                    Utils.myToast(getActivity(), "Please enter both fields and agree to T&C", Toast.LENGTH_LONG);
                 } else {
                     String[] s = new String[]{storeName.getText().toString(), desc.getText().toString(), "" + ll.latitude, "" + ll.longitude};
                     if (Constants.IS_DEBUG) {
-                        myToast("DEBUG UploadingSpotAndShare(): Worked, but upload disabled by ISD", Toast.LENGTH_LONG);
+                        Utils.myToast(getActivity(), "DEBUG UploadingSpotAndShare(): Worked, but upload disabled by ISD", Toast.LENGTH_LONG);
                     } else {
                         new UploadingSpotAndShare().execute(s);
                     }
@@ -199,12 +199,6 @@ public class FragmentSpot extends Fragment {
             }
         });
     }
-
-
-    public void myToast(String str, int len) {
-        Toast.makeText(getActivity(), str, len).show();
-    }
-
 
     @Override
     public void onResume() {

@@ -373,11 +373,11 @@ public class FragmentOffer extends Fragment {
             // @Override
             public void onClick(View v) {
                 if (txtRateOffer.getText().toString().length() == 0) {
-                    myToast("Please enter a comment before you submit", Toast.LENGTH_LONG);
+                    Utils.myToast(getActivity(), "Please enter a comment before you submit", Toast.LENGTH_LONG);
                 } else {
                     String[] s = new String[]{txtRateOffer.getText().toString(), offer_id, type};
                     if (Constants.IS_DEBUG) {
-                        myToast("DEBUG UploadingRating(): Worked, but upload disabled by ISD", Toast.LENGTH_LONG);
+                        Utils.myToast(getActivity(), "DEBUG UploadingRating(): Worked, but upload disabled by ISD", Toast.LENGTH_LONG);
                     } else {
                         new UploadingRating().execute(s);
                     }
@@ -468,7 +468,9 @@ public class FragmentOffer extends Fragment {
         // can use UI thread here
         protected void onPostExecute(final String result) {
             if (mSimpleMyMarkersArray.size() == 0) {
-                myToast("No offers in your area", Toast.LENGTH_LONG);
+                // Need a dialog box here with text saying "No offers in this category"
+                // and possibly options to go to spot and share?
+                zeroOffersDialog(Utils.getCategoryDescription(category));
             }
             if (this.asyncDialog.isShowing()) {
                 this.asyncDialog.dismiss();
@@ -480,6 +482,28 @@ public class FragmentOffer extends Fragment {
             setUpMap();
             plotSimpleMarkers(mSimpleMyMarkersArray);
         }
+    }
+
+    private void zeroOffersDialog(String cat) {
+        final String aCat = cat;
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+        dialog.setContentView(R.layout.zero_dialog);
+        Button dismiss = (Button) dialog.findViewById(R.id.zeroDismiss);
+        TextView zeroMessage = (TextView) dialog.findViewById(R.id.txtZeroMessage);
+        StringBuilder message = new StringBuilder();
+        message.append("Sorry, there are currently no \"");
+        message.append(aCat);
+        message.append("\" offers in your area. Why not share one via Spot & Share?");
+        zeroMessage.setText(message.toString());
+        dialog.show();
+
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            // @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
 
@@ -514,7 +538,7 @@ public class FragmentOffer extends Fragment {
     public void onResume() {
         super.onResume();
         mapView.onResume();
-        new DownloadOffersTask().execute();
+        //new DownloadOffersTask().execute();
     }
 
     @Override
@@ -534,11 +558,6 @@ public class FragmentOffer extends Fragment {
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
-    public void myToast(String str, int len) {
-        Toast.makeText(getActivity(), str, len).show();
-    }
-
 
     private void setUpMap() {
         // Do a null check to confirm that we have not already instantiated the gMap.
@@ -805,4 +824,9 @@ public class FragmentOffer extends Fragment {
     public void onStop() {
         super.onStop();
     }
+
+    /*public void myToast(String str, int len) {
+        Toast.makeText(getActivity(), str, len).show();
+    }*/
+
 }

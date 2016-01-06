@@ -1,6 +1,7 @@
 package com.spawny.HHNbeta;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -22,8 +23,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.spawny.HHNbeta.adapters.ListOfOffersAdapter;
@@ -217,7 +219,9 @@ public class FragmentList extends Fragment {
         // can use UI thread here
         protected void onPostExecute(final String result) {
             if (offerArray.size() == 0) {
-                myToast("No offers in your area", Toast.LENGTH_LONG);
+                // Need a dialog box here with text saying "No offers in this category"
+                // and possibly options to go to spot and share?
+                zeroOffersDialog(Utils.getCategoryDescription(category));
             }
 
             setupAdapter(offerArray);
@@ -228,6 +232,28 @@ public class FragmentList extends Fragment {
             editor.apply();
 
         }
+    }
+
+    private void zeroOffersDialog(String cat) {
+        final String aCat = cat;
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+        dialog.setContentView(R.layout.zero_dialog);
+        Button dismiss = (Button) dialog.findViewById(R.id.zeroDismiss);
+        TextView zeroMessage = (TextView) dialog.findViewById(R.id.txtZeroMessage);
+        StringBuilder message = new StringBuilder();
+        message.append("Sorry, there are currently no \"");
+        message.append(aCat);
+        message.append("\" offers in your area. Why not share one via Spot & Share?");
+        zeroMessage.setText(message.toString());
+        dialog.show();
+
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            // @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     /**
@@ -293,7 +319,4 @@ public class FragmentList extends Fragment {
         super.onStop();
     }
 
-    public void myToast(String str, int len) {
-        Toast.makeText(getActivity(), str, len).show();
-    }
 }

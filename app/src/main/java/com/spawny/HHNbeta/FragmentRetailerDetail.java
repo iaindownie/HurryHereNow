@@ -34,16 +34,13 @@ import java.util.ArrayList;
 
 public class FragmentRetailerDetail extends ListFragment {
 
-    SharedPreferences prefs;
-    RetailerOffers ro;
-    String origin = "map";
-    int listPosition = 0;
-    ArrayList offers;
-
-    ImageView imageView;
-    RetailerOfferListAdapter offerListCustomAdapter;
-    private ArrayAdapter<String> listAdapter;
-    RetailerExtraAdapter retailerExtraAdapter;
+    private SharedPreferences prefs;
+    private RetailerOffers ro;
+    private String origin = "map";
+    private int listPosition = 0;
+    private ImageView imageView;
+    private RetailerOfferListAdapter offerListCustomAdapter;
+    private RetailerExtraAdapter retailerExtraAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,7 +134,7 @@ public class FragmentRetailerDetail extends ListFragment {
         if (add1.endsWith(",")) {
             add1 = add1.substring(0, add1.lastIndexOf(","));
         }
-        String add2 = ro2.getAddress2();
+        //String add2 = ro2.getAddress2();
         String city = ro2.getCity();
         String pcode = ro2.getPostcode();
         return add1 + " " + city + " " + pcode;

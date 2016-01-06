@@ -1,5 +1,8 @@
 package com.spawny.HHNbeta;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
@@ -14,6 +17,7 @@ public class Utils {
     /**
      * Snaffled from
      * http://www.technotalkative.com/android-asynchronous-image-loading-in-listview/
+     *
      * @param is
      * @param os
      */
@@ -33,23 +37,25 @@ public class Utils {
 
     /**
      * Method to calculate the number of remaining days for an offer
+     *
      * @param endDate - A String data from the SERVER data download
      * @return - a count of number of days left
      */
-    public static int getDaysRemaining(String endDate){
+    public static int getDaysRemaining(String endDate) {
         Calendar now = Calendar.getInstance();
         Calendar end = convertToCalendar(endDate);
         long diff = end.getTime().getTime() - now.getTime().getTime();
         Long diffDays = diff / (24 * 60 * 60 * 1000);
-        return diffDays.intValue()+1;
+        return diffDays.intValue() + 1;
     }
 
     /**
      * Converts String date to Calendar: Based on example: "2015-12-21 15:39:00"
+     *
      * @param date - A string date
      * @return - Calendar set to date in String
      */
-    public static Calendar convertToCalendar(String date){
+    public static Calendar convertToCalendar(String date) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
         cal.clear();
@@ -59,6 +65,59 @@ public class Utils {
             e.printStackTrace();
         }
         return cal;
+    }
+
+    /**
+     * Method to create Toasts across whole project
+     *
+     * @param c - The context of an activity
+     * @param str - The string to display
+     * @param len - the short/long time parameter
+     */
+    public static void myToast(Context c, String str, int len) {
+        Toast.makeText(c, str, len).show();
+    }
+
+    /**
+     * Helper method to retuen text string from Categor int
+     *
+     * @param sCat - an String of int value for the category
+     * @return catText - a string
+     */
+    public static String getCategoryDescription(String sCat) {
+        String catText = "";
+        int cat = Integer.valueOf(sCat);
+        switch (cat) {
+            case 1:
+                catText = "Groceries";
+                break;
+            case 2:
+                catText = "Off-Licence";
+                break;
+            case 3:
+                catText = "Pubs & Bars";
+                break;
+            case 4:
+                catText = "Coffee & Cake";
+                break;
+            case 5:
+                catText = "Food";
+                break;
+            case 6:
+                catText = "Hair & Beauty";
+                break;
+            case 7:
+                catText = "Other";
+                break;
+            case 99:
+                catText = "Spot & Share";
+                break;
+            case 0:
+                catText = "All Categories";
+                break;
+        }
+        return catText;
+
     }
 
 }

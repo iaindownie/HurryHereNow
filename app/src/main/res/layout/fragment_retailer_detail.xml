@@ -18,10 +18,10 @@
             android:id="@+id/imgBtnBack"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_gravity="left|center_vertical"
             android:layout_marginRight="20dp"
             android:background="@color/Red_700"
+            android:gravity="center_vertical"
             android:text="&lt; Back"
             android:textColor="@color/lighter_gray"
             android:textSize="15dip"
@@ -87,10 +87,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/imgBigLogo"
-                android:paddingBottom="8.0dip"
-                android:paddingLeft="15.0dip"
+                android:background="@drawable/rounded_corner"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:padding="5dip"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:text="Address"
-                android:textColor="@android:color/white"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -129,9 +133,9 @@
             android:layout_width="50dip"
             android:layout_height="25dip"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="false"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="false"
-            android:layout_alignParentLeft="false"
             android:layout_marginRight="10dp"
             android:src="@drawable/triangle_up" />
 

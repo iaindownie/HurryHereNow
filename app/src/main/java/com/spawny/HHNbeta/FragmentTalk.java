@@ -126,7 +126,7 @@ public class FragmentTalk extends Fragment {
         // can use UI thread here
         protected void onPostExecute(final String result) {
             if (allTalks.size() == 0) {
-                myToast("No user offers in your area", Toast.LENGTH_LONG);
+                Utils.myToast(getActivity(), "No user offers in your area", Toast.LENGTH_LONG);
             }
 
             setupAdapter(allTalks);
@@ -200,10 +200,6 @@ public class FragmentTalk extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-    }
-
-    public void myToast(String str, int len) {
-        Toast.makeText(getActivity(), str, len).show();
     }
 
 }

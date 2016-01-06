@@ -32,6 +32,9 @@ public class MainActivity extends FragmentActivity {
 
     private static final String TAG = "MainActivity";
 
+    private FragmentManager fm;
+    private FragmentTransaction ft;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +70,8 @@ public class MainActivity extends FragmentActivity {
         prefs = getPreferences(Context.MODE_PRIVATE);
         starter = prefs.getString("ORIGINATOR", "MAP");
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+        fm = getFragmentManager();
+        ft = fm.beginTransaction();
 
         if (starter.equals("MAP")) {
             ft.replace(R.id.theFragment, new FragmentOffer());
@@ -124,10 +127,6 @@ public class MainActivity extends FragmentActivity {
         ft.addToBackStack(null);
         ft.commit();
 
-    }
-
-    public void myToast(String str, int len) {
-        Toast.makeText(this, str, len).show();
     }
 
     public void updateOffersButton(boolean state) {
