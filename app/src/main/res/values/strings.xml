@@ -8,7 +8,7 @@
     <string name="talk_label">Talk</string>
     <string name="vendor_icon">Vendor icon</string>
     <string name="rating_title">What did you think of this offer?</string>
-    <string name="rating_thanks">Thanks you for rating this offer!</string>
+    <string name="rating_thanks">Thank you for rating this offer!</string>
     <string name="success">Success</string>
     <string name="dismiss">Dismiss</string>
     <string name="groceries">Groceries</string>
@@ -25,5 +25,8 @@
     <string name="submit">Submit</string>
     <string name="offer_uploaded">Offer uploaded</string>
     <string name="no_offers_found">No offers found</string>
+    <string name="_50_limit">50 limit</string>
+    <string name="_100_limit">100 limit</string>
+    <string name="back"><![CDATA[< Back]]></string>
 
 </resources>
