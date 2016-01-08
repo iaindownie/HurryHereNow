@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.spawny.HHNbeta.FragmentOffer;
 import com.spawny.HHNbeta.R;
+import com.spawny.HHNbeta.Utils;
 import com.spawny.HHNbeta.data.RetailerOffers;
 
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class RetailerExtraAdapter extends BaseAdapter {
                 } else {
                     String website = ro.getSite();
                     if (website.length() == 0) {
-                        myToast("No current website for this vendor", Toast.LENGTH_SHORT);
+                        Utils.myToast(context, "No current website for this vendor", Toast.LENGTH_SHORT);
                     } else {
                         String urlStart = "http://";
                         if (!website.startsWith(urlStart)) {
@@ -110,10 +111,6 @@ public class RetailerExtraAdapter extends BaseAdapter {
         });
         notifyDataSetChanged();
         return convertView;
-    }
-
-    public void myToast(String str, int len) {
-        Toast.makeText((Activity) context, str, len).show();
     }
 
 }

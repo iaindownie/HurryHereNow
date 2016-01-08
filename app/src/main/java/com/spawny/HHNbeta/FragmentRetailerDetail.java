@@ -125,10 +125,6 @@ public class FragmentRetailerDetail extends ListFragment {
 
     }
 
-    public void myToast(String str, int len) {
-        Toast.makeText(getActivity(), str, len).show();
-    }
-
     private String formatAddress(RetailerOffers ro2) {
         String add1 = ro2.getAddress1();
         if (add1.endsWith(",")) {
