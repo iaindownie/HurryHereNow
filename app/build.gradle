@@ -9,8 +9,10 @@ android {
         applicationId "com.HurryHereNow.HHN"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 2
-        versionName "2.2"
+        // This needs updating every release deployment
+        versionCode 4
+        // This needs updating every release deployment
+        versionName "2.4"
     }
     buildTypes {
         release {
