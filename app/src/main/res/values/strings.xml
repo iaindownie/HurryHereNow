@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hurry Here Now v2</string>
+    <string name="app_name">Hurry Here Now</string>
     <string name="action_settings">Settings</string>
     <string name="floating_button">Floating Button</string>
     <string name="move_marker_txt">Move marker to the offer location</string>

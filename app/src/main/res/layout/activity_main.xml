@@ -9,7 +9,7 @@
 
         <fragment
             android:id="@+id/theFragment"
-            class="com.spawny.HHNbeta.FragmentFiller"
+            class="com.HurryHereNow.HHN.FragmentFiller"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />

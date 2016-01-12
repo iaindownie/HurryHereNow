@@ -14,6 +14,8 @@
     string in this file.
     -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyB6dp5ahfErvob4nLWVBryqArulDRY-AOQ
+        AIzaSyC1US9lg0_oKXcJs6WkLJL9mpQRk1vNa9E
     </string>
+    <!-- Live key : AIzaSyC1US9lg0_oKXcJs6WkLJL9mpQRk1vNa9E -->
+    <!-- Debug key: AIzaSyDa4TWUGw-s9-tYWyuhMW6zU4StIMCQm88 -->
 </resources>
