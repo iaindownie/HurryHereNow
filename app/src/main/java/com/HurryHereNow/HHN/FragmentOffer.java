@@ -33,6 +33,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.HurryHereNow.HHN.data.Offer;
+import com.HurryHereNow.HHN.data.RetailerOffers;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,8 +45,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.HurryHereNow.HHN.data.Offer;
-import com.HurryHereNow.HHN.data.RetailerOffers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -492,10 +492,8 @@ public class FragmentOffer extends Fragment {
         Button dismiss = (Button) dialog.findViewById(R.id.zeroDismiss);
         TextView zeroMessage = (TextView) dialog.findViewById(R.id.txtZeroMessage);
         StringBuilder message = new StringBuilder();
-        message.append("Sorry, there are currently no \"");
-        message.append(aCat);
-        message.append("\" offers in your area. Why not share one via Spot & Share?");
-        zeroMessage.setText(message.toString());
+        String aMessage = "Sorry, there are currently no \"" + aCat + "\" offers in your area. Why not share one via Spot & Share?";
+        zeroMessage.setText(aMessage);
         dialog.show();
 
         dismiss.setOnClickListener(new View.OnClickListener() {

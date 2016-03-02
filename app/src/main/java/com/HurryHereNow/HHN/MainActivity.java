@@ -24,15 +24,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
  */
 public class MainActivity extends FragmentActivity {
 
-    private SharedPreferences prefs;
     String starter = "MAP";
     ImageButton offersButton;
     ImageButton talkButton;
 
     private static final String TAG = "MainActivity";
-
-    private FragmentManager fm;
-    private FragmentTransaction ft;
 
 
     @Override
@@ -66,11 +62,11 @@ public class MainActivity extends FragmentActivity {
         Constants.setScreenHeight(height);
         //System.out.println(">>> MainActivity screensize from constants = " + Constants.SCREENWIDTH + "w x " + Constants.SCREENHEIGHT + "h");
 
-        prefs = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         starter = prefs.getString("ORIGINATOR", "MAP");
 
-        fm = getFragmentManager();
-        ft = fm.beginTransaction();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
 
         if (starter.equals("MAP")) {
             ft.replace(R.id.theFragment, new FragmentOffer());

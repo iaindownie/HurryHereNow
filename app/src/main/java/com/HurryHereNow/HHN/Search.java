@@ -19,9 +19,6 @@ import android.widget.TextView;
 public class Search extends Activity {
     SharedPreferences prefs;
 
-    private ImageButton groceries, offies, pubs, cafes, food, hair, other, spot;
-    private TextView groceriesTxt, offiesTxt, pubsTxt, cafesTxt, foodTxt, hairTxt, otherTxt, spotTxt;
-    private Button all;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +26,9 @@ public class Search extends Activity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.search_screen);
 
+        ImageButton groceries, offies, pubs, cafes, food, hair, other, spot;
+        TextView groceriesTxt, offiesTxt, pubsTxt, cafesTxt, foodTxt, hairTxt, otherTxt, spotTxt;
+        Button all;
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 

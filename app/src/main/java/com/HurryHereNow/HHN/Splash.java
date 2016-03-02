@@ -12,6 +12,8 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Created by iaindownie on 19/10/2015.
  * Copyright @iaindownie
@@ -19,12 +21,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
  * to the main activity, closing itself. Only appears when app is launched on
  * device, not if the app is still running in background.
  */
-public class Splash extends Activity {
 
-    /**
-     * Duration of wait - 1000ms = 1second
-     **/
-    private final int SPLASH_DISPLAY_LENGTH = 1200;
+public class Splash extends Activity {
 
     private GoogleApiClient mClient;
     private Uri mUrl;
@@ -32,14 +30,36 @@ public class Splash extends Activity {
     private String mDescription;
     //private String mSchemaType;
 
+    // 1. Create a static nested class that extends Runnable to start the main Activity
+    private static class StartMainActivityRunnable implements Runnable {
+        // 2. Make sure we keep the source Activity as a WeakReference (more on that later)
+        private WeakReference mActivity;
 
-    /**
-     * Called when the activity is first created.
-     */
+        private StartMainActivityRunnable(Activity activity) {
+            mActivity = new WeakReference(activity);
+        }
+
+        @Override
+        public void run() {
+            // 3. Check that the reference is valid and execute the code
+            if (mActivity.get() != null) {
+                Activity activity = (Activity) mActivity.get();
+                Intent mainIntent = new Intent(activity, MainActivity.class);
+                activity.startActivity(mainIntent);
+                activity.finish();
+            }
+        }
+    }
+
+    /** Duration of wait **/
+    private final int SPLASH_DISPLAY_LENGTH = 1200;
+
+    // 4. Declare the Handler as a member variable
+    private Handler mHandler = new Handler();
+
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
 
         mClient = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -48,17 +68,8 @@ public class Splash extends Activity {
         mDescription = "Local offers. That's what we do.";
         //mSchemaType = "http://schema.org/Article";
 
-        /* New Handler to start the Menu-Activity
-         * and close this Splash-Screen after some seconds.*/
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(Splash.this, MainActivity.class);
-                Splash.this.startActivity(mainIntent);
-                Splash.this.finish();
-            }
-        }, SPLASH_DISPLAY_LENGTH);
+        // 5. Pass a new instance of StartMainActivityRunnable with reference to 'this'.
+        mHandler.postDelayed(new StartMainActivityRunnable(this), SPLASH_DISPLAY_LENGTH);
     }
 
     public Action getAction() {
@@ -72,6 +83,18 @@ public class Splash extends Activity {
                 .setObject(object)
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
+    }
+
+    // 6. Override onDestroy()
+    @Override
+    public void onDestroy() {
+        //Log.i(TAG, "Activity Life Cycle : onDestroy : Activity Destroyed");
+        // 7. Remove any delayed Runnable(s) and prevent them from executing.
+        mHandler.removeCallbacksAndMessages(null);
+
+        // 8. Eagerly clear mHandler allocated memory
+        mHandler = null;
+        super.onDestroy();
     }
 
     @Override
@@ -102,9 +125,8 @@ public class Splash extends Activity {
         //Log.i(TAG, "Activity Life Cycle : onStop : Activity Stopped");
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //Log.i(TAG, "Activity Life Cycle : onDestroy : Activity Destroyed");
-    }
+
 }
+
+
+

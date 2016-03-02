@@ -32,13 +32,9 @@ import java.util.ArrayList;
 
 public class FragmentRetailerDetail extends ListFragment {
 
-    private SharedPreferences prefs;
-    private RetailerOffers ro;
     private String origin = "map";
     private int listPosition = 0;
     private ImageView imageView;
-    private RetailerOfferListAdapter offerListCustomAdapter;
-    private RetailerExtraAdapter retailerExtraAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,13 +47,13 @@ public class FragmentRetailerDetail extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
 
         final RelativeLayout ll = (RelativeLayout) getActivity().findViewById(R.id.ellipe_overlay);
         ll.setVisibility(View.GONE);
 
         Bundle bundle = getArguments();
-        ro = (RetailerOffers) bundle.getSerializable("RETAILEROFFERS");
+        RetailerOffers ro = (RetailerOffers) bundle.getSerializable("RETAILEROFFERS");
         Retailer rT = ro.getRetailer();
         Offer[] o = ro.getOffers();
 
@@ -94,7 +90,7 @@ public class FragmentRetailerDetail extends ListFragment {
         imageView = (ImageView) getActivity().findViewById(R.id.imgBigLogo);
         new ImageLoadTask(Constants.WWW_BASE_URL + rT.getLargeImage(), imageView).execute();
 
-        offerListCustomAdapter = new RetailerOfferListAdapter(getActivity(), o);
+        RetailerOfferListAdapter offerListCustomAdapter = new RetailerOfferListAdapter(getActivity(), o);
         setListAdapter(offerListCustomAdapter);
 
 
@@ -102,7 +98,7 @@ public class FragmentRetailerDetail extends ListFragment {
         ArrayList extras = new ArrayList();
         extras.add(ro);
         extras.add(ro);
-        retailerExtraAdapter = new RetailerExtraAdapter(getActivity(), extras);
+        RetailerExtraAdapter retailerExtraAdapter = new RetailerExtraAdapter(getActivity(), extras);
         listView.setAdapter(retailerExtraAdapter);
 
 
@@ -118,8 +114,8 @@ public class FragmentRetailerDetail extends ListFragment {
             }
         });
 
-        ImageView imgBigLogo = (ImageView) getActivity().findViewById(R.id.imgBigLogo);
-        imgBigLogo.getLayoutParams().height = Constants.SCREENHEIGHT / 3;
+        //ImageView imgBigLogo = (ImageView) getActivity().findViewById(R.id.imgBigLogo);
+        imageView.getLayoutParams().height = Constants.SCREENHEIGHT / 3;
 
     }
 

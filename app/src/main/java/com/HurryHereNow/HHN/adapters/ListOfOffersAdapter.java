@@ -39,9 +39,6 @@ public class ListOfOffersAdapter extends RecyclerView.Adapter<ListOfOffersAdapte
         imageLoader = new ImageLoader(context);
     }
 
-
-
-
     public class OfferListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView image1;
         TextView txtComment;

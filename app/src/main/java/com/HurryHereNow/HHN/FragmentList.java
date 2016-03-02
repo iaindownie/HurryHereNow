@@ -241,11 +241,8 @@ public class FragmentList extends Fragment {
         dialog.setContentView(R.layout.zero_dialog);
         Button dismiss = (Button) dialog.findViewById(R.id.zeroDismiss);
         TextView zeroMessage = (TextView) dialog.findViewById(R.id.txtZeroMessage);
-        StringBuilder message = new StringBuilder();
-        message.append("Sorry, there are currently no \"");
-        message.append(aCat);
-        message.append("\" offers in your area. Why not share one via Spot & Share?");
-        zeroMessage.setText(message.toString());
+        String aMessage = "Sorry, there are currently no \"" + aCat + "\" offers in your area. Why not share one via Spot & Share?";
+        zeroMessage.setText(aMessage);
         dialog.show();
 
         dismiss.setOnClickListener(new View.OnClickListener() {

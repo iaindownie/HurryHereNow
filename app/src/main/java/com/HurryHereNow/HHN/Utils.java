@@ -18,8 +18,8 @@ public class Utils {
      * Snaffled from
      * http://www.technotalkative.com/android-asynchronous-image-loading-in-listview/
      *
-     * @param is
-     * @param os
+     * @param is - an InputStream
+     * @param os - an OutputStream
      */
     public static void CopyStream(InputStream is, OutputStream os) {
         final int buffer_size = 1024;

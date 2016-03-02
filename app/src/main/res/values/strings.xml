@@ -28,5 +28,9 @@
     <string name="_50_limit">50 limit</string>
     <string name="_100_limit">100 limit</string>
     <string name="back"><![CDATA[< Back]]></string>
+    <string name="vendor_page">Vendor page</string>
+    <string name="address">Address</string>
+    <string name="current_offers">Current Offers</string>
+    <string name="no_offers">No offers...</string>
 
 </resources>

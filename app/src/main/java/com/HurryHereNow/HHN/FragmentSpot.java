@@ -41,9 +41,7 @@ public class FragmentSpot extends Fragment {
 
     private MapView mapView;
     private GoogleMap map;
-    private LocationManager locManager;
     private Location l;
-    private LatLng position;
     String uploadStatus;
 
     @Override
@@ -75,7 +73,7 @@ public class FragmentSpot extends Fragment {
         criteria.setPowerRequirement(Criteria.POWER_LOW);
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 
-        locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         String bestprovider = locManager.getBestProvider(criteria, false);
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -83,6 +81,7 @@ public class FragmentSpot extends Fragment {
             l = locManager.getLastKnownLocation(bestprovider);
         }
 
+        LatLng position;
         if (l == null) {
             position = new LatLng(Constants.CAMBRIDGE_LAT, Constants.CAMBRIDGE_LON);
         } else {
@@ -139,9 +138,8 @@ public class FragmentSpot extends Fragment {
         final boolean[] checked = {false};
 
         TextView termsConditions = (TextView) dialog.findViewById(R.id.txtTandC);
-        StringBuilder tandc = new StringBuilder();
-        tandc.append("I agree to the <a href=\"http://www.hurryherenow.com/legal-user-terms.pdf\">Terms & Conditions</a>:");
-        termsConditions.setText(Html.fromHtml(tandc.toString()));
+        String tandc = "I agree to the <a href=\"http://www.hurryherenow.com/legal-user-terms.pdf\">Terms & Conditions</a>:";
+        termsConditions.setText(Html.fromHtml(tandc));
         termsConditions.setMovementMethod(LinkMovementMethod.getInstance());
 
         checkBox.setOnClickListener(new View.OnClickListener() {
