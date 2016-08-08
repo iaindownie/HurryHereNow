@@ -13,7 +13,11 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
+
+    <!-- AIzaSyDa4TWUGw-s9-tYWyuhMW6zU4StIMCQm88 Old MacBook key -->
+
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyDa4TWUGw-s9-tYWyuhMW6zU4StIMCQm88
+        AIzaSyDuR6L5K1zsyNd886VM2wDS6Ge8SRnCYGM
     </string>
 </resources>
+
