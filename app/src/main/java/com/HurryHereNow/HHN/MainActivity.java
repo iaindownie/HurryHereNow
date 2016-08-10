@@ -1,11 +1,14 @@
 package com.HurryHereNow.HHN;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -15,8 +18,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
+import com.ayz4sci.androidfactory.permissionhelper.PermissionHelper;
+import com.ayz4sci.androidfactory.permissionhelper.PermissionsGroup;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import pl.tajchert.nammu.PermissionCallback;
 
 
 /**
@@ -29,6 +36,10 @@ public class MainActivity extends FragmentActivity {
     ImageButton talkButton;
 
     private static final String TAG = "MainActivity";
+
+    static int REQ_CODE = 100;
+
+    PermissionHelper permissionHelper;
 
 
     @Override
@@ -65,6 +76,46 @@ public class MainActivity extends FragmentActivity {
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         starter = prefs.getString("ORIGINATOR", "MAP");
 
+        permissionHelper = PermissionHelper.getInstance(this);
+
+        //setUpEverything();
+
+        permissionHelper.customiseUI(Color.parseColor("#2A377D"), getResources().getDrawable(R.drawable.bigicon));
+
+        permissionHelper.verifyPermission(
+                new String[]{"view local offers", "download and store retailer information"},
+                new String[]{PermissionsGroup.ACCESS_FINE_LOCATION, PermissionsGroup.WRITE_EXTERNAL_STORAGE},
+                new PermissionCallback() {
+                    @Override
+                    public void permissionGranted() {
+                        //action to perform when permission granteed
+                        setUpEverything();
+                    }
+
+                    @Override
+                    public void permissionRefused() {
+                        //action to perform when permission refused
+                        Log.d("INFO", "permissionRefused");
+                    }
+                }
+        );
+
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        permissionHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    public void setUpEverything() {
+
+
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
@@ -78,7 +129,6 @@ public class MainActivity extends FragmentActivity {
         offersButton = (ImageButton) findViewById(R.id.button1);
         offersButton.setImageDrawable(getResources().getDrawable(R.drawable.offersred100));
         offersButton.setEnabled(false);
-
     }
 
     public void selectFrag(View view) {
@@ -155,6 +205,7 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onDestroy() {
+        permissionHelper.finish();
         super.onDestroy();
         //Log.i(TAG, "Activity Life Cycle : onDestroy : Activity Destroyed");
     }
