@@ -1,11 +1,13 @@
 package com.HurryHereNow.HHN;
 
+import android.location.Location;
 import android.util.Log;
 
 import com.HurryHereNow.HHN.data.Offer;
 import com.HurryHereNow.HHN.data.Retailer;
 import com.HurryHereNow.HHN.data.RetailerOfferForList;
 import com.HurryHereNow.HHN.data.RetailerOffers;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -211,9 +213,14 @@ public class JSONUtilities {
      * @return - ArrayList of all Retailers (as POJO's) for all/individual categories
      * @throws Exception
      */
-    public static ArrayList<RetailerOffers> convertJSONSpotAndSharePromotionsToArrayList(String str, String category) throws Exception {
+    public static ArrayList<RetailerOffers> convertJSONSpotAndSharePromotionsToArrayList(String str, String category, double lat, double lon) throws Exception {
         JSONObject json = new JSONObject(str);
         ArrayList everything = new ArrayList();
+
+        Location loc = new Location("");
+        loc.setLatitude(lat);
+        loc.setLongitude(lon);
+
 
         JSONObject json2 = json.getJSONObject("userSubmitted");
         Iterator it = json2.keys();
@@ -227,6 +234,13 @@ public class JSONUtilities {
             p.setLatitude(childJSONObject.getDouble("latitude"));
             p.setLongitude(childJSONObject.getDouble("longitude"));
             p.setDate(childJSONObject.getString("date"));
+
+            Location loc2 = new Location(loc);
+            loc2.setLatitude(childJSONObject.getDouble("latitude"));
+            loc2.setLongitude(childJSONObject.getDouble("longitude"));
+            float loc2txt = (float) loc.distanceTo(loc2);
+            p.setDistanceTo(sensibleDistance(loc2txt));
+
             everything.add(p);
         }
 
@@ -250,6 +264,12 @@ public class JSONUtilities {
                 p.setLongitude(childJSONObject.getDouble("longitude"));
                 p.setPhone(childJSONObject.getString("phone"));
                 p.setSite(childJSONObject.getString("site"));
+
+                Location loc2 = new Location(loc);
+                loc2.setLatitude(childJSONObject.getDouble("latitude"));
+                loc2.setLongitude(childJSONObject.getDouble("longitude"));
+                float loc2txt = (float) loc.distanceTo(loc2);
+                p.setDistanceTo(sensibleDistance(loc2txt));
 
                 JSONObject retailerObject = childJSONObject.getJSONObject("retailer");
                 Retailer r = new Retailer();
@@ -275,6 +295,8 @@ public class JSONUtilities {
                     o.setEndDate(anOffer.getString("endDate"));
                     o.setPve(anOffer.getInt("pve"));
                     o.setNve(anOffer.getInt("nve"));
+                    o.setDistanceTo(sensibleDistance(loc2txt));
+
                     offers[i] = o;
                 }
                 p.setCategory(cat);
@@ -320,8 +342,17 @@ public class JSONUtilities {
                 }
             }
         }
-
         return fullList;
+    }
+
+    public static String sensibleDistance(float dist){
+        if(dist > 9999){
+            return Math.round(dist / 1000) + "km";
+        }else if(dist > 999 && dist <= 9999){
+            return String.format("%.1f", (dist / 1000)) + "km";
+        }else{
+            return Math.round(dist) + "m";
+        }
     }
 
 }

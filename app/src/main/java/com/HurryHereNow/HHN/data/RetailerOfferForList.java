@@ -32,6 +32,7 @@ public class RetailerOfferForList implements Serializable {
     private String description;
     private String date;
     private String status;
+    private String distanceTo;
 
     public RetailerOfferForList(RetailerOffers ro, Offer o) {
         storeId = ro.getStoreId();
@@ -58,6 +59,7 @@ public class RetailerOfferForList implements Serializable {
         description = ro.getDescription();
         date = ro.getDate();
         status = ro.getStatus();
+        distanceTo = ro.getDistanceTo();
 
         this.ro = ro;
 
@@ -221,5 +223,13 @@ public class RetailerOfferForList implements Serializable {
 
     public void setRo(RetailerOffers ro) {
         this.ro = ro;
+    }
+
+    public String getDistanceTo() {
+        return distanceTo;
+    }
+
+    public void setDistanceTo(String distanceTo) {
+        this.distanceTo = distanceTo;
     }
 }

@@ -8,7 +8,7 @@ public class Constants {
 
     // Static var for preventing uploads if in development mode
     // and center location on Cambridge. Set to TRUE for debugging work
-    public static boolean IS_DEBUG = true;
+    public static boolean IS_DEBUG = false;
 
     // Set default distance for promotions API - RH suggested 60 miles
     public static int PROMOTIONS_DISTANCE = 60;

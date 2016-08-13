@@ -93,7 +93,7 @@ public class ListOfOffersAdapter extends RecyclerView.Adapter<ListOfOffersAdapte
         //imageLoader.DisplayImage(Constants.BASE_URL + r.getSmallImage(), holder.image1);
         imageLoader.DisplayImage(imageUrl, viewHolder.image1);
         viewHolder.txtComment.setText(o.getDescription());
-        viewHolder.txtName.setText(ro.getName());
+        viewHolder.txtName.setText(ro.getName() + " - " + ro.getDistanceTo());
     }
 
     public RetailerOfferForList getItem(int position) {

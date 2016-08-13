@@ -23,6 +23,8 @@ public class RetailerOffers implements Serializable {
     private Offer[] offers;
     private int category;
 
+    private String distanceTo;
+
     /**
      * The follow relate to UserSubmitted offers only and reuse the
      * same latitude and longitude values as Retailer Offers above
@@ -189,5 +191,11 @@ public class RetailerOffers implements Serializable {
         this.status = status;
     }
 
+    public String getDistanceTo() {
+        return distanceTo;
+    }
 
+    public void setDistanceTo(String distanceTo) {
+        this.distanceTo = distanceTo;
+    }
 }

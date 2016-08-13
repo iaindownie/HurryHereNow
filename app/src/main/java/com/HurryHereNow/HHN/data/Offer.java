@@ -17,6 +17,7 @@ public class Offer implements Serializable {
     private String endDate;
     private int pve;
     private int nve;
+    private String distanceTo;
 
     public Offer() {
     }
@@ -91,5 +92,13 @@ public class Offer implements Serializable {
 
     public void setNve(int nve) {
         this.nve = nve;
+    }
+
+    public String getDistanceTo() {
+        return distanceTo;
+    }
+
+    public void setDistanceTo(String distanceTo) {
+        this.distanceTo = distanceTo;
     }
 }

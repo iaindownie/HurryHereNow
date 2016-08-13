@@ -1,6 +1,5 @@
 package com.HurryHereNow.HHN;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;

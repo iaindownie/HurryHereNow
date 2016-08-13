@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -68,16 +70,19 @@ public class FragmentOffer extends Fragment {
 
     private Projection projection;
 
-    private LinearLayout ll, opaqueLayer;
-    private ImageView tHolder;
-    private ImageView dot1, dot2, dot3, pveImage, nveImage;
+    private LinearLayout ll, opaqueLayer, ll2, opaqueLayer2;
+    private ImageView tHolder, tHolder2;
+    private ImageView dot1, dot2, dot3, pveImage, nveImage, shareIcon;
     private TextView clock, pve, nve;
 
     private ViewPager vp;
+    private ViewPager vp2;
 
     private RetailerOffers ros;
     private Offer[] outerOffers;
     private int zoomLevel = 12;
+
+    private String textToShare = "";
 
 
     @Override
@@ -156,6 +161,10 @@ public class FragmentOffer extends Fragment {
         opaqueLayer = (LinearLayout) getActivity().findViewById(R.id.offer_inner_opaqueLayer);
         tHolder = (ImageView) getActivity().findViewById(R.id.offer_inner_triangleDown);
 
+        ll2 = (LinearLayout) getActivity().findViewById(R.id.offer_inner_mapPopover2);
+        opaqueLayer2 = (LinearLayout) getActivity().findViewById(R.id.offer_inner_opaqueLayer2);
+        tHolder2 = (ImageView) getActivity().findViewById(R.id.offer_inner_triangleDown2);
+
         /*RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ll.getLayoutParams();
         // Changes the height and width and margins to the specified *pixels*
         int boxHeight = (new Double(Constants.SCREENHEIGHT * 0.5).intValue());
@@ -183,12 +192,19 @@ public class FragmentOffer extends Fragment {
         opaqueLayer.setVisibility(View.GONE);
         tHolder.setVisibility(View.GONE);
 
+        ll2.setVisibility(View.GONE);
+        opaqueLayer2.setVisibility(View.GONE);
+        tHolder2.setVisibility(View.GONE);
+
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 opaqueLayer.setVisibility(View.GONE);
                 ll.setVisibility(View.GONE);
                 tHolder.setVisibility(View.GONE);
+                opaqueLayer2.setVisibility(View.GONE);
+                ll2.setVisibility(View.GONE);
+                tHolder2.setVisibility(View.GONE);
             }
         });
 
@@ -199,6 +215,9 @@ public class FragmentOffer extends Fragment {
                     opaqueLayer.setVisibility(View.GONE);
                     ll.setVisibility(View.GONE);
                     tHolder.setVisibility(View.GONE);
+                    opaqueLayer2.setVisibility(View.GONE);
+                    ll2.setVisibility(View.GONE);
+                    tHolder2.setVisibility(View.GONE);
                     // Do what you want
                     return true;
                 }
@@ -285,12 +304,15 @@ public class FragmentOffer extends Fragment {
         dot3 = (ImageView) this.getActivity().findViewById(R.id.offer_inner_dot33);
 
         vp = (ViewPager) this.getActivity().findViewById(R.id.offer_inner_pager);
+        vp2 = (ViewPager) this.getActivity().findViewById(R.id.offer_inner_pager2);
 
         clock = (TextView) this.getActivity().findViewById(R.id.offer_inner_txtOfferEnds);
         pveImage = (ImageView) this.getActivity().findViewById(R.id.offer_inner_imgThumbsUp);
         nveImage = (ImageView) this.getActivity().findViewById(R.id.offer_inner_imgThumbsDown);
         pve = (TextView) this.getActivity().findViewById(R.id.offer_inner_txtPve);
         nve = (TextView) this.getActivity().findViewById(R.id.offer_inner_txtNve);
+        shareIcon = (ImageView) this.getActivity().findViewById(R.id.offer_inner_share);
+
 
         /**
          * Get the current vPager position from the ViewPager by
@@ -329,6 +351,25 @@ public class FragmentOffer extends Fragment {
                         collectRateDetails("" + outerOffers[currentPage].getOfferId(), "2");
                     }
                 });
+                shareIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //                    Intent sendIntent = new Intent();
+//                    sendIntent.setAction(Intent.ACTION_SEND);
+//                    sendIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+//                    sendIntent.setType("text/plain");
+//                    startActivity(Intent.createChooser(sendIntent, "Share with..."));
+
+                        Uri pictureUri = resourceToUri(getActivity(), R.drawable.share_icon_hhn);
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, pictureUri);
+                        shareIntent.setType("image/*");
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent, "Share with..."));
+                    }
+                });
 
                 if (currentPage == 0) {
                     dot1.setImageResource(R.drawable.doton);
@@ -352,7 +393,6 @@ public class FragmentOffer extends Fragment {
                 return currentPage;
             }
         });
-
 
         //mapView.onResume();
     }
@@ -457,7 +497,8 @@ public class FragmentOffer extends Fragment {
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
                 rawOfferJSON = JSONUtilities.downloadAllPromotionsFromURL(path);
-                mSimpleMyMarkersArray = JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category);
+                System.out.println(rawOfferJSON);
+                mSimpleMyMarkersArray = JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category, position.latitude, position.longitude);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -596,6 +637,9 @@ public class FragmentOffer extends Fragment {
             opaqueLayer.setVisibility(View.GONE);
             ll.setVisibility(View.GONE);
             tHolder.setVisibility(View.GONE);
+            opaqueLayer2.setVisibility(View.GONE);
+            ll2.setVisibility(View.GONE);
+            tHolder2.setVisibility(View.GONE);
             outerOffers = null;
 
             //final Marker tempMarker = marker;
@@ -605,7 +649,7 @@ public class FragmentOffer extends Fragment {
             final int cat = ro.getCategory();
             final String url = ro.getSite();
 
-            if (cat == 99) {
+            if (cat == -1) {
                 View v;
                 v = getActivity().getLayoutInflater().inflate(R.layout.spot_window_simple, null);
                 TextView markerDescription = (TextView) v.findViewById(R.id.spotWindowSimpleDescription);
@@ -613,7 +657,19 @@ public class FragmentOffer extends Fragment {
                 markerDescription.setText(ro.getDescription());
                 markerStoreName.setText(ro.getStoreName());
                 return v;
+            } else if (cat == 99) {
+                //numOffers = offers.length;
+
+                vp2.setAdapter(new OfferViewPagerAdapter(((Activity) context), ro));
+
+                opaqueLayer2.setVisibility(View.VISIBLE);
+                ll2.setVisibility(View.VISIBLE);
+
+                tHolder2.setVisibility(View.VISIBLE);
+                return null;
+
             } else {
+
                 numOffers = offers.length;
 
                 vp.setAdapter(new ViewPagerAdapter(((Activity) context), ro));
@@ -650,6 +706,25 @@ public class FragmentOffer extends Fragment {
                         collectRateDetails("" + offers[0].getOfferId(), "2");
                     }
                 });
+                shareIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //                    Intent sendIntent = new Intent();
+//                    sendIntent.setAction(Intent.ACTION_SEND);
+//                    sendIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+//                    sendIntent.setType("text/plain");
+//                    startActivity(Intent.createChooser(sendIntent, "Share with..."));
+
+                        Uri pictureUri = resourceToUri(getActivity(), R.drawable.bigicon);
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, pictureUri);
+                        shareIntent.setType("image/*");
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent, "Share with..."));
+                    }
+                });
                 if (numOffers == 1) {
                     dot1.setVisibility(View.VISIBLE);
                     dot1.setImageResource(R.drawable.doton);
@@ -670,7 +745,6 @@ public class FragmentOffer extends Fragment {
 
                 tHolder.setVisibility(View.VISIBLE);
                 return null;
-
             }
         }
     }
@@ -720,6 +794,9 @@ public class FragmentOffer extends Fragment {
             TextView txtStoreName = (TextView) itemView.findViewById(R.id.txtStoreName);
             txtStoreName.setText(retailerOffers.getName());
             ((ViewPager) container).addView(itemView);
+
+            // Build text for sharing offer
+            textToShare = textToShare(retailerOffers.getName(), o.getDescription(), retailerOffers.getAddress1(), retailerOffers.getCity());
 
             txtOfferDesc.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -774,6 +851,82 @@ public class FragmentOffer extends Fragment {
         }
     }
 
+    public class OfferViewPagerAdapter extends PagerAdapter {
+        LayoutInflater inflater;
+
+        Context context;
+        RetailerOffers retailerOffers;
+
+        OfferViewPagerAdapter(Context c, RetailerOffers ro) {
+            retailerOffers = ro;
+            context = c;
+        }
+
+        @Override
+        public int getCount() {
+            //numOffers = offers.length;
+            return 1;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((RelativeLayout) object);
+        }
+
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+
+            inflater = (LayoutInflater) getActivity()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View itemView = inflater.inflate(R.layout.item_viewpager_offer, container,
+                    false);
+
+            TextView txtOfferDesc = (TextView) itemView.findViewById(R.id.txtOfferDesc2);
+            txtOfferDesc.setText(retailerOffers.getDescription());
+            TextView txtStoreName = (TextView) itemView.findViewById(R.id.txtStoreName2);
+            txtStoreName.setText(retailerOffers.getStoreName());
+
+            // Build text for sharing offer
+            textToShare = textToShare(retailerOffers.getStoreName(), retailerOffers.getDescription(), "", "");
+
+            ImageView shareIcon2 = (ImageView) itemView.findViewById(R.id.offer_inner_share2);
+            shareIcon2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Intent sendIntent = new Intent();
+//                    sendIntent.setAction(Intent.ACTION_SEND);
+//                    sendIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+//                    sendIntent.setType("text/plain");
+//                    startActivity(Intent.createChooser(sendIntent, "Share with..."));
+
+                    Uri pictureUri = resourceToUri(getActivity(), R.drawable.bigicon);
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, pictureUri);
+                    shareIntent.setType("image/*");
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(Intent.createChooser(shareIntent, "Share with..."));
+
+                }
+            });
+
+
+            ((ViewPager) container).addView(itemView);
+
+
+            return itemView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            // Remove item_viewpager.xml from ViewPager
+            ((ViewPager) container).removeView((RelativeLayout) object);
+        }
+    }
+
+
     /**
      * The methods below are templates added to try to prevent the
      * fragments crashing on loading after sleep.
@@ -826,5 +979,24 @@ public class FragmentOffer extends Fragment {
     /*public void myToast(String str, int len) {
         Toast.makeText(getActivity(), str, len).show();
     }*/
+
+    private String textToShare(String retailer, String desc, String address, String city) {
+        StringBuilder b = new StringBuilder();
+        b.append("Hey, found this great offer at ");
+        b.append(retailer);
+        b.append(" for:\n");
+        b.append(desc + "\n");
+        b.append(address + " " + city);
+        if (address.length() > 0 || city.length() > 0) b.append("\n");
+        b.append("Follow us on Twitter at @HurryHereNow");
+        return b.toString();
+    }
+
+    public static Uri resourceToUri(Context context, int resID) {
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                context.getResources().getResourcePackageName(resID) + '/' +
+                context.getResources().getResourceTypeName(resID) + '/' +
+                context.getResources().getResourceEntryName(resID));
+    }
 
 }

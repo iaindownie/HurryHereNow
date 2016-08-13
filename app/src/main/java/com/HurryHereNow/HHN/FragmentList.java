@@ -130,7 +130,7 @@ public class FragmentList extends Fragment {
 
 
         try {
-            offerArray = JSONUtilities.expandPromotionsArrayList(JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category));
+            offerArray = JSONUtilities.expandPromotionsArrayList(JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category, position.latitude, position.longitude));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,7 +208,9 @@ public class FragmentList extends Fragment {
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
                 rawOfferJSON = JSONUtilities.downloadAllPromotionsFromURL(path);
-                offerArray = JSONUtilities.expandPromotionsArrayList(JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category));
+                //System.out.println(rawOfferJSON);
+
+                offerArray = JSONUtilities.expandPromotionsArrayList(JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category, position.latitude, position.longitude));
             } catch (Exception e) {
                 e.printStackTrace();
             }
