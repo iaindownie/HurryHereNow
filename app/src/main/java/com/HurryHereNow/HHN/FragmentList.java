@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -50,6 +51,8 @@ public class FragmentList extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private ListOfOffersAdapter mListOfOffersAdapter;
+
+    private ImageView categoryImage;
 
 
     @Override
@@ -182,6 +185,48 @@ public class FragmentList extends Fragment {
             }
         });
 
+        categoryImage = (ImageView) this.getActivity().findViewById(R.id.offer_inner_imgBtnCategory);
+        setCatImage(category);
+
+    }
+
+    private void setCatImage(String cat){
+        switch (cat) {
+            case "1":
+                categoryImage.setImageResource(R.drawable.groceries_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "2":
+                categoryImage.setImageResource(R.drawable.offlicence_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "3":
+                categoryImage.setImageResource(R.drawable.pubsandbars_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "4":
+                categoryImage.setImageResource(R.drawable.coffeandcafe_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "5":
+                categoryImage.setImageResource(R.drawable.food_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "6":
+                categoryImage.setImageResource(R.drawable.hairandbeauty_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "7":
+                categoryImage.setImageResource(R.drawable.other_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "99":
+                categoryImage.setImageResource(R.drawable.spotshare_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            default:
+                categoryImage.setVisibility(View.GONE);
+        }
     }
 
     private void setupAdapter(ArrayList aList) {

@@ -72,7 +72,7 @@ public class FragmentOffer extends Fragment {
 
     private LinearLayout ll, opaqueLayer, ll2, opaqueLayer2;
     private ImageView tHolder, tHolder2;
-    private ImageView dot1, dot2, dot3, pveImage, nveImage, shareIcon;
+    private ImageView dot1, dot2, dot3, pveImage, nveImage, shareIcon, categoryImage;
     private TextView clock, pve, nve;
 
     private ViewPager vp;
@@ -313,6 +313,8 @@ public class FragmentOffer extends Fragment {
         nve = (TextView) this.getActivity().findViewById(R.id.offer_inner_txtNve);
         shareIcon = (ImageView) this.getActivity().findViewById(R.id.offer_inner_share);
 
+        categoryImage = (ImageView) this.getActivity().findViewById(R.id.offer_inner_imgBtnCategory);
+        setCatImage(category);
 
         /**
          * Get the current vPager position from the ViewPager by
@@ -395,6 +397,45 @@ public class FragmentOffer extends Fragment {
         });
 
         //mapView.onResume();
+    }
+
+    private void setCatImage(String cat){
+        switch (cat) {
+            case "1":
+                categoryImage.setImageResource(R.drawable.groceries_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "2":
+                categoryImage.setImageResource(R.drawable.offlicence_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "3":
+                categoryImage.setImageResource(R.drawable.pubsandbars_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "4":
+                categoryImage.setImageResource(R.drawable.coffeandcafe_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "5":
+                categoryImage.setImageResource(R.drawable.food_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "6":
+                categoryImage.setImageResource(R.drawable.hairandbeauty_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "7":
+                categoryImage.setImageResource(R.drawable.other_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            case "99":
+                categoryImage.setImageResource(R.drawable.spotshare_50x50);
+                categoryImage.setVisibility(View.VISIBLE);
+                break;
+            default:
+                categoryImage.setVisibility(View.GONE);
+        }
     }
 
 
@@ -497,7 +538,7 @@ public class FragmentOffer extends Fragment {
                 String link = "&";
                 String path = rootURL + lat + link + lon + link + distance;
                 rawOfferJSON = JSONUtilities.downloadAllPromotionsFromURL(path);
-                System.out.println(rawOfferJSON);
+                //System.out.println(rawOfferJSON);
                 mSimpleMyMarkersArray = JSONUtilities.convertJSONSpotAndSharePromotionsToArrayList(rawOfferJSON, category, position.latitude, position.longitude);
             } catch (Exception e) {
                 e.printStackTrace();
